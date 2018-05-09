@@ -1,0 +1,109 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_PeraLayout.cshtml";
+}
+@section left
+{
+    @Html.Action("PeraLeftMenu", "Fi")
+}
+
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "myform", name = "myform" }))
+{
+    @Html.ValidationSummary(true)
+
+    <div class="page account-page change-password-page">
+        <center>
+            <h2>Banka Hesap Numaraları</h2>
+            <br />
+
+            <table style="margin-top:5px; padding:4px 4px 4px 4px;">
+                <thead>
+                    <tr style="height:50px;border-bottom:1px solid;">
+                        <th align="left">HESAP TÜRÜ</th>
+                        <th align="left">ŞUBE ADI</th>
+                        <th align="left">ŞUBE KODU</th>
+                        <th align="left">HESAP NO.</th>
+                        <th align="left">IBAN </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-label="HesapAdi">
+                            <img src="~/Plugins/Peraport.WidgetFinancial/Content/images/isbank.png">
+                        </td>
+                        <td data-label="HesapAdi" colspan="4">
+                            <b>A321 Telekomünikasyon Satış Dağıtım ve Pazarlama A.Ş</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td data-label="HesapTuru">VADESİZ - TL</td>
+                        <td data-label="SubeAdi">LEVENT</td>
+                        <td data-label="SubeKodu" align="center">1035</td>
+                        <td data-label="HesapNo">1398498</td>
+                        <td data-label="Iban">TR44 0006 4000 0011 0351 3984 98</td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+            <br />
+
+            <br />
+
+            <br />
+            <hr>
+            <br />
+            <h3>Ödeme Bildirim Yapmak için</h3>
+            <br />
+            <div id="searchResults" style="margin-top:5px; padding:4px 4px 4px 4px;"></div>
+            <br />
+
+            <select name="banka" id="banka" required>
+                <option value="">Bir Hesap Seçiniz </option>
+                <option value="isbank">İş Bankası</option>
+            </select>
+            <input type="text" id="price" name="price" style="width:200px;" required placeholder="Ödeme Tutarını Giriniz">
+            <br><br>
+            <textarea rows="4" cols="70" name="note" placeholder="Ek açıklamanız varsa bu alana giriniz..."></textarea>
+            <br><br>
+            <input type="button" id="filtrele_button" value="GÖNDER" style="height: 38px; width:100px; border: 1px solid #eee;padding: 8px;">
+        </center>
+    </div>
+
+}
+
+<hr>
+
+
+
+<script type="text/javascript">
+
+    $("#filtrele_button").click(function () {
+        $("#searchResults").html("");
+        if ($("#banka").val() != "") {
+            if ($("#price").val() != "") {
+                var form = $("#myform").serialize();
+                $.ajax({
+                    type: "POST",
+                    data: form,
+                    dataType: 'json',
+                    url: '/Fi/Banka/',
+                    success: function (result) {
+                        $("#banka").val("");
+                        $("#price").val("");
+                        $("#searchResults").html(result);
+                    },
+                    error: function (result) {
+                        $("#searchResults").html("<font color=red>Hata oluştu. Lütfen tekrar deneyiniz...</font>");
+                    }
+                });
+            }
+            else
+                $("#searchResults").html("<font color=red>Tutar Giriniz...</font>");
+        }
+        else
+            $("#searchResults").html("<font color=red>Banka seçiniz...</font>");
+    });
+</script>
+

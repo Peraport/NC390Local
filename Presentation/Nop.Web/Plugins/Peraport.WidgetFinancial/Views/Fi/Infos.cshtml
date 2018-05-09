@@ -1,0 +1,90 @@
+﻿@model Nop.Plugin.Peraport.WidgetFinancial.Models.InfoModel
+@{
+    Layout = "~/Views/Shared/_PeraLayout.cshtml";
+}
+@section left
+{
+    @Html.Action("PeraLeftMenu", "Fi")
+}
+@{
+    string ERP_CODE = "";
+    string UNVAN = "";
+    string VD = "";
+    string VN = "";
+    string EMAIL = "";
+    string TEL = "";
+    string NOTE = "";
+
+    if (Model != null)
+    {
+        ERP_CODE = Model.ERP_CODE;
+        UNVAN = Model.UNVAN;
+        VD = Model.VD;
+        VN = Model.VN;
+        EMAIL = Model.EMAIL;
+        TEL = Model.TEL;
+        NOTE = Model.NOTE;
+    }
+}
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "myform", name = "myform" }))
+{
+    @Html.ValidationSummary(true)
+
+    <div class="page account-page change-password-page">
+        <center>
+            <h2>Müşteri Bilgileri</h2>
+            <br />
+            <div id="searchResults" style="margin-top:5px; padding:4px 4px 4px 4px;"></div>
+            <br />
+
+            <input type="text" id="unvan" name="unvan" style="width:600px;" required placeholder="Ticari Ünvan" value="@UNVAN">
+            <br />
+            <input type="text" id="vd" name="vd" style="width:200px;" required placeholder="Vergi Dairesi" value="@VD">
+            <input type="text" id="vn" name="vn" style="width:200px;" required placeholder="Vergi Numarası" value="@VN">
+            <br />
+            <input type="text" id="email" name="email" style="width:200px;" placeholder="EMail Adresi" required value="@EMAIL">
+            <input type="text" id="telefon" name="tel" style="width:200px;" required placeholder="Telefon Numarası" value="@TEL">
+            <br><br>
+            <textarea rows="4" cols="70" name="note" placeholder="Ek açıklamanız varsa bu alana giriniz...">@NOTE</textarea>
+            <br><br>
+            <input type="button" id="filtrele_button" value="GÖNDER" style="height: 38px; width:100px; border: 1px solid #eee;padding: 8px;">
+        </center>
+    </div>
+
+}
+
+<hr>
+
+
+
+<script type="text/javascript">
+
+    $("#filtrele_button").click(function () {
+        $("#searchResults").html("");
+        if ($("#vd").val() != "") {
+            if ($("#vn").val() != "") {
+                var form = $("#myform").serialize();
+                $.ajax({
+                    type: "POST",
+                    data: form,
+                    dataType: 'json',
+                    url: '/Fi/Infos/',
+                    success: function (result) {
+                        $("#vd").val("");
+                        $("#vn").val("");
+                        $("#searchResults").html(result);
+                    },
+                    error: function (result) {
+                        $("#searchResults").html("<font color=red>Hata oluştu. Lütfen tekrar deneyiniz...</font>");
+                    }
+                });
+            }
+            else
+                $("#searchResults").html("<font color=red>Vergi Numarası...</font>");
+        }
+        else
+            $("#searchResults").html("<font color=red>Vergi Dairesi...</font>");
+    });
+</script>
+

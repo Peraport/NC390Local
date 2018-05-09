@@ -1,0 +1,224 @@
+﻿@model IEnumerable<Nop.Core.Domain.Orders.Order>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.4.2/css/buttons.dataTables.min.css">
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.4.2/js/dataTables.buttons.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable({
+            "language": {
+                "paginate": {
+                    "next": "Sonraki",
+                    "previous": "Önceki"
+                },
+                "search": "Filtrele:",
+                "lengthMenu": "Sayfada _MENU_ kayıtlar gösteriliyor",
+                "zeroRecords": "Kayıt Yok",
+                "info": "Sayfa _PAGE_ / _PAGES_",
+                "infoEmpty": "Uygun Kayıt Yok",
+                "infoFiltered": "(_MAX_ kayıt filtrelendi.)"
+            },
+            "pageLength": 10,
+            "bSort": false
+        });
+    });
+</script>
+
+<style>
+    .accordion {
+        background-color: #eee;
+        color: #444;
+        cursor: pointer;
+        padding: 5px;
+        width: 100%;
+        border: none;
+        text-align: left;
+        outline: none;
+        font-size: 15px;
+        transition: 0.4s;
+    }
+
+        .active, .accordion:hover {
+            background-color: #eee;
+        }
+
+        .accordion:after {
+            color: #777;
+            font-weight: bold;
+            float: right;
+            margin-left: 5px;
+        }
+
+    .active:after {
+    }
+
+    .panel {
+        padding: 0 18px;
+        background-color: #eee;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.2s ease-out;
+    }
+</style>
+
+<table id="example" class="display" cellspacing="0" width="100%" style="padding:0px;">
+    <thead>
+        <tr>
+            <th style="border:0px">
+                <table width="100%" style="padding:0px;">
+                    <tr>
+                        <th style="text-align:left;" width="15%">
+                            Tarih
+                        </th>
+                        <th style="text-align:right;" width="40%">
+                            Tutar
+                        </th>
+                        <th style="text-align:right;" width="15%">
+                            Sipariş Durumu
+                        </th>
+                        <th style="text-align:right;" width="15%">
+                            Ödeme
+                        </th>
+                        @*<th style="text-align:right;" width="15%">
+                                Sevk
+                            </th>*@
+                    </tr>
+                </table>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            string os = "", ps = "", ss = "";
+            decimal toplam = 0;
+            int i = 0;
+        }
+        @foreach (var item in Model)
+        {
+            i++;
+            {
+                toplam += item.OrderTotal;
+                #region Türkçe Status
+                switch (item.OrderStatusId)
+                {
+                    case 10:
+                        os = "Beklemede";
+                        break;
+                    case 20:
+                        os = "İşlemde";
+                        break;
+                    case 30:
+                        os = "Tamamlandı";
+                        break;
+                    case 40:
+                        os = "İptal Edildi";
+                        break;
+                    default:
+                        os = "-";
+                        break;
+                }
+                switch (item.PaymentStatusId)
+                {
+                    case 10:
+                        ps = "Beklemede";
+                        break;
+                    case 20:
+                        ps = "-";
+                        break;
+                    case 30:
+                        ps = "Ödendi";
+                        break;
+                    case 40:
+                        ps = "-";
+                        break;
+                    default:
+                        ps = "-";
+                        break;
+                }
+                switch (item.ShippingStatusId)
+                {
+                    case 10:
+                        ss = "Gerekmiyor";
+                        break;
+                    case 20:
+                        ss = "Henüz Değil";
+                        break;
+                    case 30:
+                        ss = "Sevk Edildi";
+                        break;
+                    case 40:
+                        ss = "Teslim Edildi";
+                        break;
+                    default:
+                        ss = "-";
+                        break;
+                }
+                #endregion
+            }
+            <tr>
+                <td>
+                    <div class="accordion">
+                        <table>
+                            <tr>
+                                <td width="15%" style="background-color: #eee;">
+                                    @item.CreatedOnUtc.ToString("dd.MM.yyyy")
+                                </td>
+                                <td align="right" width="40%" style="background-color: #eee;">
+                                    @item.OrderTotal.ToString("#,##0.00") @item.CustomerCurrencyCode
+                                </td>
+                                <td align="right" width="15%" style="background-color: #eee;">
+                                    @os
+                                </td>
+                                <td align="right" width="15%" style="background-color: #eee;">
+                                    @ps
+                                </td>
+                                @*<td align="right" width="15%">
+                                        @ss
+                                    </td>*@
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="panel">
+
+                        <table cellspacing="0" cellpadding="0" style="border-bottom:outset">
+                            @foreach (var itemx in item.OrderItems)
+                            {
+                                <tr>
+                                    <td>@itemx.Product.Name</td>
+                                    <td>@itemx.UnitPriceExclTax</td>
+                                    <td>@itemx.Quantity</td>
+                                    <td>@itemx.PriceExclTax</td>
+                                    <td>@itemx.PriceInclTax</td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+    <tfoot>
+        <tr>
+            <th>
+            </th>
+        </tr>
+    </tfoot>
+</table>
+<script>
+    var acc = document.getElementsByClassName("accordion");
+    var i;
+
+    for (i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function () {
+            this.classList.toggle("active");
+            var panel = this.nextElementSibling;
+            if (panel.style.maxHeight) {
+                panel.style.maxHeight = null;
+            } else {
+                panel.style.maxHeight = panel.scrollHeight + "px";
+            }
+        });
+    }
+</script>

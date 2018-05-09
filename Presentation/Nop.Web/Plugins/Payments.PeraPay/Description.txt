@@ -1,0 +1,9 @@
+﻿Group: _Peraport
+FriendlyName: Kredi Kartı ile Ödeme
+SystemName: PeraPay
+Version: 1.00
+SupportedVersions: 3.90
+Author: mtekin
+DisplayOrder: 1
+FileName: Nop.Plugin.Payments.PeraPay.dll
+Description: Kredi Kartı 3D Bankada Tek Çekim

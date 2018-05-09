@@ -1,0 +1,17 @@
+﻿@{
+    Layout = "~/Views/Shared/_PeraLayout.cshtml";
+}
+@section left
+{
+    @Html.Action("PeraLeftMenu", "Fi")
+}
+
+<link href="~/Content/mcw5.css" rel="stylesheet" />
+<br>
+
+@Html.Action("HesapOZet", "Fi")
+
+<br>
+@Html.Action("HesapEkstre", "Fi")
+
+<br>

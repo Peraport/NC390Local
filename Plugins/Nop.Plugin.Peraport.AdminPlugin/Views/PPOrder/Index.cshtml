@@ -1,0 +1,53 @@
+﻿
+@{
+    Layout = "~/Administration/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h3>Ürün Senkronizasyonu Ana Sayfa</h3>
+<br>
+
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <div class="col-md-8">
+                    <select id="ProcessTypeSelect" name="ProcessTypeSelect" style="width:200px">
+                        @if (ViewBag.ProcessType == null || ViewBag.ProcessType == 1)
+                        {
+                            <option value="1" selected>Tümü</option>
+                            <option value="2">Diğerleri -</option>
+                        }
+                        else
+                        {
+                            <option value="1">Tümü</option>
+                            <option value="2" selected>Diğerleri -</option>
+                        }
+                    </select>
+                    &nbsp;&nbsp;
+                    <input id="run_button" type="button" value="Ürün Listesini Getir" name="save-info-button" class="k-button save-customer-info-button" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<div id="divResults">
+   
+</div>
+
+<script type="text/javascript">
+    $("#run_buttonx").click(function () {
+        SetCustomerSync($('#ProcessTypeSelect').val());
+    });
+    function SetCustomerSync(pt) {
+        var tdata = { ProcessType: pt };
+        $.ajax({
+            type: "GET",
+            data: tdata,
+            url: '/PPCustomer/CustomerSyncPartial/',
+            success: function (result) {
+                $("#divResults").html(result);
+            }
+        });
+    }
+</script>

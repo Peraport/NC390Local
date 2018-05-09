@@ -1,0 +1,62 @@
+﻿@using Nop.Web.Framework;
+
+@{
+    Layout = "";
+}
+@model Nop.Plugin.Peraport.WidgetFinancial.Models.FiModel
+@if (Model.isAuth)
+{
+    <li class="has-sublist">
+
+        <a href="/fi/dashboard" class="with-subcategories" title="Hesabım"><span> Hesabım</span></a>
+
+        <div class="plus-button"></div>
+        <div class="sublist-wrap">
+            <div class="navigation-wrapper">
+                <div class="close-menu">
+                    <span>Close</span>
+                </div>
+                <div class="back-button">
+                    <span>Back</span>
+                </div>
+            </div>
+            <ul class="sublist">
+                <li style="background-color:#f6f6f6;">
+                    <a href="@Url.Action("Infos", "Fi")" class="elements" style="color:#666;line-height: 17px;text-align: left;">
+                        Bilgi Güncelleme
+
+                    </a>
+                </li>
+                <li style="background-color:#f6f6f6;">
+                    <a href="@Url.Action("CustomerOrders", "Order")" style="color:#666;line-height: 17px;text-align: left;" title="Siparişlerim"><span> Siparişlerim</span></a>
+                </li>
+
+                <li style="background-color:#f6f6f6;">
+                    <a href="@Url.Action("DashBoard", "Fi")" class="elements" style="color:#666;line-height: 17px;text-align: left;">
+                        Bakiye Durumu : @Model.BAKIYE.ToString("#,##0.##")
+                    </a>
+                </li>
+                <li style="background-color:#f6f6f6;">
+                    <a href="@Url.Action("DashBoard", "Fi")" class="elements" style="color:#666;line-height: 17px;text-align: left;">
+                        Limit : @Model.LIMIT.ToString("#,##0.##")
+
+                    </a>
+                </li>
+                <li class="">
+
+                    <hr />
+
+                </li>
+                <li style="background-color:#f6f6f6;">
+
+                    <a href="/logout" class="" title="Çıkış" style="color:#666;line-height: 17px;text-align: left;"><span> Çıkış</span></a>
+
+                </li>
+
+            </ul>
+        </div>
+    </li>
+
+
+}
+

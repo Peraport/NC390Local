@@ -1,0 +1,18 @@
+﻿@model ProductDetailsModel
+@using Nop.Web.Models.Catalog;
+@if (!String.IsNullOrWhiteSpace(Model.StockAvailability) || Model.DisplayBackInStockSubscription)
+{
+    <div class="availability">
+        @if (!String.IsNullOrWhiteSpace(Model.StockAvailability))
+        {
+		string ava = (Model.StockAvailability.Length>9)?"100+":Model.StockAvailability+"";
+		ava = (Model.StockAvailability=="Stokta yok")?Model.StockAvailability:ava;
+		
+            <div class="stock">
+                <span class="label">@T("Products.Availability"):</span>
+                <span class="value" id="stock-availability-value-@Model.Id">@ava</span>
+            </div>
+        }
+        @Html.Partial("_BackInStockSubscription", Model)
+    </div>
+}

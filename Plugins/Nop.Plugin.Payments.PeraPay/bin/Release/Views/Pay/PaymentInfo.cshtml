@@ -1,0 +1,25 @@
+﻿@{
+    Layout = "";
+}
+@model Nop.Plugin.Payments.PeraPay.Models.PeraPayPaymentInfoModel
+@using Nop.Web.Framework;
+<table width="100%" cellspacing="2" cellpadding="1" border="0">
+    <tr>
+        <td>
+            @Html.NopLabelFor(model => model.BankLists, false):
+        </td>
+        <td>
+            @Html.DropDownListFor(model => model.BankList, Model.BankLists, new { @class = "dropdownlists" })
+        </td>
+        </tr>
+        <tr>
+        <td>
+            @Html.NopLabelFor(model => model.Installments, false):
+        </td>
+        <td>
+            @Html.DropDownListFor(model => model.Installment, Model.Installments, new { @class = "dropdownlists" })
+        </td>
+    </tr>
+
+
+</table>

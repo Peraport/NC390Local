@@ -1,0 +1,49 @@
+﻿@{
+    Layout = "";
+}
+@using Nop.Web.Framework;
+@model Nop.Plugin.Peraport.PerapayLimit.Models.PerapayLimitModel
+
+<form>
+    <input type="hidden" name="Limit" value="@Model.Limit" />
+    <input type="hidden" name="Amount" value="@Model.Amount" />
+    <input type="hidden" name="State" value="@Model.State" />
+</form>
+
+<table width="100%" cellspacing="2" cellpadding="1" border="0">
+    <tr>
+        <td width="100px">
+            Limit
+        </td>
+        <td align="left">
+            :
+            @Model.Limit.ToString("#,##0.00")
+        </td>
+    </tr>
+    <tr>
+        <td width="100px">
+            Sipariş Tutarı
+        </td>
+        <td align="left">
+            :
+            @Model.Amount.ToString("#,##0.00")
+        </td>
+    </tr>
+    <tr>
+        <td width="100px">
+            Durum
+        </td>
+        <td align="left">
+            :
+            @if (Model.State == 1)
+            {
+                <font color="green">Uygun. Sipariş verebilirsiniz...</font>
+
+            }
+            else
+            {
+                <font color="red">Uygun Değil</font>
+            }
+        </td>
+    </tr>
+</table>

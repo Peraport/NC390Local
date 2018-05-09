@@ -1,0 +1,28 @@
+﻿@** Copyright 2015 Seven Spikes Ltd. All rights reserved. (http://www.nop-templates.com)
+    * http://www.nop-templates.com/t/licensinginfo
+*@
+
+@model Nop.Web.Models.Catalog.ProductDetailsModel.AddToCartModel
+
+<div class="add-to-cart">
+    @Html.LabelFor(model => model.EnteredQuantity, new { @class = "qty-label" }, ":")
+    @if (Model.AllowedQuantities.Count > 0)
+    {
+    <div class="qty-wrapper">
+        @Html.DropDownListFor(model => model.EnteredQuantity, Model.AllowedQuantities, new { @class = "qty-dropdown" })
+    </div>
+    }
+    else
+    {
+    <div class="qty-wrapper">
+        <span class="decrease">decrease</span>
+        @Html.TextBoxFor(model => model.EnteredQuantity, new { @class = "qty-input" })
+        <span class="increase">increase</span>
+    </div>
+    }
+
+    <div class="btn-wrapper">
+        <button type="button" id="add-to-cart-button-@Model.ProductId" value="@T("shoppingcart.addtowishlist")" class="button-1 add-to-cart-button miniProductDetailsViewAddToWishlistButton miniProductDetailsViewAddToCartButton" data-productid="@Model.ProductId"><span>@T("shoppingcart.addtowishlist")</span></button>
+    </div>
+        @Html.Hidden("addProductVariantToCartUrl", Url.Action("AddProductFromProductDetailsPageToCartAjax", "NopAjaxCartShoppingCart"))
+</div>

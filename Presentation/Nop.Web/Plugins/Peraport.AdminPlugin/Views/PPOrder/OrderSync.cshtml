@@ -1,0 +1,110 @@
+﻿
+@{
+    Layout = "~/Administration/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<link href="~/Administration/Content/kendo/2014.1.318/kendo.common.min.css" rel="stylesheet" type="text/css" />
+<link href="~/Administration/Content/kendo/2014.1.318/kendo.default.min.css" rel="stylesheet" type="text/css" />
+<link href="~/Administration/Content/kendo/2014.1.318/kendo.rtl.min.css" rel="stylesheet" type="text/css" />
+
+<br />
+@using (Html.BeginForm())
+            {
+    @Html.ValidationSummary(true)
+
+    <div class="row">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10">
+            <h4>Siparişler</h4><br />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="col-md-8">
+                <select id="OrderType" name="OrderType" style="width:200px">
+                    @if (ViewBag.OrderType == 1)
+                    {
+                        <option value="1" selected>Tümünü Göster</option>
+                    }
+                    else
+                    {
+                        <option value="1">Tümünü Göster</option>
+                    }
+                    @if (ViewBag.OrderType == 2)
+                    {
+                        <option value="2" selected>Açık Siparişler</option>
+                    }
+                    else
+                    {
+                        <option value="2">Açık Siparişler</option>
+                    }
+                    @if (ViewBag.OrderType == 3)
+                    {
+                        <option value="3" selected>Yoldaki Siparişler</option>
+                    }
+                    else
+                    {
+                        <option value="3">Yoldaki Siparişler</option>
+                    }
+                </select>
+
+            </div>
+        </div>
+        <div class="col-md-8">
+            Tarih Aralığı
+            <input id="StartDate" name="StartDate" />
+            <script>
+                $(document).ready(function () {
+                    $("#StartDate").kendoDatePicker({ format: "dd MM yyyy" });
+                    $("#StartDate").attr("readonly", true);
+                });
+            </script>
+            <input id="EndDate" name="EndDate" />
+            <script>
+                $(document).ready(function () {
+                    $("#EndDate").kendoDatePicker({ format: "dd MM yyyy" });
+                    $("#EndDate").attr("readonly", true);
+                });
+            </script>
+            <input @*class="k-button"*@ id="filtrele_button" type="button" value="Filtrele" name="save-info-button" class="k-button save-customer-info-button" />
+        </div>
+    </div>
+
+}
+
+
+<hr>
+<div class="row">
+    <div class="col-md-2">
+    </div>
+    <div class="col-md-10">
+        <div id="searchResults" class="col-md-10">
+            @Html.Action("OrderListPartial", "PPOrder", new { OrderType = ViewBag.OrderType })
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $('select').on('change', function () {
+        getSearchResults($('#StartDate').val(), $('#EndDate').val(), $('#OrderType').val());
+    })
+
+    $("#filtrele_button").click(function () {
+        getSearchResults($('#StartDate').val(), $('#EndDate').val(), $('#OrderType').val());
+    });
+    function getSearchResults(sd, ed, ot) {
+        var tdata = { StartDate: sd, EndDate: ed, OrderType: ot };
+        // or your data in the format that will be used ??
+        $.ajax({
+            type: "POST",
+            data: tdata,
+            url: '/PPOrder/OrderListPartial/',
+            success: function (result) {
+                $("#searchResults").html(result);
+            }
+        });
+    }
+</script>

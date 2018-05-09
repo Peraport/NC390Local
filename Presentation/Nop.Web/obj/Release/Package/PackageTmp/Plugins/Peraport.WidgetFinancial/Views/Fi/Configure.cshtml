@@ -1,0 +1,38 @@
+﻿@using Nop.Web.Framework;
+@using System.Web.Mvc.Html;
+@model Nop.Plugin.Peraport.WidgetFinancial.Models.FiModel
+
+
+
+@{
+    Layout = "";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <table>
+        <tr>
+            <td>
+                <span>Merchant id:</span>
+            </td>
+            <td>
+                @Html.TextBoxFor(m => m.NAME)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span>Sign:</span>
+            </td>
+            <td>
+                @Html.TextBoxFor(m => m.BAKIYE)
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" width="100%">
+                <input type="submit" name="save" class="t-button" value="@T("Admin.Common.Save")" />
+            </td>
+        </tr>
+    </table>
+
+}

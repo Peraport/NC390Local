@@ -1,0 +1,12 @@
+﻿@{
+    Layout = "~/Views/Shared/_PeraRoot.cshtml";
+}
+<div class="side-2">
+    @if (IsSectionDefined("left"))
+    {
+        @RenderSection("left")
+    }
+</div>
+<div class="center-2">
+    @RenderBody()
+</div>

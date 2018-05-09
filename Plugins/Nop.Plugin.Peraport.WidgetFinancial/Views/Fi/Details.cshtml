@@ -1,0 +1,86 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_PeraLayout.cshtml";
+}
+@section left
+{
+    @Html.Action("PeraLeftMenu", "Fi")
+}
+
+
+<link href="~/Content/mcw5.css" rel="stylesheet" />
+
+<link href="~/Administration/Content/kendo/2014.1.318/kendo.common.min.css" rel="stylesheet" type="text/css" />
+<link href="~/Administration/Content/kendo/2014.1.318/kendo.default.min.css" rel="stylesheet" type="text/css" />
+<link href="/../../Administration/Content/kendo/2014.1.318/kendo.rtl.min.css" rel="stylesheet" type="text/css" />
+
+<script src="/Administration/Scripts/kendo/2014.1.318/kendo.web.min.js" type="text/javascript"></script>
+<br>
+
+<div class="row">
+    <div class="col-md-5">
+        <div class="form-group">
+            <div class="col-md-4">
+            </div>
+            @using (Html.BeginForm())
+            {
+                @Html.ValidationSummary(true)
+                <div class="col-md-8">
+                    Tarih Aralığı
+                    <input id="StartDate" name="StartDate" />
+                    <script>
+                        $(document).ready(function () {
+                            $("#StartDate").kendoDatePicker({ format: "dd MM yyyy" });
+                            $("#StartDate").attr("readonly", true);
+                        });
+                    </script>
+                    <input id="EndDate" name="EndDate" />
+                    <script>
+                        $(document).ready(function () {
+                            $("#EndDate").kendoDatePicker({ format: "dd MM yyyy" });
+                            $("#EndDate").attr("readonly", true);
+                        });
+                    </script>
+                    <input @*class="k-button"*@ id="filtrele_button" type="button" value="Filtrele" name="save-info-button" class="k-button save-customer-info-button" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<br />
+<hr>
+<br />
+
+@Html.Action("HesapOZet", "Fi")
+
+<br>
+<div id="searchResults">
+    @if (ViewBag.Filtered == null)
+    {
+        @Html.Action("HesapEkstre", "Fi",new { OrderType= ViewBag.OrderType});
+    }
+    else
+    {
+    }
+</div>
+
+<script type="text/javascript">
+    $("#filtrele_button").click(function () {
+        getSearchResults($('#StartDate').val(), $('#EndDate').val());
+    });
+     function getSearchResults(sd,ed) {
+         // #yoursearchbox is a textbox on the index.aspx aview
+         var tdata = { StartDate: sd, EndDate:ed};
+         // or your data in the format that will be used ??
+         $.ajax({
+           type: "GET",
+           data: tdata,
+           url: '/Fi/HesapEkstre1/',
+           success: function (result)
+           {
+               $("#searchResults").html(result);
+           }
+        });
+     }
+</script>

@@ -1,0 +1,86 @@
+﻿@model Nop.Web.PPService.DocumentxResult
+
+<script src="/Administration/Scripts/kendo/2014.1.318/kendo.web.min.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.4.2/css/buttons.dataTables.min.css">
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.4.2/js/dataTables.buttons.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable({
+            "language": {
+                "paginate": {
+                    "next": "Sonraki",
+                    "previous": "Önceki"
+                },
+                "search": "Filtrele:",
+                "lengthMenu": "Sayfada _MENU_ kayıtlar gösteriliyor",
+                "zeroRecords": "Kayıt Yok",
+                "info": "Sayfa _PAGE_ / _PAGES_",
+                "infoEmpty": "Uygun Kayıt Yok",
+                "infoFiltered": "(_MAX_ kayıt filtrelendi.)"
+            },
+            "pageLength": 10,
+            "bSort": false
+        });
+    });
+</script>
+<br />
+<table id="example" class="display" cellspacing="0" width="90%">
+    <thead border="1">
+        <tr>
+            <th>Tarih</th>
+            <th>Müşteri Kodu</th>
+            <th>Ödeme</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            string ps = "";
+        }
+        @foreach (var item in Model.ROWS)
+        {
+            <tr>
+                @{
+                    #region Türkçe Status
+                    switch (item.PAYMENTSTATUS)
+                    {
+                        case 10:
+                            ps = "Beklemede";
+                            break;
+                        case 20:
+                            ps = "-";
+                            break;
+                        case 30:
+                            ps = "Ödendi";
+                            break;
+                        case 40:
+                            ps = "-";
+                            break;
+                        default:
+                            ps = "-";
+                            break;
+                    }
+                    #endregion
+                }
+
+                <td>
+                    @item.DATE.ToString("dd.MM.yyyy")
+                </td>
+                <td>
+                    @item.ERPCUSTOMER_CODE
+                </td>
+                <td>
+                    @ps
+                </td>
+
+            </tr>
+                    }
+    </tbody>
+    <tfoot>
+        <tr>
+            <th>
+            </th>
+        </tr>
+    </tfoot>
+</table>

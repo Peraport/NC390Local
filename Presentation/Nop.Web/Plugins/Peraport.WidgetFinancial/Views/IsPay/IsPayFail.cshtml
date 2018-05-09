@@ -1,0 +1,12 @@
+﻿@{
+    Layout = "~/Views/Shared/_PeraLayout.cshtml";
+}
+@section left
+{
+    @Html.Action("PeraLeftMenu", "Fi")
+}
+<h2>Hata Oluştu !!! </h2>
+<br/>
+Hata Kodu:@ViewBag.ResultCode
+<br />
+Hata Mesajı :@ViewBag.Message

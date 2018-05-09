@@ -1,0 +1,88 @@
+﻿@using Nop.Core
+@using Nop.Core.Infrastructure
+@using Nop.Services.Configuration
+@using Nop.Services.Orders
+@using Nop.Web.Models.ShoppingCart;
+@{
+    Layout = "~/Views/Shared/_Root.Head.cshtml";
+
+    var storeId = EngineContext.Current.Resolve<IStoreContext>().CurrentStore.Id;
+
+    var controllerName = HttpContext.Current.Request.RequestContext.RouteData.GetRequiredString("controller");
+    var isHomePage = controllerName.Equals("home", StringComparison.InvariantCultureIgnoreCase);
+
+    var customer = EngineContext.Current.Resolve<IWorkContext>().CurrentCustomer;
+
+    var shoppingCartItems = customer.ShoppingCartItems
+        .Where(sci => sci.ShoppingCartType == Nop.Core.Domain.Orders.ShoppingCartType.ShoppingCart)
+        .LimitPerStore(storeId)
+        .ToList()
+        .GetTotalProducts();
+
+    var wishlistItems = customer.ShoppingCartItems
+        .Where(s => s.ShoppingCartType == Nop.Core.Domain.Orders.ShoppingCartType.Wishlist)
+        .LimitPerStore(storeId)
+        .ToList()
+        .GetTotalProducts();
+
+    string sliderType = EngineContext.Current.Resolve<ISettingService>().GetSettingByKey("prismathemesettings.slidertype", "full-width-slider", storeId, true);
+}
+
+@Html.Widget("body_start_html_tag_after")
+@Html.Partial("_Notifications")
+@Html.Action("JavaScriptDisabledWarning", "Common")
+@Html.Partial("OldInternetExplorerWarning")
+
+<div class="master-wrapper-page">
+    <div class="master-header-wrapper-parent">
+        <div class="master-header-wrapper">
+            @Html.Action("AdminHeaderLinks", "Common")
+            <div class="header-wrapper">
+                @Html.Partial("Header")
+                <script type="text/javascript">
+                (function() {
+                    AjaxCart.init(false, '.cart-qty', '.wishlist-qty');
+                })();
+                </script>
+                <div class="responsive-nav-wrapper-parent">
+                    <div class="responsive-nav-wrapper">
+                        <div class="menu-title">
+                            <span>@T("SevenSpikes.Themes.Common.MenuTitle")</span>
+                        </div>
+                        <div class="search-wrap">
+                            <span>@T("Search")</span>
+                        </div>
+                        @*<div class="personal-button" id="header-links-opener">
+                            <span>@T("SevenSpikes.Themes.Common.Personal")</span>
+                        </div>*@
+                        @*<div class="wishlist-button">
+                            <a href="@Url.RouteUrl("Wishlist")" class="ico-wishlist">
+                                <span class="wishlist-label">@T("Wishlist")</span>
+                                <span class="wishlist-qty">@T("Wishlist.HeaderQuantity", wishlistItems)</span>
+                            </a>
+                        </div>*@
+                        <div class="shopping-cart-link">
+                            <a href="@Url.RouteUrl("ShoppingCart")">@T("ShoppingCart")</a>
+                            <span class="cart-qty">@T("ShoppingCart.HeaderQuantity", shoppingCartItems)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+    </div>
+    
+    <div class="master-wrapper-content">
+        @Html.Widget("content_before")
+        @if (IsSectionDefined("Breadcrumb"))
+        {
+            @RenderSection("Breadcrumb")
+        }
+        <div class="master-column-wrapper">
+            @RenderBody()
+        </div>
+        @Html.Widget("content_after")
+    </div>
+    @Html.Action("Footer", "Common")
+</div>

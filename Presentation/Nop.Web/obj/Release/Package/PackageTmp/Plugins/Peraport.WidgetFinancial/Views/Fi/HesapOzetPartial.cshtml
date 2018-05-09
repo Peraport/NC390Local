@@ -1,0 +1,45 @@
+﻿@model Nop.Plugin.Peraport.WidgetFinancial.Models.FiModel
+
+
+<link href="~/Content/mcw5.css" rel="stylesheet" />
+
+<br>
+<div class="table-responsive">
+        <table class="tozet">
+            <thead>
+                <tr>
+                    <th>
+                        Bakiye
+                    </th>
+                    <th>
+                        :
+                    </th>
+                    <th class="deci">
+                        @Model.NAME
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        Limit
+                    </th>
+                    <th>
+                        :
+                    </th>
+                    <th class="deci">
+                        @Model.LIMIT.ToString("#,##0.00")
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        Bakiye
+                    </th>
+                    <th>
+                        :
+                    </th>
+                    <th class="deci">
+                        @Model.BAKIYE.ToString("#,##0.00")
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </div>

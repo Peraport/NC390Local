@@ -1,0 +1,107 @@
+﻿@using Nop.Web.Framework;
+@model Nop.Web.PPService.DocumentxResult
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.4.2/css/buttons.dataTables.min.css">
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.4.2/js/dataTables.buttons.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable({
+            "language": {
+                "paginate": {
+                    "next": "Sonraki",
+                    "previous": "Önceki"
+                },
+                "search": "Filtrele:",
+                "lengthMenu": "Sayfada _MENU_ kayıtlar gösteriliyor",
+                "zeroRecords": "Kayıt Yok",
+                "info": "Sayfa _PAGE_ / _PAGES_",
+                "infoEmpty": "Uygun Kayıt Yok",
+                "infoFiltered": "(_MAX_ kayıt filtrelendi.)"
+            },
+            "pageLength": 10,
+            "bSort": true
+        });
+    });
+</script>
+
+@if (Model.CODE == "OK")
+{
+    decimal bakiye = 0;
+    decimal tborc = 0;
+    decimal talacak = 0;
+    <table id="example" class="display" width="100%" style="padding:5px">
+        <thead border="1">
+            <tr>
+                <th style="text-align:left;" width="15%">
+                    Tarih
+                </th>
+                <th style="text-align:left;" width="40%">
+                    Açıklama
+                </th>
+                <th style="text-align:right;" width="15%">
+                    Borç
+                </th>
+                <th style="text-align:right;" width="15%">
+                    Alacak
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.ROWS.Count() > 0)
+            {
+                foreach (var item in Model.ROWS)
+                {
+                    decimal borc = 0;
+                    decimal alacak = 0;
+                    string tarih = item.DATE.ToString("dd.MM.yyyy");
+                    if (item.TOTALPRICE > 0) { borc = item.TOTALPRICE; tborc += borc; } else { alacak = item.TOTALPRICE; talacak += alacak; }
+                    <tr>
+                        <td width="15%" style="background-color: #eee;">
+                            @tarih
+                        </td>
+                        <td width="40%" style="background-color: #eee;">
+                            @item.NOTE
+                        </td>
+                        <td align="right" width="15%" style="background-color: #eee;">
+                            @borc.ToString("#,##0.00")
+                        </td>
+                        <td align="right" width="15%" style="background-color: #eee;">
+                            @alacak.ToString("#,##0.00")
+                        </td>
+                    </tr>
+                }
+                bakiye = tborc - talacak;
+            }
+            else
+            {
+                @*<span>Fatura Bulunamadı.</span>*@
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>
+                </th>
+                <th align="right">
+                    Bakiye : @bakiye.ToString("#,##0.00")
+                </th>
+                <th align="right">
+                    @tborc.ToString("#,##0.00")
+                </th>
+                <th align="right">
+                    @talacak.ToString("#,##0.00")
+                </th>
+            </tr>
+        </tfoot>
+
+    </table>
+
+}
+else
+{
+    <span style="font-size:14px;">Hata Oluştu.</span>
+    <br />
+    <span>@Model.NOTE</span>
+}
+

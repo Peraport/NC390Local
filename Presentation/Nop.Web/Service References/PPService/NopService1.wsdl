@@ -1,0 +1,498 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="NopService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://31.145.149.190:8733/NopService?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://31.145.149.190:8733/NopService?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://31.145.149.190:8733/NopService?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Service.Models" />
+      <xsd:import schemaLocation="http://31.145.149.190:8733/NopService?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+      <xsd:import schemaLocation="http://31.145.149.190:8733/NopService?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/Service" />
+      <xsd:import schemaLocation="http://31.145.149.190:8733/NopService?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/PPLibrary" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="INopService_GetAddressFromErp_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAddressFromErp" />
+  </wsdl:message>
+  <wsdl:message name="INopService_GetAddressFromErp_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAddressFromErpResponse" />
+  </wsdl:message>
+  <wsdl:message name="INopService_GetOrdersFromErp_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetOrdersFromErp" />
+  </wsdl:message>
+  <wsdl:message name="INopService_GetOrdersFromErp_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetOrdersFromErpResponse" />
+  </wsdl:message>
+  <wsdl:message name="INopService_ObjectUnityTest_InputMessage">
+    <wsdl:part name="parameters" element="tns:ObjectUnityTest" />
+  </wsdl:message>
+  <wsdl:message name="INopService_ObjectUnityTest_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ObjectUnityTestResponse" />
+  </wsdl:message>
+  <wsdl:message name="INopService_GetCustomerFinancialReport_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetCustomerFinancialReport" />
+  </wsdl:message>
+  <wsdl:message name="INopService_GetCustomerFinancialReport_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetCustomerFinancialReportResponse" />
+  </wsdl:message>
+  <wsdl:message name="INopService_GetCustomerFinancial_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetCustomerFinancial" />
+  </wsdl:message>
+  <wsdl:message name="INopService_GetCustomerFinancial_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetCustomerFinancialResponse" />
+  </wsdl:message>
+  <wsdl:message name="INopService_GetCustomerFinancialHesapEkstre_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetCustomerFinancialHesapEkstre" />
+  </wsdl:message>
+  <wsdl:message name="INopService_GetCustomerFinancialHesapEkstre_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetCustomerFinancialHesapEkstreResponse" />
+  </wsdl:message>
+  <wsdl:message name="INopService_GetCustomerFinancialYaslandirmaEkstre_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetCustomerFinancialYaslandirmaEkstre" />
+  </wsdl:message>
+  <wsdl:message name="INopService_GetCustomerFinancialYaslandirmaEkstre_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetCustomerFinancialYaslandirmaEkstreResponse" />
+  </wsdl:message>
+  <wsdl:message name="INopService_GetInvoicesFromErp_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetInvoicesFromErp" />
+  </wsdl:message>
+  <wsdl:message name="INopService_GetInvoicesFromErp_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetInvoicesFromErpResponse" />
+  </wsdl:message>
+  <wsdl:message name="INopService_CopyNopPaymentToErp_InputMessage">
+    <wsdl:part name="parameters" element="tns:CopyNopPaymentToErp" />
+  </wsdl:message>
+  <wsdl:message name="INopService_CopyNopPaymentToErp_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CopyNopPaymentToErpResponse" />
+  </wsdl:message>
+  <wsdl:message name="INopService_GetProductsFromErp_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetProductsFromErp" />
+  </wsdl:message>
+  <wsdl:message name="INopService_GetProductsFromErp_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetProductsFromErpResponse" />
+  </wsdl:message>
+  <wsdl:message name="INopService_GetErpProduct_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetErpProduct" />
+  </wsdl:message>
+  <wsdl:message name="INopService_GetErpProduct_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetErpProductResponse" />
+  </wsdl:message>
+  <wsdl:message name="INopService_GetCustomersFromErp_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetCustomersFromErp" />
+  </wsdl:message>
+  <wsdl:message name="INopService_GetCustomersFromErp_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetCustomersFromErpResponse" />
+  </wsdl:message>
+  <wsdl:message name="INopService_SalesOrdersNopToErp_InputMessage">
+    <wsdl:part name="parameters" element="tns:SalesOrdersNopToErp" />
+  </wsdl:message>
+  <wsdl:message name="INopService_SalesOrdersNopToErp_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SalesOrdersNopToErpResponse" />
+  </wsdl:message>
+  <wsdl:message name="INopService_CopyOrdersNopToErp_InputMessage">
+    <wsdl:part name="parameters" element="tns:CopyOrdersNopToErp" />
+  </wsdl:message>
+  <wsdl:message name="INopService_CopyOrdersNopToErp_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CopyOrdersNopToErpResponse" />
+  </wsdl:message>
+  <wsdl:message name="INopService_GetNewOrdersFromNop_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetNewOrdersFromNop" />
+  </wsdl:message>
+  <wsdl:message name="INopService_GetNewOrdersFromNop_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetNewOrdersFromNopResponse" />
+  </wsdl:message>
+  <wsdl:message name="INopService_GetNopOrdersErpInvoiced_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetNopOrdersErpInvoiced" />
+  </wsdl:message>
+  <wsdl:message name="INopService_GetNopOrdersErpInvoiced_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetNopOrdersErpInvoicedResponse" />
+  </wsdl:message>
+  <wsdl:message name="INopService_MatchTwoRecord_InputMessage">
+    <wsdl:part name="parameters" element="tns:MatchTwoRecord" />
+  </wsdl:message>
+  <wsdl:message name="INopService_MatchTwoRecord_OutputMessage">
+    <wsdl:part name="parameters" element="tns:MatchTwoRecordResponse" />
+  </wsdl:message>
+  <wsdl:message name="INopService_getMatchingList_InputMessage">
+    <wsdl:part name="parameters" element="tns:getMatchingList" />
+  </wsdl:message>
+  <wsdl:message name="INopService_getMatchingList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getMatchingListResponse" />
+  </wsdl:message>
+  <wsdl:message name="INopService_getMatch_InputMessage">
+    <wsdl:part name="parameters" element="tns:getMatch" />
+  </wsdl:message>
+  <wsdl:message name="INopService_getMatch_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getMatchResponse" />
+  </wsdl:message>
+  <wsdl:message name="INopService_SqlExecuteNonQuery_InputMessage">
+    <wsdl:part name="parameters" element="tns:SqlExecuteNonQuery" />
+  </wsdl:message>
+  <wsdl:message name="INopService_SqlExecuteNonQuery_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SqlExecuteNonQueryResponse" />
+  </wsdl:message>
+  <wsdl:message name="INopService_GetWSData_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetWSData" />
+  </wsdl:message>
+  <wsdl:message name="INopService_GetWSData_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetWSDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="INopService_GetCustomerLimit_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetCustomerLimit" />
+  </wsdl:message>
+  <wsdl:message name="INopService_GetCustomerLimit_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetCustomerLimitResponse" />
+  </wsdl:message>
+  <wsdl:message name="INopService_GetGeneralSettings_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetGeneralSettings" />
+  </wsdl:message>
+  <wsdl:message name="INopService_GetGeneralSettings_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetGeneralSettingsResponse" />
+  </wsdl:message>
+  <wsdl:message name="INopService_GetOrder_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetOrder" />
+  </wsdl:message>
+  <wsdl:message name="INopService_GetOrder_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetOrderResponse" />
+  </wsdl:message>
+  <wsdl:message name="INopService_GetDataUsingDataContract_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDataUsingDataContract" />
+  </wsdl:message>
+  <wsdl:message name="INopService_GetDataUsingDataContract_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDataUsingDataContractResponse" />
+  </wsdl:message>
+  <wsdl:portType name="INopService">
+    <wsdl:operation name="GetAddressFromErp">
+      <wsdl:input wsaw:Action="http://tempuri.org/INopService/GetAddressFromErp" message="tns:INopService_GetAddressFromErp_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/INopService/GetAddressFromErpResponse" message="tns:INopService_GetAddressFromErp_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetOrdersFromErp">
+      <wsdl:input wsaw:Action="http://tempuri.org/INopService/GetOrdersFromErp" message="tns:INopService_GetOrdersFromErp_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/INopService/GetOrdersFromErpResponse" message="tns:INopService_GetOrdersFromErp_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ObjectUnityTest">
+      <wsdl:input wsaw:Action="http://tempuri.org/INopService/ObjectUnityTest" message="tns:INopService_ObjectUnityTest_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/INopService/ObjectUnityTestResponse" message="tns:INopService_ObjectUnityTest_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCustomerFinancialReport">
+      <wsdl:input wsaw:Action="http://tempuri.org/INopService/GetCustomerFinancialReport" message="tns:INopService_GetCustomerFinancialReport_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/INopService/GetCustomerFinancialReportResponse" message="tns:INopService_GetCustomerFinancialReport_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCustomerFinancial">
+      <wsdl:input wsaw:Action="http://tempuri.org/INopService/GetCustomerFinancial" message="tns:INopService_GetCustomerFinancial_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/INopService/GetCustomerFinancialResponse" message="tns:INopService_GetCustomerFinancial_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCustomerFinancialHesapEkstre">
+      <wsdl:input wsaw:Action="http://tempuri.org/INopService/GetCustomerFinancialHesapEkstre" message="tns:INopService_GetCustomerFinancialHesapEkstre_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/INopService/GetCustomerFinancialHesapEkstreResponse" message="tns:INopService_GetCustomerFinancialHesapEkstre_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCustomerFinancialYaslandirmaEkstre">
+      <wsdl:input wsaw:Action="http://tempuri.org/INopService/GetCustomerFinancialYaslandirmaEkstre" message="tns:INopService_GetCustomerFinancialYaslandirmaEkstre_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/INopService/GetCustomerFinancialYaslandirmaEkstreResponse" message="tns:INopService_GetCustomerFinancialYaslandirmaEkstre_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetInvoicesFromErp">
+      <wsdl:input wsaw:Action="http://tempuri.org/INopService/GetInvoicesFromErp" message="tns:INopService_GetInvoicesFromErp_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/INopService/GetInvoicesFromErpResponse" message="tns:INopService_GetInvoicesFromErp_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CopyNopPaymentToErp">
+      <wsdl:input wsaw:Action="http://tempuri.org/INopService/CopyNopPaymentToErp" message="tns:INopService_CopyNopPaymentToErp_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/INopService/CopyNopPaymentToErpResponse" message="tns:INopService_CopyNopPaymentToErp_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetProductsFromErp">
+      <wsdl:input wsaw:Action="http://tempuri.org/INopService/GetProductsFromErp" message="tns:INopService_GetProductsFromErp_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/INopService/GetProductsFromErpResponse" message="tns:INopService_GetProductsFromErp_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetErpProduct">
+      <wsdl:input wsaw:Action="http://tempuri.org/INopService/GetErpProduct" message="tns:INopService_GetErpProduct_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/INopService/GetErpProductResponse" message="tns:INopService_GetErpProduct_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCustomersFromErp">
+      <wsdl:input wsaw:Action="http://tempuri.org/INopService/GetCustomersFromErp" message="tns:INopService_GetCustomersFromErp_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/INopService/GetCustomersFromErpResponse" message="tns:INopService_GetCustomersFromErp_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SalesOrdersNopToErp">
+      <wsdl:input wsaw:Action="http://tempuri.org/INopService/SalesOrdersNopToErp" message="tns:INopService_SalesOrdersNopToErp_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/INopService/SalesOrdersNopToErpResponse" message="tns:INopService_SalesOrdersNopToErp_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CopyOrdersNopToErp">
+      <wsdl:input wsaw:Action="http://tempuri.org/INopService/CopyOrdersNopToErp" message="tns:INopService_CopyOrdersNopToErp_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/INopService/CopyOrdersNopToErpResponse" message="tns:INopService_CopyOrdersNopToErp_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetNewOrdersFromNop">
+      <wsdl:input wsaw:Action="http://tempuri.org/INopService/GetNewOrdersFromNop" message="tns:INopService_GetNewOrdersFromNop_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/INopService/GetNewOrdersFromNopResponse" message="tns:INopService_GetNewOrdersFromNop_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetNopOrdersErpInvoiced">
+      <wsdl:input wsaw:Action="http://tempuri.org/INopService/GetNopOrdersErpInvoiced" message="tns:INopService_GetNopOrdersErpInvoiced_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/INopService/GetNopOrdersErpInvoicedResponse" message="tns:INopService_GetNopOrdersErpInvoiced_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="MatchTwoRecord">
+      <wsdl:input wsaw:Action="http://tempuri.org/INopService/MatchTwoRecord" message="tns:INopService_MatchTwoRecord_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/INopService/MatchTwoRecordResponse" message="tns:INopService_MatchTwoRecord_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getMatchingList">
+      <wsdl:input wsaw:Action="http://tempuri.org/INopService/getMatchingList" message="tns:INopService_getMatchingList_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/INopService/getMatchingListResponse" message="tns:INopService_getMatchingList_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getMatch">
+      <wsdl:input wsaw:Action="http://tempuri.org/INopService/getMatch" message="tns:INopService_getMatch_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/INopService/getMatchResponse" message="tns:INopService_getMatch_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SqlExecuteNonQuery">
+      <wsdl:input wsaw:Action="http://tempuri.org/INopService/SqlExecuteNonQuery" message="tns:INopService_SqlExecuteNonQuery_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/INopService/SqlExecuteNonQueryResponse" message="tns:INopService_SqlExecuteNonQuery_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetWSData">
+      <wsdl:input wsaw:Action="http://tempuri.org/INopService/GetWSData" message="tns:INopService_GetWSData_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/INopService/GetWSDataResponse" message="tns:INopService_GetWSData_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCustomerLimit">
+      <wsdl:input wsaw:Action="http://tempuri.org/INopService/GetCustomerLimit" message="tns:INopService_GetCustomerLimit_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/INopService/GetCustomerLimitResponse" message="tns:INopService_GetCustomerLimit_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetGeneralSettings">
+      <wsdl:input wsaw:Action="http://tempuri.org/INopService/GetGeneralSettings" message="tns:INopService_GetGeneralSettings_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/INopService/GetGeneralSettingsResponse" message="tns:INopService_GetGeneralSettings_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetOrder">
+      <wsdl:input wsaw:Action="http://tempuri.org/INopService/GetOrder" message="tns:INopService_GetOrder_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/INopService/GetOrderResponse" message="tns:INopService_GetOrder_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDataUsingDataContract">
+      <wsdl:input wsaw:Action="http://tempuri.org/INopService/GetDataUsingDataContract" message="tns:INopService_GetDataUsingDataContract_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/INopService/GetDataUsingDataContractResponse" message="tns:INopService_GetDataUsingDataContract_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_INopService" type="tns:INopService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetAddressFromErp">
+      <soap:operation soapAction="http://tempuri.org/INopService/GetAddressFromErp" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOrdersFromErp">
+      <soap:operation soapAction="http://tempuri.org/INopService/GetOrdersFromErp" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObjectUnityTest">
+      <soap:operation soapAction="http://tempuri.org/INopService/ObjectUnityTest" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCustomerFinancialReport">
+      <soap:operation soapAction="http://tempuri.org/INopService/GetCustomerFinancialReport" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCustomerFinancial">
+      <soap:operation soapAction="http://tempuri.org/INopService/GetCustomerFinancial" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCustomerFinancialHesapEkstre">
+      <soap:operation soapAction="http://tempuri.org/INopService/GetCustomerFinancialHesapEkstre" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCustomerFinancialYaslandirmaEkstre">
+      <soap:operation soapAction="http://tempuri.org/INopService/GetCustomerFinancialYaslandirmaEkstre" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetInvoicesFromErp">
+      <soap:operation soapAction="http://tempuri.org/INopService/GetInvoicesFromErp" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CopyNopPaymentToErp">
+      <soap:operation soapAction="http://tempuri.org/INopService/CopyNopPaymentToErp" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetProductsFromErp">
+      <soap:operation soapAction="http://tempuri.org/INopService/GetProductsFromErp" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetErpProduct">
+      <soap:operation soapAction="http://tempuri.org/INopService/GetErpProduct" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCustomersFromErp">
+      <soap:operation soapAction="http://tempuri.org/INopService/GetCustomersFromErp" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SalesOrdersNopToErp">
+      <soap:operation soapAction="http://tempuri.org/INopService/SalesOrdersNopToErp" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CopyOrdersNopToErp">
+      <soap:operation soapAction="http://tempuri.org/INopService/CopyOrdersNopToErp" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNewOrdersFromNop">
+      <soap:operation soapAction="http://tempuri.org/INopService/GetNewOrdersFromNop" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNopOrdersErpInvoiced">
+      <soap:operation soapAction="http://tempuri.org/INopService/GetNopOrdersErpInvoiced" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MatchTwoRecord">
+      <soap:operation soapAction="http://tempuri.org/INopService/MatchTwoRecord" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMatchingList">
+      <soap:operation soapAction="http://tempuri.org/INopService/getMatchingList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMatch">
+      <soap:operation soapAction="http://tempuri.org/INopService/getMatch" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SqlExecuteNonQuery">
+      <soap:operation soapAction="http://tempuri.org/INopService/SqlExecuteNonQuery" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetWSData">
+      <soap:operation soapAction="http://tempuri.org/INopService/GetWSData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCustomerLimit">
+      <soap:operation soapAction="http://tempuri.org/INopService/GetCustomerLimit" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGeneralSettings">
+      <soap:operation soapAction="http://tempuri.org/INopService/GetGeneralSettings" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOrder">
+      <soap:operation soapAction="http://tempuri.org/INopService/GetOrder" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDataUsingDataContract">
+      <soap:operation soapAction="http://tempuri.org/INopService/GetDataUsingDataContract" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="NopService">
+    <wsdl:port name="BasicHttpBinding_INopService" binding="tns:BasicHttpBinding_INopService">
+      <soap:address location="http://31.145.149.190:8733/NopService" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

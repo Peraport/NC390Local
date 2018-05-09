@@ -1,0 +1,9 @@
+﻿Group: Perapay
+FriendlyName: PeraPay
+SystemName: PeraPay
+Version: 1.00
+SupportedVersions: 3.90
+Author: mtekin
+DisplayOrder: 1
+FileName: Nop.Plugin.Payments.PeraPay.dll
+Description: test plugin

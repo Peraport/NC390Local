@@ -1,0 +1,10 @@
+C:\.PeradessSolutions\NC\Plugins\Nop.Plugin.Payments.PeraPay\bin\Release\Description.txt
+C:\.PeradessSolutions\NC\Plugins\Nop.Plugin.Payments.PeraPay\bin\Release\web.config
+C:\.PeradessSolutions\NC\Plugins\Nop.Plugin.Payments.PeraPay\bin\Release\Views\Pay\PaymentInfo.cshtml
+C:\.PeradessSolutions\NC\Plugins\Nop.Plugin.Payments.PeraPay\bin\Release\logo.jpg
+C:\.PeradessSolutions\NC\Plugins\Nop.Plugin.Payments.PeraPay\bin\Release\Views\Pay\Configure.cshtml
+C:\.PeradessSolutions\NC\Plugins\Nop.Plugin.Payments.PeraPay\bin\Release\Nop.Plugin.Payments.PeraPay.dll
+C:\.PeradessSolutions\NC\Plugins\Nop.Plugin.Payments.PeraPay\bin\Release\Nop.Plugin.Payments.PeraPay.pdb
+C:\.PeradessSolutions\NC\Plugins\Nop.Plugin.Payments.PeraPay\obj\Release\Nop.Plugin.Payments.PeraPay.csprojResolveAssemblyReference.cache
+C:\.PeradessSolutions\NC\Plugins\Nop.Plugin.Payments.PeraPay\obj\Release\Nop.Plugin.Payments.PeraPay.dll
+C:\.PeradessSolutions\NC\Plugins\Nop.Plugin.Payments.PeraPay\obj\Release\Nop.Plugin.Payments.PeraPay.pdb

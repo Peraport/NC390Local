@@ -1,0 +1,455 @@
+﻿@using Nop.Web.Framework;
+@model Nop.Web.PPService.DocumentxResult
+
+@{
+    Layout = "~/Views/Shared/_PeraLayout.cshtml";
+}
+@section left
+{
+    @Html.Action("PeraLeftMenu", "Fi")
+}
+
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.2.4/css/select.dataTables.min.css" />
+
+<script src="/Administration/Scripts/bootstrap/bootstrap.min.js" type="text/javascript"></script>
+<link href="/Administration/Content/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+
+<br />
+<h3>Fatura Ödeme</h3>
+<br />
+<br />
+
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-3">
+                    Seçilen Faturalar Tutarı (TL)
+                </div>
+                <div class="col-md-4">
+                    <div id="testf" style="font-size:large">0.00 TL</div>
+                </div>
+                <div class="col-md-5">
+                    <div class="col-md-7 col-md-offset-5">
+                        <input value="Ödemeye Git" type="button" onclick="GosterGizle()" class="btn btn-success">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-7 col-md-offset-5">
+                    <div id="result"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="KKPay" style="display:none;">
+                        <style>
+                            div.blueTable {
+                                border: 1px solid #1C6EA4;
+                                background-color: #EEEEEE;
+                                width: 100%;
+                                text-align: center;
+                                border-collapse: collapse;
+                            }
+
+                            .divTable.blueTable .divTableCell, .divTable.blueTable .divTableHead {
+                                padding: 3px 2px;
+                            }
+
+                            .blueTable .tableFootStyle {
+                                font-weight: bold;
+                                color: #FFFFFF;
+                                background: #DCDEE0;
+                            }
+
+                                .blueTable .tableFootStyle .links {
+                                    text-align: right;
+                                }
+
+                                    .blueTable .tableFootStyle .links a {
+                                        display: inline-block;
+                                        background: #1C6EA4;
+                                        color: #FFFFFF;
+                                        padding: 2px 8px;
+                                        border-radius: 5px;
+                                    }
+
+                            .blueTable.outerTableFooter {
+                                border-top: none;
+                            }
+
+                                .blueTable.outerTableFooter .tableFootStyle {
+                                    padding: 3px 5px;
+                                }
+
+                            .divTable {
+                                display: table;
+                            }
+
+                            .divTableRow {
+                                display: table-row;
+                            }
+
+                            .divTableHeading {
+                                display: table-header-group;
+                            }
+
+                            .divTableCell, .divTableHead {
+                                display: table-cell;
+                            }
+
+                            .divTableHeading {
+                                display: table-header-group;
+                            }
+
+                            .divTableFoot {
+                                display: table-footer-group;
+                            }
+
+                            .divTableBody {
+                                display: table-row-group;
+                            }
+
+                            .select-style {
+                                text-align: center;
+                                border: 1px solid #ccc;
+                                width: 220px;
+                                border-radius: 3px;
+                                overflow: hidden;
+                                background: #fafafa url("img/icon-select.png") no-repeat 90% 50%;
+                            }
+
+                                .select-style select {
+                                    padding: 5px 8px;
+                                    width: 130%;
+                                    border: 1px solid;
+                                    box-shadow: none;
+                                    background: transparent;
+                                    background-image: none;
+                                    -webkit-appearance: none;
+                                }
+
+                                .select-style input {
+                                    padding: 5px 8px;
+                                    width: 130%;
+                                    higth: 130%;
+                                    box-shadow: none;
+                                    background: transparent;
+                                    background-image: none;
+                                    -webkit-appearance: none;
+                                }
+
+                                .select-style select:focus {
+                                    outline: none;
+                                }
+
+                            .myButton {
+                                background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #77b55a), color-stop(1, #72b352));
+                                background: -moz-linear-gradient(top, #77b55a 5%, #72b352 100%);
+                                background: -webkit-linear-gradient(top, #77b55a 5%, #72b352 100%);
+                                background: -o-linear-gradient(top, #77b55a 5%, #72b352 100%);
+                                background: -ms-linear-gradient(top, #77b55a 5%, #72b352 100%);
+                                background: linear-gradient(to bottom, #77b55a 5%, #72b352 100%);
+                                filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#77b55a', endColorstr='#72b352',GradientType=0);
+                                background-color: #77b55a;
+                                -moz-border-radius: 6px;
+                                -webkit-border-radius: 6px;
+                                border-radius: 6px;
+                                border: 1px solid #4b8f29;
+                                display: inline-block;
+                                cursor: pointer;
+                                color: #ffffff;
+                                font-family: Arial;
+                                font-size: 13px;
+                                font-weight: bold;
+                                padding: 11px 40px;
+                                text-decoration: none;
+                            }
+
+                                .myButton:hover {
+                                    background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #72b352), color-stop(1, #77b55a));
+                                    background: -moz-linear-gradient(top, #72b352 5%, #77b55a 100%);
+                                    background: -webkit-linear-gradient(top, #72b352 5%, #77b55a 100%);
+                                    background: -o-linear-gradient(top, #72b352 5%, #77b55a 100%);
+                                    background: -ms-linear-gradient(top, #72b352 5%, #77b55a 100%);
+                                    background: linear-gradient(to bottom, #72b352 5%, #77b55a 100%);
+                                    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#72b352', endColorstr='#77b55a',GradientType=0);
+                                    background-color: #72b352;
+                                }
+
+                                .myButton:active {
+                                    position: relative;
+                                    top: 1px;
+                                }
+                        </style>
+                        <form id="form1" method="post" action="/Fi/KKPay">
+                            <div class="divTable blueTable">
+                                <div class="divTableBody">
+                                    <div class="divTableRow">
+                                        <div class="divTableCell">Tutar</div><div class="divTableCell">
+                                            <div class="select-style">
+                                                <div class="money">
+                                                    <input type="text" name="Tutar" id="Tutar" class="numberOnly" autocomplete="off" value="0">
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="divTableRow">
+                                        <div class="divTableCell">Taksit</div>
+                                        <div class="divTableCell">
+                                            <div class="select-style">
+                                                <select name="Taksit">
+                                                    <option value=''>Tek Çekim</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="blueTable outerTableFooter">
+                                <br />
+                                <div class="tableFootStyle">
+                                    <div class="links">
+                                        <button class="myButton" id="myButtonx" type="button"><span>Devam Et</span></button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <script type="text/javascript">
+                            function ValidateMoney(value) {
+                                //var value= $("#field1").val();
+                                var regex = /^[1-9]\d*(((,\d{3}){1})?(\.\d{0,2})?)$/;
+                                if (regex.test(value)) {
+                                    //Input is valid, check the number of decimal places
+                                    var twoDecimalPlaces = /\.\d{2}$/g;
+                                    var oneDecimalPlace = /\.\d{1}$/g;
+                                    var noDecimalPlacesWithDecimal = /\.\d{0}$/g;
+
+                                    if (value.match(twoDecimalPlaces)) {
+                                        //all good, return as is
+                                        return value;
+                                    }
+                                    if (value.match(noDecimalPlacesWithDecimal)) {
+                                        //add two decimal places
+                                        return value + '00';
+                                    }
+                                    if (value.match(oneDecimalPlace)) {
+                                        //ad one decimal place
+                                        return value + '0';
+                                    }
+                                    //else there is no decimal places and no decimal
+                                    return value + ".00";
+                                }
+                                return null;
+                            };
+                            /*Bankaya Git*/
+                            $('#myButtonx').click(function () {
+                                var a = ValidateMoney($("#Tutar").val());
+                                //alert("a="+a);
+                                var b = "";
+                                if (a == undefined) {
+                                    b = $("#Tutar").val();
+                                    b = b.replace(".", "x");
+                                    b = b.replace(",", ".");
+                                    b = b.replace("x", ",");
+                                //alert("b=" + b);
+                                a = ValidateMoney(b);
+                                }
+                                //alert("a=" + a);
+
+                                if (a == undefined) alert("Rakam uygun değil. Sadece ondalık kısmı nokta işareti ile ayırınız");
+                                else {
+                                    $("#Tutar").val(a);
+                                    document.forms["form1"].submit();
+                                }
+                            });
+
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<hr />
+<br />
+
+
+
+
+
+<script type="text/javascript">
+    /*Ödemeye Git*/
+    function GosterGizle() {
+        var table = $('#example').DataTable();
+        if (table.rows('.selected').data().length > 0) {
+
+            var toplam = 0;
+            for (var i = 0; i < table.rows('.selected').data().length; i++) {
+                var a = $('#example tr.selected').eq(i).data('tutar');
+                a = a.replace(",", ".");
+                toplam += parseFloat(a);
+            }
+            $("#testf").html(formatTL(toplam))
+            $('#Tutar').val(formatMoney(toplam));
+            $('#KKPay').show();
+        } else {
+            $("#result").html("<font color=\"red\">Tutar SIFIR olamaz</font>");
+        }
+    }
+
+    function formatTL(num) {
+        var p = num.toFixed(2).split(".");
+        return p[0].split("").reverse().reduce(function (acc, num, i, orig) {
+            return num == "-" ? acc : num + (i && !(i % 3) ? "," : "") + acc;
+        }, "") + "." + p[1] + " TL";
+    }
+
+    function formatMoney(num) {
+        var p = num.toFixed(2).split(".");
+        return p[0].split("").reverse().reduce(function (acc, num, i, orig) {
+            return num == "-" ? acc : num + (i && !(i % 3) ? "," : "") + acc;
+        }, "") + "." + p[1];
+    }
+
+
+
+    $(document).ready(function () {
+        $('#example').DataTable({
+            "language": {
+                "select": {
+                    "rows": "%d kayıt seçildi."
+                },
+                "paginate": {
+                    "next": "Sonraki",
+                    "previous": "Önceki"
+                },
+                "search": "Filtrele:",
+                "lengthMenu": "Sayfada _MENU_ kayıtlar gösteriliyor",
+                "zeroRecords": "Kayıt Yok",
+                "info": "Sayfa _PAGE_ / _PAGES_",
+                "infoEmpty": "Uygun Kayıt Yok",
+                "infoFiltered": "(_MAX_ kayıt filtrelendi.)",
+            },
+            "pageLength": 10,
+            "bSort": false,
+            columnDefs: [{
+                orderable: false,
+                className: 'select-checkbox',
+                targets: 0
+            }],
+            select: {
+                style: 'os',
+                selector: 'td:first-child'
+            }
+        });
+        var events = $('#events');
+        var table = $('#example').DataTable();
+        table.on('select', function (e, dt, type, indexes) {
+            var toplam = 0;
+            for (var i = 0; i < table.rows('.selected').data().length; i++) {
+                var a = $('#example tr.selected').eq(i).data('tutar');
+                a= a.replace(",", ".");
+                toplam += parseFloat(a);
+            }
+            $("#testf").html(formatTL(toplam))
+            $("#result").html("");
+
+        }).on('deselect', function (e, dt, type, indexes) {
+            var toplam = 0;
+            for (var i = 0; i < table.rows('.selected').data().length; i++) {
+                var a = $('#example tr.selected').eq(i).data('tutar');
+                a = a.replace(",", ".");
+                toplam += parseFloat(a);
+            }
+            $("#testf").html(formatTL(toplam))
+            $("#result").html("");
+        });
+    });
+
+    $('#button').click(function () {
+        var table = $('#example').DataTable();
+        if (table.rows('.selected').data().length > 0) {
+            var toplam = 0;
+            var Faturalar = [];
+            var RowId = [];
+            for (var i = 0; i < table.rows('.selected').data().length; i++) {
+                //alert("Satir: " + $('#example tr.selected').eq(0).data('id') + " Td -> Name: " + table.rows('.selected').data()[i][1]);
+                toplam += parseFloat($('#example tr.selected').eq(i).data('tutar'));
+                Faturalar[i] = {
+                    ID: parseInt($('#example tr.selected').eq(i).data('id')),
+                    TUTAR: parseFloat($('#example tr.selected').eq(i).data('tutar'))
+                }
+            }
+            var Fatura =
+                {
+                    ID: 0,
+                    TUTAR: toplam
+                }
+            $.ajax({
+                type: "POST",
+                url: "/Fi/KKPayForm",
+                datatype: "json",
+                data: JSON.stringify(Fatura),
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {//Eğer ajax post işlemi başarılı ise çalışacak fonksiyonumuz. function(data) kısmında ise data dönen değerimiz oluyor.
+                    //Controller dan sonuçlar döndü. Şimdi işleme devam ediyoruz.
+                    $("#KKPay").html(data);//Dönen değeri ekrana yazdırdık.
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    $("#result").html("<font color=\"red\">Beklenmedik bir hata oluştu.</font> <br/> Hata:" + thrownError);//Dönen değeri ekrana yazdırdık.
+                }
+            });
+        }
+        else {
+            $("#result").html("<font color=\"red\">Tutar SIFIR olamaz</font>");
+        }
+    });
+
+</script>
+@if (Model.ROWS != null)
+{
+    <table id="example" class="display" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>Seç</th>
+                <th>Tarih</th>
+                <th>Tutar</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.ROWS)
+            {
+                <tr data-id="@item.ID" data-tutar="@item.TOTALPRICE">
+                    <td></td>
+                    <td>@item.DATE.ToString("dd.MM.yyyy")</td>
+                    <td>@item.TOTALPRICE.ToString("#,##0.00")</td>
+                </tr>
+            }
+        </tbody>
+    </table>}
+else
+{
+    <ul>
+        @foreach (var item in Model.NOTES)
+        {
+            <li>@item.NOTE</li>
+        }
+    </ul>
+}
+
+
+<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/select/1.2.4/js/dataTables.select.min.js"></script>
+<script src="/Administration/Scripts/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js" type="text/javascript"></script>

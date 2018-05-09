@@ -1,0 +1,76 @@
+﻿@model Nop.Plugin.Peraport.WidgetFinancial.Models.ShipTrackingModel
+@using Nop.Web.Framework;
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.4.2/css/buttons.dataTables.min.css">
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.4.2/js/dataTables.buttons.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable({
+            "language": {
+                "paginate": {
+                    "next": "Sonraki",
+                    "previous": "Önceki"
+                },
+                "search": "Filtrele:",
+                "lengthMenu": "Sayfada _MENU_ kayıtlar gösteriliyor",
+                "zeroRecords": "Kayıt Yok",
+                "info": "Sayfa _PAGE_ / _PAGES_",
+                "infoEmpty": "Uygun Kayıt Yok",
+                "infoFiltered": "(_MAX_ kayıt filtrelendi.)"
+            },
+            "pageLength": 10,
+            "bSort": false
+        });
+    });
+</script>
+<br>
+@if (Model != null)
+{
+    <span>Sipariş No :</span> @Model.OrderId
+    <br />
+    <span>Sipariş Tarihi :</span> @Model.OrderDate
+    <br />
+    <span>Göndere :</span> @Model.SenderName
+    <br />
+    <span>Alıcı :</span> @Model.CustomerName
+    <br />
+    <span>Teslim Alan :</span> @Model.CustomerHandleName
+    <br />
+    <span>Teslim Tarihi :</span> @Model.CustomerHandleDate
+    <br />
+
+    <table id="example" class="display" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>
+                    Şube
+                </th>
+                <th>
+                    Tarih
+                </th>
+                <th>
+                    Açıklama
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Rows)
+            {
+                <tr>
+                    <td>
+                        @item.CargoBranch
+                    </td>
+                    <td>
+                        @item.CargoMovementDate
+                    </td>
+                    <td align="right">
+                        @item.CargoMovementNote
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+<br>

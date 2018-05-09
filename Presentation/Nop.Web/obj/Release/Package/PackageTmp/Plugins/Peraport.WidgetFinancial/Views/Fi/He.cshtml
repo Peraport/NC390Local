@@ -1,0 +1,97 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_PeraLayout.cshtml";
+}
+@section left
+{
+    @Html.Action("PeraLeftMenu", "Fi")
+}
+
+
+@using (Html.BeginForm())
+            {
+    @Html.ValidationSummary(true)
+
+    <div class="page account-page change-password-page">
+        <div class="page-title">
+            <h1>Hesap Ekstresi</h1>
+        </div>
+        <div class="page-body">
+            <div class="fieldset" style="margin-bottom:0px;">
+                <div class="form-fields" style="margin-bottom:0px;">
+                    <div class="inputs">
+                        <label for="OldPassword">Seçiniz:</label>
+                        <select id="OrderType" name="OrderType" style="width:200px">
+                            @if (ViewBag.OrderType == 1)
+                            {
+                                <option value="1" selected>Tümünü Göster</option>
+                            }
+                            else
+                            {
+                                <option value="1">Tümünü Göster</option>
+                            }
+                            @if (ViewBag.OrderType == 2)
+                            {
+                                <option value="2" selected>Borçları Göster</option>
+                            }
+                            else
+                            {
+                                <option value="2">Borçları Göster</option>
+                            }
+                            @if (ViewBag.OrderType == 3)
+                            {
+                                <option value="3" selected>Alacakları Göster</option>
+                            }
+                            else
+                            {
+                                <option value="3">Alacakları Göster</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="inputs">
+                        <label for="StartDate">Başlangıç Tarihi:</label>
+                        <input id="StartDate" name="StartDate" type="date" value="@ViewBag.StartDate" class="fieldset" style="width:inherit; text-align:right; height:40px; width:200px; font-size:12px; margin-bottom:0px; " />
+                    </div>
+                    <div class="inputs">
+                        <label for="EndDate">Bitiş Tarihi:</label>
+                        <input id="EndDate" name="EndDate" type="date" value="@ViewBag.EndDate" class="fieldset" style="width:inherit; text-align:right; height:40px; width:200px; font-size:12px; margin-bottom:0px;" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="buttons" style="margin-top:0px; padding:5px 1px 1px 1px;">
+                <input type="button" class="button-1 change-password-button" id="filtrele_button" value="Filtrele" style="margin-top:0px;" />
+            </div>
+        </div>
+    </div>
+}
+
+<hr>
+
+<div id="searchResults" style="margin-top:5px; padding:4px 4px 4px 4px;">
+    @Html.Action("HePartial", "Fi", new { OrderType = ViewBag.OrderType, StartDate= ViewBag.StartDate, EndDate=ViewBag.EndDate })
+</div>
+
+<script type="text/javascript">
+
+    //$('select').on('change', function () {
+    //    getSearchResults($('#StartDate').val(), $('#EndDate').val(), $('#OrderType').val());
+    //})
+
+    $("#filtrele_button").click(function () {
+
+        getSearchResults($('#StartDate').val(), $('#EndDate').val(), $('#OrderType').val());
+    });
+    function getSearchResults(sd, ed, ot) {
+        var tdata = { StartDate: sd, EndDate: ed, OrderType: ot };
+        // or your data in the format that will be used ??
+        $.ajax({
+            type: "POST",
+            data: tdata,
+            url: '/Fi/HePartial/',
+            success: function (result) {
+                $("#searchResults").html(result);
+            }
+        });
+    }
+</script>

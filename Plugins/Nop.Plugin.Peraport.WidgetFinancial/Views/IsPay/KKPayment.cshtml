@@ -1,0 +1,204 @@
+﻿@{
+    Layout = "~/Views/Shared/_PeraLayout.cshtml";
+}
+@section left
+{
+    @Html.Action("PeraLeftMenu", "Fi")
+}
+<style>
+    div.blueTable {
+        background-color: #EEEEEE;
+        width: 100%;
+        text-align: center;
+        border-collapse: collapse;
+    }
+
+    .divTable.blueTable .divTableCell, .divTable.blueTable .divTableHead {
+        padding: 3px 2px;
+    }
+
+    .blueTable .tableFootStyle {
+        font-weight: bold;
+        color: #FFFFFF;
+        background: #DCDEE0;
+    }
+
+        .blueTable .tableFootStyle .links {
+            text-align: right;
+        }
+
+            .blueTable .tableFootStyle .links a {
+                display: inline-block;
+                background: #1C6EA4;
+                color: #FFFFFF;
+                padding: 2px 8px;
+                border-radius: 5px;
+            }
+
+    .blueTable.outerTableFooter {
+        border-top: none;
+    }
+
+        .blueTable.outerTableFooter .tableFootStyle {
+            padding: 3px 5px;
+        }
+
+    .divTable {
+        display: table;
+    }
+
+    .divTableRow {
+        display: table-row;
+    }
+
+    .divTableHeading {
+        display: table-header-group;
+    }
+
+    .divTableCell, .divTableHead {
+        display: table-cell;
+    }
+
+    .divTableHeading {
+        display: table-header-group;
+    }
+
+    .divTableFoot {
+        display: table-footer-group;
+    }
+
+    .divTableBody {
+        display: table-row-group;
+    }
+
+    .select-style {
+        text-align: center;
+        border: 1px solid #ccc;
+        width: 220px;
+        border-radius: 3px;
+        overflow: hidden;
+        background: #fafafa url("img/icon-select.png") no-repeat 90% 50%;
+    }
+
+        .select-style select {
+            padding: 5px 8px;
+            width: 130%;
+            border: 1px solid;
+            box-shadow: none;
+            background: transparent;
+            background-image: none;
+            -webkit-appearance: none;
+        }
+
+        .select-style input {
+            padding: 5px 8px;
+            width: 130%;
+            higth: 130%;
+            box-shadow: none;
+            background: transparent;
+            background-image: none;
+            -webkit-appearance: none;
+        }
+
+        .select-style select:focus {
+            outline: none;
+        }
+
+    .myButton {
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #77b55a), color-stop(1, #72b352));
+        background: -moz-linear-gradient(top, #77b55a 5%, #72b352 100%);
+        background: -webkit-linear-gradient(top, #77b55a 5%, #72b352 100%);
+        background: -o-linear-gradient(top, #77b55a 5%, #72b352 100%);
+        background: -ms-linear-gradient(top, #77b55a 5%, #72b352 100%);
+        background: linear-gradient(to bottom, #77b55a 5%, #72b352 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#77b55a', endColorstr='#72b352',GradientType=0);
+        background-color: #77b55a;
+        -moz-border-radius: 6px;
+        -webkit-border-radius: 6px;
+        border-radius: 6px;
+        border: 1px solid #4b8f29;
+        display: inline-block;
+        cursor: pointer;
+        color: #ffffff;
+        font-family: Arial;
+        font-size: 13px;
+        font-weight: bold;
+        padding: 11px 40px;
+        text-decoration: none;
+    }
+
+        .myButton:hover {
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #72b352), color-stop(1, #77b55a));
+            background: -moz-linear-gradient(top, #72b352 5%, #77b55a 100%);
+            background: -webkit-linear-gradient(top, #72b352 5%, #77b55a 100%);
+            background: -o-linear-gradient(top, #72b352 5%, #77b55a 100%);
+            background: -ms-linear-gradient(top, #72b352 5%, #77b55a 100%);
+            background: linear-gradient(to bottom, #72b352 5%, #77b55a 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#72b352', endColorstr='#77b55a',GradientType=0);
+            background-color: #72b352;
+        }
+
+        .myButton:active {
+            position: relative;
+            top: 1px;
+        }
+</style>
+<script>
+    function validateForm() {
+        var a = $("#textinput").val();
+        if (a != "" && a != 0) { return true; } else {
+            if (a == "0")
+                alert("Tutar 0 -sıfır- olamaz!");
+                else
+            alert("Rakam uygun değil. Sadece ondalık kısmı nokta işareti ile ayırınız.");
+            return false;
+        }
+    }
+</script>
+<form id="form1" method="post" onsubmit="return validateForm()">
+
+    <div class="page-body">
+        <div class="customer-blocks">
+            <br>
+            <div class="divTable blueTable">
+                <div class="divTableBody">
+                    <div class="divTableRow">
+                        <div class="divTableCell">Tutar</div><div class="divTableCell">
+                            <div class="select-style">
+                                <input id="textinput" type="number" required name="Tutar" min="0" value="0" title="Currency"
+                                       pattern="^\d+(?:\.\d{1,2})?$"
+                                       onblur="this.style.backgroundColor=/^\d+(?:\.\d{1,2})?$/.test(this.value)?'inherit':'pink'">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="divTableRow">
+                        <div class="divTableCell">Taksit</div>
+                        <div class="divTableCell">
+                            <div class="select-style">
+                                <select name="Taksit">
+                                    <option value=''>Tek Çekim</option>
+                                    @*<option value='2'>2 Taksit</option>
+                                        <option value='3'>3 Taksit</option>
+                                        <option value='6'>6 Taksit</option>*@
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="blueTable outerTableFooter">
+                <br />
+                <div class="tableFootStyle">
+                    <div class="links">
+                        @*<button class=myButton type="submit"><span>Devam Et</span></button>*@
+                        <button class="myButton" id="DevamEtx">Devam Et</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</form>

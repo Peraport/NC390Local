@@ -1,0 +1,9 @@
+﻿Group: _Peraport
+FriendlyName: Cari Hesap ile Ödeme
+SystemName: Nop.Plugin.Peraport.PerapayLimit
+Version: 1.00
+SupportedVersions: 3.90
+Author: Peraport Team
+DisplayOrder: 1
+FileName: Nop.Plugin.Peraport.PerapayLimit.dll
+Description: Müşteri Limitinden Ödeme Yapılır

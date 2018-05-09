@@ -1,0 +1,11 @@
+C:\works\NC390Local\Presentation\Nop.Web\Plugins\Widgets.LiveSupportiChat\Description.txt
+C:\works\NC390Local\Presentation\Nop.Web\Plugins\Widgets.LiveSupportiChat\web.config
+C:\works\NC390Local\Presentation\Nop.Web\Plugins\Widgets.LiveSupportiChat\Views\WidgetsLiveSupportiChat\Configure.cshtml
+C:\works\NC390Local\Presentation\Nop.Web\Plugins\Widgets.LiveSupportiChat\Views\WidgetsLiveSupportiChat\PublicInfo.cshtml
+C:\works\NC390Local\Presentation\Nop.Web\Plugins\Widgets.LiveSupportiChat\logo.jpg
+C:\works\NC390Local\Presentation\Nop.Web\Plugins\Widgets.LiveSupportiChat\Nop.Plugin.Widgets.LiveSupportiChat.dll.config
+C:\works\NC390Local\Presentation\Nop.Web\Plugins\Widgets.LiveSupportiChat\Nop.Plugin.Widgets.LiveSupportiChat.dll
+C:\works\NC390Local\Presentation\Nop.Web\Plugins\Widgets.LiveSupportiChat\Nop.Plugin.Widgets.LiveSupportiChat.pdb
+C:\works\NC390Local\Plugins\Nop.Plugin.Widgets.LiveSupportiChat\obj\Debug\Nop.Plugin.Widgets.LiveSupportiChat.csprojResolveAssemblyReference.cache
+C:\works\NC390Local\Plugins\Nop.Plugin.Widgets.LiveSupportiChat\obj\Debug\Nop.Plugin.Widgets.LiveSupportiChat.dll
+C:\works\NC390Local\Plugins\Nop.Plugin.Widgets.LiveSupportiChat\obj\Debug\Nop.Plugin.Widgets.LiveSupportiChat.pdb

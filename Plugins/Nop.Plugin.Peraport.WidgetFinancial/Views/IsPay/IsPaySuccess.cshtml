@@ -1,0 +1,12 @@
+﻿@{
+    Layout = "~/Views/Shared/_PeraLayout.cshtml";
+}
+@section left
+{
+    @Html.Action("PeraLeftMenu", "Fi")
+}
+<br /><br />
+
+<h1><font color="green">İŞLEM BAŞARILI...</font></h1><br>
+
+@ViewBag.MaskedPan Numaralı karttan çekim işlemi yapılmıştır.

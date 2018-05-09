@@ -1,0 +1,94 @@
+﻿@using Nop.Plugin.Peraport.WidgetFinancial.Models;
+@model FiReportModel
+@using Nop.Web.Framework;
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.4.2/css/buttons.dataTables.min.css">
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.4.2/js/dataTables.buttons.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable({
+            "language": {
+                "paginate": {
+                    "next": "Sonraki",
+                    "previous": "Önceki"
+                },
+                "search": "Filtrele:",
+                "lengthMenu": "Sayfada _MENU_ kayıtlar gösteriliyor",
+                "zeroRecords": "Kayıt Yok",
+                "info": "Sayfa _PAGE_ / _PAGES_",
+                "infoEmpty": "Uygun Kayıt Yok",
+                "infoFiltered": "(_MAX_ kayıt filtrelendi.)"
+            },
+            "pageLength": 10,
+            "bSort": false
+        });
+    });
+</script>
+<br>
+<table id="example" class="display" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+            <th>
+                Tarih
+            </th>
+            <th>
+                Açıklama
+            </th>
+            <th>
+                Borç
+            </th>
+            <th>
+                Alacak
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            decimal tborc = 0;
+            decimal talacak = 0;
+        }
+        @foreach (var item in Model.Rows)
+        {
+
+            decimal borc = 0;
+            decimal alacak = 0;
+            string tarih = item.DATE.ToString("dd.MM.yyyy");
+            if (item.SIGN == 0) { borc = item.AMOUNT; } else { alacak = item.AMOUNT; }
+            tborc += borc;
+            talacak += alacak;
+            <tr>
+                <td>
+                    @tarih
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NAME)
+                </td>
+                <td align="right">
+                    @borc.ToString("#,##0.00")
+                </td>
+                <td align="right">
+                    @alacak.ToString("#,##0.00")
+                </td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <th>
+                Tarih
+            </th>
+            <th>
+                Açıklama
+            </th>
+            <th>
+                @tborc.ToString("#,##0.00")
+            </th>
+            <th>
+                @talacak.ToString("#,##0.00")
+            </th>
+        </tr>
+    </tfoot>
+</table>
+<br>

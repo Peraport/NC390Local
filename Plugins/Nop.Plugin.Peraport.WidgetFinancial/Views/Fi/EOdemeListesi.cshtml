@@ -1,0 +1,13 @@
+﻿@using Nop.Plugin.Peraport.WidgetFinancial.Models;
+@model IEnumerable<FiReportModel>
+@using Nop.Web.Framework;
+
+@{
+    Layout = "~/Views/Shared/_PeraLayout.cshtml";
+}
+@section left
+{
+    @Html.Action("PeraLeftMenu", "Fi")
+}
+
+<h3>Ödeme Listesi</h3>

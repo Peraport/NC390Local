@@ -1,0 +1,30 @@
+﻿
+@{
+    Layout = "~/Administration/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h3>Ürün Senkronizasyonu Ana Sayfa</h3>
+<br>
+
+@using (Html.BeginForm("IndexPost", "PPProduct", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="page-body">
+        <div class="fieldset" style="margin-bottom:0px;">
+            <div class="form-fields" style="margin-bottom:0px;">
+                <div class="inputs">
+                    <input type="file" name="excelFile" id="excelFile" />
+                    @*<input type="file" id="FileUpload" name="FileUpload" required data-val="true" data-val-required="please select a file" />*@
+                    <br />
+                    @*<input id="run_button" type="button" value="Ürün Listesini Getir" name="save-info-button" class="k-button save-customer-info-button" />*@
+                    <input id="btnUpload" name="btnUpload" type="submit" value="Güncelle" class="k-button save-customer-info-button" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+@if (ViewBag.Test != null)
+{
+    <span>@ViewBag.Test</span>
+}

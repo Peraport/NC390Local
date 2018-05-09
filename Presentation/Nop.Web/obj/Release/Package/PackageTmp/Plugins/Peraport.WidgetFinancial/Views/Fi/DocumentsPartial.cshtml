@@ -1,0 +1,195 @@
+﻿@using Nop.Web.Framework;
+@model Nop.Web.PPService.FinanceReportModel
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.4.2/css/buttons.dataTables.min.css">
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.4.2/js/dataTables.buttons.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable({
+            "language": {
+                "paginate": {
+                    "next": "Sonraki",
+                    "previous": "Önceki"
+                },
+                "search": "Filtrele:",
+                "lengthMenu": "Sayfada _MENU_ kayıtlar gösteriliyor",
+                "zeroRecords": "Kayıt Yok",
+                "info": "Sayfa _PAGE_ / _PAGES_",
+                "infoEmpty": "Uygun Kayıt Yok",
+                "infoFiltered": "(_MAX_ kayıt filtrelendi.)"
+            },
+            "pageLength": 10,
+            "bSort": false
+        });
+    });
+</script>
+
+<style>
+    .accordion {
+        background-color: #eee;
+        color: #444;
+        cursor: pointer;
+        padding: 5px;
+        width: 100%;
+        border: none;
+        text-align: left;
+        outline: none;
+        font-size: 15px;
+        transition: 0.4s;
+    }
+
+        .active, .accordion:hover {
+            background-color: #eee;
+        }
+
+        .accordion:after {
+            color: #777;
+            font-weight: bold;
+            float: right;
+            margin-left: 5px;
+        }
+
+    .active:after {
+    }
+
+    .panel {
+        padding: 0 18px;
+        background-color: #eee;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.2s ease-out;
+    }
+</style>
+
+
+@if (Model.RCODE == "OK")
+{
+    <table id="example" class="display" cellspacing="0" width="100%" style="padding:0px;">
+        <thead>
+            <tr>
+                <th style="border:0px">
+                    <table width="100%" style="padding:0px;">
+                        <tr>
+                            <th style="text-align:left; border:none;" width="15%">
+                                Fatura Tarihi
+                            </th>
+                            <th style="text-align:left; border:none;" width="15%">
+                                Vade Tarihi
+                            </th>
+                            <th style="text-align:right;border:none;" width="40%">
+                                Tutar
+                            </th>
+                            <th style="text-align:right;border:none;" width="15%">
+                                Kdv
+                            </th>
+                            <th style="text-align:right;border:none;" width="14%">
+                                Toplam
+                            </th>
+                            <th style="text-align:right;border:none;" width="1%">
+
+                            </th>
+                        </tr>
+                    </table>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.ROWS.Count() > 0)
+            {
+                foreach (var item in Model.ROWS)
+                {
+                    <tr>
+                        <td>
+                            <div class="accordion">
+                                <table>
+                                    <tr>
+                                        <td width="15%" style="background-color: #eee;">
+                                            @item.DATE.ToString("dd.MM.yyyy")
+                                        </td>
+                                        <td width="15%" style="background-color: #eee;">
+                                            @item.PAYMENTDATE.ToString("dd.MM.yyyy")
+
+                                            @if (item.STATE == "D")
+                                            { @("Gecikti!");
+                                            }
+                                        </td>
+                                        <td align="right" width="40%" style="background-color: #eee;">
+                                            @item.PRICE.ToString("#,##0.00")
+                                        </td>
+                                        <td align="right" width="15%" style="background-color: #eee;">
+                                            @item.TAXPRICE.ToString("#,##0.00")
+                                        </td>
+                                        <td align="right" width="15%" style="background-color: #eee;">
+                                            @item.TOTALPRICE.ToString("#,##0.00")
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </div>
+                            <div class="panel">
+                                @if (item.ROWS.Count() > 0)
+                                {
+                                    <table cellspacing="0" cellpadding="0" style="border-bottom:outset">
+                                        @foreach (var itemx in item.ROWS)
+                                        {
+                                            <tr>
+                                                <td width="40%">
+                                                    @itemx.PRODUCT_NAME
+                                                </td>
+                                                <td align="right" width="10%">
+                                                    @itemx.UNITPRICE.ToString("#,##0.00")
+                                                </td>
+                                                <td align="right" width="5%">
+                                                    @itemx.QUANTITY
+                                                </td>
+                                                <td align="right" width="15%">
+                                                    @itemx.PRICE.ToString("#,##0.00")
+                                                </td>
+                                                <td align="right" width="15%">
+                                                    @itemx.TAXPRICE.ToString("#,##0.00")
+                                                </td>
+                                                <td align="right" width="15%">
+                                                    @itemx.TOTALPRICE.ToString("#,##0.00")
+                                                </td>
+                                            </tr>
+                                        }
+                                    </table>
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                @*<span>Fatura Bulunamadı.</span>*@
+            }
+        </tbody>
+    </table>
+
+}
+else
+{
+    <span style="font-size:14px;">Hata Oluştu.</span>
+    <br />
+    <span>@Model.RNOTE</span>
+}
+
+<script>
+    var acc = document.getElementsByClassName("accordion");
+    var i;
+
+    for (i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function () {
+            this.classList.toggle("active");
+            var panel = this.nextElementSibling;
+            if (panel.style.maxHeight) {
+                panel.style.maxHeight = null;
+            } else {
+                panel.style.maxHeight = panel.scrollHeight + "px";
+            }
+        });
+    }
+</script>

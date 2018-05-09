@@ -1,0 +1,80 @@
+﻿@{
+    Layout = "~/Views/Shared/_PeraLayout.cshtml";
+}
+@section left
+{
+    @Html.Action("PeraLeftMenu", "Fi")
+}
+<link href="~/Content/mcw5.css" rel="stylesheet" />
+<div>
+    <br>
+    <div class="page account-page customer-info-page">
+        <div>
+            <h1>Kredi Kartı Ödeme Sayfası</h1>
+        </div>
+        <br>
+        @Html.Action("HesapOzet", "Fi")
+
+        <br>
+        <div class="page-body">
+            <form method="post">
+                <div class="title">
+                    <strong>Kart Bilgileri</strong>
+                </div>
+                <div class="form-fields">
+                    <div class="inputs">
+                        <label for="cardnumber">Kart Numarası:</label>
+                        <input class="text-box single-line" data-val="true" data-val-required="Kart Numarası gerekli." id="cardnumber" name="cardnumber" type="text" value="" />
+                        <span class="required">*</span>
+                        <span class="field-validation-valid" data-valmsg-for="cardnumber" data-valmsg-replace="true"></span>
+                    </div>
+                    <div class="inputs">
+                        <label for="LastName">Adı Soyadı:</label>
+                        <input class="text-box single-line" data-val="true" data-val-required="Ad Soyadı gerekli." id="LastName" name="LastName" type="text" value="" />
+                        <span class="required">*</span>
+                        <span class="field-validation-valid" data-valmsg-for="LastName" data-valmsg-replace="true"></span>
+                    </div>
+                    <div class="inputs date-of-birth">
+                        <label>Son Kullanma Tarihi:</label>
+
+                        <select name="DateOfBirthMonth">
+                            <option value='0'>Ay</option>
+                            <option value='1'>Ocak</option>
+                            <option value='2'>Şubat</option>
+                            <option value='3'>Mart</option>
+                            <option value='4'>Nisan</option>
+                            <option value='5'>Mayıs</option>
+                            <option value='6'>Haziran</option>
+                            <option value='7'>Temmuz</option>
+                            <option value='8'>Ağustos</option>
+                            <option value='9'>Eylül</option>
+                            <option value='10'>Ekim</option>
+                            <option value='11'>Kasım</option>
+                            <option value='12'>Aralık</option>
+                        </select>
+
+                        <select name="DateOfBirthYear">
+                            <option value='2017'>2017</option>
+                            <option value='2018'>2018</option>
+                            <option value='2019'>2019</option>
+                            <option value='2020'>2020</option>
+                            <option value='2021'>2021</option>
+                            <option value='2022'>2022</option>
+                        </select>
+                        <span class="field-validation-valid" data-valmsg-for="DateOfBirthMonth" data-valmsg-replace="true"></span>
+                        <span class="field-validation-valid" data-valmsg-for="DateOfBirthYear" data-valmsg-replace="true"></span>
+                    </div>
+                    <div class="inputs">
+                        <label for="kod">Doğrulama Kodu:</label>
+                        <input class="text-box single-line" data-val="true" data-val-email="Yanlış doğrulama kodu" data-val-required="Email gereklidir." id="Email" name="Email" type="text" value="" />
+                        <span class="required">*</span>
+                        <span class="field-validation-valid" data-valmsg-for="Email" data-valmsg-replace="true"></span>
+                    </div>
+                </div>
+                <div class="buttons">
+                    <input type="submit" value="Ödeme Yap" name="save-info-button" class="button-1 save-customer-info-button" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

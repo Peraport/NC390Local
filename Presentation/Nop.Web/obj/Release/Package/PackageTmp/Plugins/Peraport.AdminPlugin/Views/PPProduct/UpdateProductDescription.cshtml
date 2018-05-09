@@ -1,0 +1,63 @@
+﻿
+@{
+    Layout = "~/Administration/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h3>Ürün Ürün Açıklamalarını Güncelle</h3>
+<br>
+@*@if (ViewBag.Result != null)
+    {
+        foreach (var itemx in ViewBag.Result.LOGS)
+        {
+            <span>@itemx</span>
+            <br>
+        }
+    }*@
+@using (Html.BeginForm("UpdateProductDescription", "PPProduct", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="page-body">
+        <div class="fieldset" style="margin-left:10px;margin-bottom:0px;">
+            <div class="form-fields" style="margin-bottom:0px;">
+                <div class="inputs">
+                    <input type="file" name="excelFile" id="excelFile" />
+                    @*<input type="file" id="FileUpload" name="FileUpload" required data-val="true" data-val-required="please select a file" />*@
+                    <br />
+                    @*<input id="run_button" type="button" value="Ürün Listesini Getir" name="save-info-button" class="k-button save-customer-info-button" />*@
+                    <input id="btnUpload" name="btnUpload" type="submit" value="Güncelle" class="k-button save-customer-info-button" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+<div id="searchResults" style="margin-top:5px;margin-left:10px; padding:4px 4px 4px 4px;">
+    @if (ViewBag.ListDetay != null)
+    {
+        <h2>İşlem Gerçekleştirilmiştir. </h2>
+        <table border="0" width="100%" style="padding:5px">
+            <tr>
+                <th>Code</th>
+                <th>Description</th>
+                <th>Log</th>
+            </tr>
+            @foreach (var item in ViewBag.ListDetay)
+            {
+                string ack = item.NOTE;
+                ack = ack.Length > 20 ? ack.Substring(0, 20) : ack.Substring(0, ack.Length - 1);
+                <tr>
+                    <td>@item.NAME</td>
+                    <td>@ack</td>
+                    <td>
+                        @if (item.LOGS != null)
+                        {
+                            <span>
+                                @item.LOGS[0]
+                            </span>
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+</div>

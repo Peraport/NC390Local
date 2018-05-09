@@ -1,0 +1,281 @@
+﻿@model LoginModel
+@using Nop.Web.Models.Customer;
+@using Nop.Core;
+@using Nop.Core.Infrastructure;
+@{
+    Layout = "~/Views/Shared/_ColumnsOneLogin.cshtml";
+
+    //title
+    Html.AddTitleParts(T("PageTitle.Login").Text);
+    //page class
+    Html.AppendPageCssClassParts("html-login-page");
+
+    //register URL with return URL (if specified)
+    var registerUrl = Url.RouteUrl("Register");
+    if (!String.IsNullOrEmpty(this.Context.Request.QueryString["returnUrl"]))
+    {
+        var webHelper = EngineContext.Current.Resolve<IWebHelper>();
+        registerUrl = webHelper.ModifyQueryString(registerUrl, "returnurl=" + HttpUtility.UrlEncode(this.Context.Request.QueryString["returnUrl"]), null);
+    }
+}
+<style>
+    /* jssor slider loading skin spin css */
+    .jssorl-009-spin img {
+        animation-name: jssorl-009-spin;
+        animation-duration: 1.6s;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+    }
+
+    @@keyframes jssorl-009-spin {
+        from {
+            transform: rotate(0deg);
+        }
+
+        to {
+            transform: rotate(360deg);
+        }
+    }
+</style>
+
+<div class="page login-page">
+    @*<div class="page-title">
+            <h1>@T("Account.Login.Welcome")</h1>
+        </div>*@
+    @Html.Partial("_ExternalAuthentication.AssociateMessage")
+    @Html.Partial("_ExternalAuthentication.Errors")
+    <link href="~/sld/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        /* jssor slider loading skin spin css */
+        .jssorl-009-spin img {
+            animation-name: jssorl-009-spin;
+            animation-duration: 1.6s;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+        }
+
+        @@keyframes jssorl-009-spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+
+
+    <div class="page-body">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="customer-blocksx" style="background-color:#f6f6f6; padding:inherit; word-spacing:inherit;">
+                        <div class="returning-wrapper fieldset">
+                            @using (Html.BeginForm())
+                            {
+                                var validationSummary = Html.ValidationSummary(true, T("Account.Login.Unsuccessful").Text);
+                            <div class="title">
+                                <strong>@T("Account.Login.ReturningCustomer")</strong>
+                            </div>
+                                if (!MvcHtmlString.IsNullOrEmpty(validationSummary))
+                                {
+                            <div class="message-error">@validationSummary</div>
+                                }
+                            <div class="form-fields">
+                                @if (Model.UsernamesEnabled)
+                                    {
+                                    <div class="inputs">
+                                        @Html.LabelFor(m => m.Username, new { }, "")
+                                        @Html.TextBoxFor(m => m.Username, new { @class = "username", autofocus = "autofocus" })
+                                        @Html.ValidationMessageFor(m => m.Username)
+                                    </div>
+                                    }
+                                    else
+                                    {
+                                    <div class="inputs">
+                                        @Html.LabelFor(m => m.Email, new { }, "")
+                                        @Html.TextBoxFor(m => m.Email, new { @class = "email", autofocus = "autofocus" })
+                                        @Html.ValidationMessageFor(m => m.Email)
+                                    </div>
+                                    }
+                                <div class="inputs">
+                                    @Html.LabelFor(m => m.Password, new { }, "")
+                                    @Html.PasswordFor(m => m.Password, new { @class = "password" })
+                                    @Html.ValidationMessageFor(m => m.Password)
+                                </div>
+                                <div class="inputs reversed">
+                                    @Html.CheckBoxFor(m => m.RememberMe)
+                                    @Html.LabelFor(m => m.RememberMe)
+                                    @*<span class="forgot-password">
+                                            @Html.RouteLink(T("Account.Login.ForgotPassword").Text, "PasswordRecovery")
+                                        </span>*@
+                                </div>
+                                @if (Model.DisplayCaptcha)
+                                    {
+                                    <div class="captcha-box">
+                                        @Html.Raw(Html.GenerateCaptcha())
+                                    </div>
+                                    }
+                            </div>
+                            <div class="buttons">
+                                <input class="button-1 login-button" type="submit" value="@T("Account.Login.LoginButton")" />
+                            </div>
+                            <br />
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-7" style="align-content:center; border:none;">
+                    <div id="slider1_container" style="visibility: hidden; position: relative; margin: 0 auto; width: 400px; height: 210px; overflow: hidden;">
+                        <!-- Loading Screen -->
+                        <div data-u="loading" class="jssorl-009-spin" style="position:absolute;top:0px;left:0px;width:100%;height:50%;text-align:center;background-color:rgba(0,0,0,0.7);">
+                            <img style="margin-top:-19px;position:relative;top:50%;width:38px;height:38px;" src="spin.svg" />
+                        </div>
+
+                        <!-- Slides Container -->
+                        <div data-u="slides" style="position: absolute; left: 0px; top: 0px; width: 400px; height: 210px; overflow: hidden;">
+                            <div>
+                                <img data-u="image" src="~/sld/04.jpg" />
+                            </div>
+                            <div>
+                                <img data-u="image" src="~/sld/05.jpg" />
+                            </div>
+                            <div>
+                                <img data-u="image" src="~/sld/06.jpg" />
+                            </div>
+                        </div>
+
+                        <!--#region Bullet Navigator Skin Begin -->
+                        <style>
+                            .jssorb031 {
+                                position: absolute;
+                            }
+
+                                .jssorb031 .i {
+                                    position: absolute;
+                                    cursor: pointer;
+                                }
+
+                                    .jssorb031 .i .b {
+                                        fill: #000;
+                                        fill-opacity: 0.5;
+                                        stroke: #fff;
+                                        stroke-width: 1200;
+                                        stroke-miterlimit: 10;
+                                        stroke-opacity: 0.3;
+                                    }
+
+                                    .jssorb031 .i:hover .b {
+                                        fill: #fff;
+                                        fill-opacity: .7;
+                                        stroke: #000;
+                                        stroke-opacity: .5;
+                                    }
+
+                                .jssorb031 .iav .b {
+                                    fill: #fff;
+                                    stroke: #000;
+                                    fill-opacity: 1;
+                                }
+
+                                .jssorb031 .i.idn {
+                                    opacity: .3;
+                                }
+                        </style>
+                        <div data-u="navigator" class="jssorb031" style="position: absolute; bottom: 12px; right: 12px;" data-autocenter="1" data-scale="0.5" data-scale-bottom="0.75">
+                            <div data-u="prototype" class="i" style="width:16px;height:16px;">
+                                <svg viewBox="0 0 16000 16000" style="position:absolute;top:0;left:0;width:100%;height:100%;">
+                                    <circle class="b" cx="8000" cy="8000" r="5800"></circle>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Jssor Slider End -->
+                </div>
+                <!-- Bootstrap core JavaScript
+                ================================================== -->
+                <!-- Placed at the end of the document so the pages load faster -->
+                <script src="~/sld/jquery-1.9.1.min.js"></script>
+                <script src="~/sld/bootstrap.min.js"></script>
+                <script src="~/sld/docs.min.js"></script>
+                <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+                <script src="~/sld/ie10-viewport-bug-workaround.js"></script>
+
+                <!-- jssor slider scripts-->
+                <script type="text/javascript" src="~/sld/jssor.slider.min.js"></script>
+                <script>
+                    jQuery(document).ready(function ($) {
+                        var options = {
+                            $AutoPlay: 1,                                       //[Optional] Auto play or not, to enable slideshow, this option must be set to greater than 0. Default value is 0. 0: no auto play, 1: continuously, 2: stop at last slide, 4: stop on click, 8: stop on user navigation (by arrow/bullet/thumbnail/drag/arrow key navigation)
+                            $AutoPlaySteps: 1,                                  //[Optional] Steps to go for each navigation request (this options applys only when slideshow disabled), the default value is 1
+                            $Idle: 2000,                                        //[Optional] Interval (in milliseconds) to go for next slide since the previous stopped if the slider is auto playing, default value is 3000
+                            $PauseOnHover: 1,                                   //[Optional] Whether to pause when mouse over if a slider is auto playing, 0 no pause, 1 pause for desktop, 2 pause for touch device, 3 pause for desktop and touch device, 4 freeze for desktop, 8 freeze for touch device, 12 freeze for desktop and touch device, default value is 1
+
+                            $ArrowKeyNavigation: 1,   			                //[Optional] Steps to go for each navigation request by pressing arrow key, default value is 1.
+                            $SlideEasing: $Jease$.$OutQuint,                    //[Optional] Specifies easing for right to left animation, default value is $Jease$.$OutQuad
+                            $SlideDuration: 800,                                //[Optional] Specifies default duration (swipe) for slide in milliseconds, default value is 500
+                            $MinDragOffsetToSlide: 20,                          //[Optional] Minimum drag offset to trigger slide, default value is 20
+                            //$SlideWidth: 600,                                 //[Optional] Width of every slide in pixels, default value is width of 'slides' container
+                            //$SlideHeight: 300,                                //[Optional] Height of every slide in pixels, default value is height of 'slides' container
+                            $SlideSpacing: 0, 					                //[Optional] Space between each slide in pixels, default value is 0
+                            $Align: 0,                                          //[Optional] The offset position to park slide (if this option is not 0, slideshow will be disabled), if this value is not set, it will auto center current slide at center of the carousel.
+                            $UISearchMode: 1,                                   //[Optional] The way (0 parellel, 1 recursive, default value is 1) to search UI components (slides container, loading screen, navigator container, arrow navigator container, thumbnail navigator container etc).
+                            $PlayOrientation: 1,                                //[Optional] Orientation to play slide (for auto play, navigation), 1 horizental, 2 vertical, 5 horizental reverse, 6 vertical reverse, default value is 1
+                            $DragOrientation: 1,                                //[Optional] Orientation to drag slide, 0 no drag, 1 horizental, 2 vertical, 3 either, default value is 1 (Note that the $DragOrientation should be the same as $PlayOrientation when $Cols is greater than 1, or parking position is not 0)
+
+                            $ArrowNavigatorOptions: {                           //[Optional] Options to specify and enable arrow navigator or not
+                                $Class: $JssorArrowNavigator$,                  //[Requried] Class to create arrow navigator instance
+                                $ChanceToShow: 2,                               //[Required] 0 Never, 1 Mouse Over, 2 Always
+                                $Steps: 1                                       //[Optional] Steps to go for each navigation request, default value is 1
+                            },
+
+                            $BulletNavigatorOptions: {                          //[Optional] Options to specify and enable navigator or not
+                                $Class: $JssorBulletNavigator$,                 //[Required] Class to create navigator instance
+                                $ChanceToShow: 2,                               //[Required] 0 Never, 1 Mouse Over, 2 Always
+                                $Steps: 1,                                      //[Optional] Steps to go for each navigation request, default value is 1
+                                $Rows: 1,                                       //[Optional] Specify rows to arrange items, default value is 1
+                                $SpacingX: 12,                                  //[Optional] Horizontal space between each item in pixel, default value is 0
+                                $SpacingY: 4,                                   //[Optional] Vertical space between each item in pixel, default value is 0
+                                $Orientation: 1                                 //[Optional] The orientation of the navigator, 1 horizontal, 2 vertical, default value is 1
+                            }
+                        };
+
+                        var jssor_slider1 = new $JssorSlider$("slider1_container", options);
+
+                        //responsive code begin
+                        //you can remove responsive code if you don't want the slider scales while window resizing
+                        function ScaleSlider() {
+                            var parentWidth = jssor_slider1.$Elmt.parentNode.clientWidth;
+                            if (parentWidth) {
+                                jssor_slider1.$ScaleWidth(parentWidth - 30);
+                            }
+                            else
+                                window.setTimeout(ScaleSlider, 30);
+                        }
+                        ScaleSlider();
+
+                        $(window).bind("load", ScaleSlider);
+                        $(window).bind("resize", ScaleSlider);
+                        $(window).bind("orientationchange", ScaleSlider);
+                        //responsive code end
+                    });
+                </script>
+
+            </div><!-- slider div -->
+        </div>
+        <div class="external-authentication">
+            @Html.Action("ExternalMethods", "ExternalAuthentication")
+        </div>
+
+    </div>
+
+    <div class="page-title">
+        <br />
+        <img src="http://bayi.a321.com.tr/login1.png" width="1200" height="90" />
+    </div>
+     <h3><strong><span style="color: #ff0000;">Değerli Bayimiz ,</span></strong></h3>
+<h3><strong><span style="color: #ff0000;">B2B sitemize giriş yapabilmeniz i&ccedil;in&nbsp; gerekli&nbsp; olan bayi giriş bilgilerinizi ilgili B&ouml;lge Satış Temsilcinizden temin edebilirsiniz</span></strong></h3>
+ 
+</div>

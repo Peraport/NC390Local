@@ -1,0 +1,71 @@
+﻿
+@{
+    Layout = "~/Administration/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h3>Müşteri Senkronizasyon</h3>
+<br>
+
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <div class="col-md-8">
+                    <select id="ProcessTypeSelect" name="ProcessTypeSelect" style="width:200px">
+                        @if (ViewBag.ProcessType == null || ViewBag.ProcessType == 1)
+                        {
+                            <option value="1" selected>Eksik Müşterileri Aktar</option>
+                            <option value="2">Şifreleri Güncelle</option>
+                            <option value="3" >Müşteri Bilgileri</option>
+                            <option value="4">Ek Adresleri Aktar</option>
+                        }
+                        else if (ViewBag.ProcessType == 2)
+                        {
+                            <option value="1">Eksik Müşterileri Aktar</option>
+                            <option value="2" selected>Şifreleri Güncelle</option>
+                            <option value="3">Müşteri Bilgileri</option>
+                            <option value="4">Ek Adresleri Aktar</option>
+                        }
+                        else if (ViewBag.ProcessType == 3)
+                        {
+                            <option value="1">Eksik Müşterileri Aktar</option>
+                            <option value="2">Şifreleri Güncelle</option>
+                            <option value="3" selected>Müşteri Bilgileri</option>
+                            <option value="4">Ek Adresleri Aktar</option>
+                        }
+                        else if (ViewBag.ProcessType == 4)
+                        {
+                            <option value="1">Eksik Müşterileri Aktar</option>
+                            <option value="2">Şifreleri Güncelle</option>
+                            <option value="3">Müşteri Bilgileri</option>
+                            <option value="4" selected>Ek Adresleri Aktar</option>
+                        }
+                    </select>
+                    &nbsp;&nbsp;
+                    <input id="run_button" type="button" value="Senkronize Et" name="save-info-button" class="k-button save-customer-info-button" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<div id="divResults">
+
+</div>
+
+<script type="text/javascript">
+    $("#run_button").click(function () {
+        SetCustomerSync($('#ProcessTypeSelect').val());
+    });
+    function SetCustomerSync(pt) {
+        var tdata = { ProcessType: pt };
+        $.ajax({
+            type: "GET",
+            data: tdata,
+            url: '/PPCustomer/CustomerSyncPartial/',
+            success: function (result) {
+                $("#divResults").html(result);
+            }
+        });
+    }
+</script>

@@ -1,0 +1,189 @@
+﻿@using Nop.Core.Domain.Orders
+@using SevenSpikes.Nop.Plugins.QuickView.Models
+
+@model QuickViewProductPageModel
+
+@{
+    var productDetails = Model.ProductDetails;
+}
+
+<input id="add-to-cart-details" type="hidden"
+       data-productid="@productDetails.Id"
+       data-url="@Url.RouteUrl("AddProductToCart-Details", new { productId = productDetails.Id, shoppingCartTypeId = (int)ShoppingCartType.ShoppingCart })" />
+
+<div class="product-essential">
+    @using (Html.BeginRouteForm("Product", new { SeName = Model.ProductDetails.SeName }, FormMethod.Post, new { id = "product-details-form" }))
+    {
+        <div class="popup-header">
+            <h1 class="product-name">
+                @Model.ProductDetails.Name
+            </h1>
+        </div>
+        <div class="product-content">
+            <div class="gallery">
+                <!--product pictures-->
+                @Html.Action("ShowCloudZoomPictures", "QuickViewCatalog", new { model = Model })
+            </div>
+            <div class="overview">
+                <div id="accordion">
+                    <h3>@T("SevenSpikes.QuickView.Public.ProductDetails")</h3>
+                    <div class="product-details">
+                        <div class="left">
+                            <!--product SKU, manufacturer part number, stock info-->
+                            @Html.Partial("_SKU_Man_GTIN_Ven", productDetails)
+
+                            <!--delivery-->
+                            @Html.Partial("_DeliveryInfo", productDetails)
+
+                            <!--availability-->
+                            @Html.Partial("_Availability", productDetails)
+
+                            <!--product manufacturers-->
+                            @Html.Partial("_ProductManufacturers", productDetails.ProductManufacturers)
+
+                            <!--sample download-->
+                            @Html.Partial("_DownloadSample", productDetails)
+
+                            @{
+                                var dataDictAttributes = new ViewDataDictionary();
+                                dataDictAttributes.TemplateInfo.HtmlFieldPrefix = string.Format("attributes_{0}", productDetails.Id);
+                                @Html.Partial("_QuickViewProductAttributes", productDetails.ProductAttributes, dataDictAttributes)
+                            }
+                        </div>
+
+                        @if (Model.ProductDetails.IsRental)
+                        {
+                            @Html.Partial("_QuickViewRentalInfo", Model.ProductDetails)
+                        }
+
+                        @{
+                            var dataDictGiftCard = new ViewDataDictionary();
+                            dataDictGiftCard.TemplateInfo.HtmlFieldPrefix = string.Format("giftcard_{0}", productDetails.Id);
+                            @Html.Partial("_GiftCardInfo", productDetails.GiftCard, dataDictGiftCard)
+                        }
+
+                        <!--product tier prices-->
+                        @Html.Partial("_ProductTierPrices", productDetails.TierPrices)
+
+                        <div class="purchase-area">
+                            @{
+                                var dataDictPrice = new ViewDataDictionary();
+                                dataDictPrice.TemplateInfo.HtmlFieldPrefix = string.Format("price_{0}", productDetails.Id);
+                                @Html.Partial("_ProductPrice", productDetails.ProductPrice, dataDictPrice)
+                            }
+                            @if (productDetails.AddToCart.CustomerEntersPrice)
+                            {
+                                <div class="customer-entered-price">
+                                    <div class="price-input">
+                                        @Html.LabelFor(model => model.ProductDetails.AddToCart.CustomerEnteredPrice, new { @class = "enter-price-label" }, ":")
+
+                                        @Html.TextBox("CustomerEnteredPrice", Convert.ToInt32(Math.Ceiling(productDetails.AddToCart.CustomerEnteredPrice)), new { @class = "enter-price-input", @Name = string.Format("addtocart_{0}.CustomerEnteredPrice", productDetails.Id) })
+                                    </div>
+                                    <div class="price-range">
+                                        @productDetails.AddToCart.CustomerEnteredPriceRange
+                                    </div>
+                                </div>
+                            }
+
+                            @if (!productDetails.AddToCart.DisableWishlistButton && Model.QuickViewSettings.ShowAddToWishlistButton)
+                            {
+                                <div class="add-to-wishlist">
+                                    <input type="button" class="button-2 add-to-wishlist-button" value="@T("ShoppingCart.AddToWishlist")" data-productid="@productDetails.AddToCart.ProductId" onclick="AjaxCart.addproducttocart_details('@Url.RouteUrl("AddProductToCart-Details", new { productId = productDetails.AddToCart.ProductId, shoppingCartTypeId = (int)ShoppingCartType.Wishlist })    ', '#product-details-form');return false;" />
+                                </div>
+                            }
+                            @if (Model.QuickViewSettings.ShowCompareProductsButton)
+                            {
+                                @Html.Partial("_CompareProductsButton", productDetails)
+                            }
+
+                            @*@if (Model.AddToCart.AllowedQuantities.Count > 0)
+                            {
+                                <div class="qty-wrapper">
+                                    @Html.LabelFor(model => model.AddToCart.EnteredQuantity, new { @class = "qty-label" }, ":")
+                                    @Html.DropDownListFor(model => model.AddToCart.EnteredQuantity, Model.AddToCart.AllowedQuantities, new { @class = "qty-dropdown" })
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="qty-wrapper">
+                                    @Html.LabelFor(model => model.AddToCart.EnteredQuantity, new { @class = "qty-label" }, ":")
+                                    <span class="decrease">decrease</span>
+                                    @Html.TextBoxFor(model => model.AddToCart.EnteredQuantity, new { @class = "qty-input" })
+                                    <span class="increase">increase</span>
+                                    @*//when a customer clicks 'Enter' button we submit the "add to cart" button (if visible)*@
+                                   @*<script type="text/javascript">
+                                        $(document).ready(function () {
+                                            $("#@Html.FieldIdFor(model => model.AddToCart.EnteredQuantity)").keydown(function (event) {
+                                                if (event.keyCode == 13) {
+                                                    $("#add-to-cart-button-@Model.AddToCart.ProductId").click();
+                                                    return false;
+                                                }
+                                            });
+                                        });
+                                    </script>
+                                </div>
+                            }*@
+                            @{
+                                var dataDictAddToCart = new ViewDataDictionary();
+                                dataDictAddToCart.TemplateInfo.HtmlFieldPrefix = string.Format("addtocart_{0}", productDetails.Id);
+                                @Html.Partial("_AddToCart", productDetails.AddToCart, dataDictAddToCart)
+                            }
+                        </div>
+                    </div>
+
+                    @if (Model.QuickViewSettings.ShowShortProductDescription || Model.QuickViewSettings.ShowFullProductDescription)
+                    {
+                        if (!String.IsNullOrEmpty(Model.ProductDetails.ShortDescription) || !String.IsNullOrEmpty(Model.ProductDetails.FullDescription))
+                        {
+                            <h3>@T("SevenSpikes.QuickView.Public.ProductDescription")</h3>
+                            <div class="product-details">
+                                @if (Model.QuickViewSettings.ShowShortProductDescription)
+                                {
+                                    <div class="short-description">
+                                        @Html.Raw(productDetails.ShortDescription)
+                                    </div>
+                                }
+
+                                @if (Model.QuickViewSettings.ShowFullProductDescription)
+                                {
+                                    <div class="full-description">
+                                        @Html.Raw(productDetails.FullDescription)
+                                    </div>
+                                }
+                            </div>
+                        }
+                    }
+
+                    @{
+                        MvcHtmlString productSpecificationsContent = MvcHtmlString.Empty;
+                        if (Model.QuickViewSettings.ShowProductSpecification)
+                        {
+                            productSpecificationsContent = Html.Partial("_ProductSpecifications", productDetails.ProductSpecifications);
+                        }
+                    }
+
+                    @if (!MvcHtmlString.IsNullOrEmpty(productSpecificationsContent))
+                    {
+                        <h3>@T("SevenSpikes.QuickView.Public.ProductSpecifications")</h3>
+                        <div class="product-details">
+                            @productSpecificationsContent
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="links-panel">
+                <a href="@Url.RouteUrl("Product", new { SeName = Model.ProductDetails.SeName })" class="link-to-product-page">@T("SevenSpikes.QuickView.Public.GoToProductPageLink")</a>
+            </div>
+        </div>
+        
+        if (Model.QuickViewSettings.ShowRelatedProducts)
+        {
+            @Html.Action("RelatedProducts", "Product", new { productId = productDetails.Id })
+        }
+        if (Model.QuickViewSettings.ShowProductsAlsoPurchased)
+        {
+            @Html.Action("ProductsAlsoPurchased", "Product", new { productId = productDetails.Id })
+        }
+    }
+</div>

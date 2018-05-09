@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="fec5070f-323a-48c2-bf47-858cfa651a5d" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://31.145.149.190:8733/NopService" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="NopService6.xsd" MetadataType="Schema" ID="82232680-40f4-4ac1-a914-85440421319d" SourceId="1" SourceUrl="http://31.145.149.190:8733/NopService?xsd=xsd3" />
+    <MetadataFile FileName="NopService61.xsd" MetadataType="Schema" ID="2cff798b-1057-47b1-a4fe-57d7d94fb53c" SourceId="1" SourceUrl="http://31.145.149.190:8733/NopService?xsd=xsd2" />
+    <MetadataFile FileName="NopService1.disco" MetadataType="Disco" ID="dd59da29-93f2-46ad-8b73-63c83b522792" SourceId="1" SourceUrl="http://31.145.149.190:8733/NopService?disco" />
+    <MetadataFile FileName="NopService62.xsd" MetadataType="Schema" ID="0e9602a3-77ef-45e3-b825-06c9a4e948ff" SourceId="1" SourceUrl="http://31.145.149.190:8733/NopService?xsd=xsd0" />
+    <MetadataFile FileName="NopService63.xsd" MetadataType="Schema" ID="46393b8e-66aa-450f-a85e-8ca86c3fff13" SourceId="1" SourceUrl="http://31.145.149.190:8733/NopService?xsd=xsd1" />
+    <MetadataFile FileName="NopService64.xsd" MetadataType="Schema" ID="170ce9cd-f993-4bd6-a344-a83c41c6bd90" SourceId="1" SourceUrl="http://31.145.149.190:8733/NopService?xsd=xsd5" />
+    <MetadataFile FileName="NopService65.xsd" MetadataType="Schema" ID="64e5181b-0d8f-4068-ad22-c7088bb4e567" SourceId="1" SourceUrl="http://31.145.149.190:8733/NopService?xsd=xsd4" />
+    <MetadataFile FileName="NopService1.wsdl" MetadataType="Wsdl" ID="dfe83537-046a-40b2-ac9a-af0665c89083" SourceId="1" SourceUrl="http://31.145.149.190:8733/NopService?wsdl" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

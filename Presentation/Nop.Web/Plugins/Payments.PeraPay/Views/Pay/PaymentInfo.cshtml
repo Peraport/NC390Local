@@ -1,0 +1,53 @@
+﻿@{
+    Layout = "";
+}
+@model Nop.Plugin.Payments.PeraPay.Models.PeraPayPaymentInfoModel
+@using Nop.Web.Framework;
+
+
+<table width="100%" cellspacing="2" cellpadding="1" border="0">
+    <tr>
+        <td width="50%" style="text-align:right;">
+            Karttan çekilecek tutar (TRY)
+        </td>
+        <td width="50%" style="text-align:left;">
+            <span><h3>@Model.Tutar </h3></span>
+        </td>
+    </tr>
+    <tr>
+        <td width="50%" style="text-align:right;">
+            Banka ve Taksit Seçiniz
+        </td>
+        <td width="50%" style="text-align:left;">
+            <br />
+
+            <span class="bnk">
+                <input id="banka-ip" name="banka" type="radio" value="Isbank_">
+                <label class="forcheckbox" for="banka-ip">İş Bankası Tek Çekim ( @Model.Tutar )</label>
+            </span>
+
+            <span class="bnk">
+                <input id="banka-i3" name="banka" type="radio" value="Isbank_3">
+                <label class="forcheckbox" for="banka-i3">İş Bankası 3 Taksit ( @Model.Tutar )</label>
+            </span>
+            <span class="bnk">
+                <input id="banka-gp" name="banka" type="radio" value="Garanti_">
+                <label class="forcheckbox" for="banka-gp">Garanti Bankası Tek Çekim ( @Model.Tutar )</label>
+            </span>
+
+            <span class="bnk">
+                <input id="banka-g3" name="banka" type="radio" value="Garanti_3">
+                <label class="forcheckbox" for="banka-g3">Garanti Bankası 3 Taksit ( @Model.Tutar )</label>
+            </span>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" style="align-content:center;text-align:center;">
+            <span>
+                <br />
+                * Siparişi onayladıktan sonra ödeme için bankaya yönlendirileceksiniz.
+            </span>
+        </td>
+
+    </tr>
+</table>

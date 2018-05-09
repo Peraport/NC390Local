@@ -1,0 +1,84 @@
+﻿
+@{
+    Layout = "~/Administration/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h3>Ürün Senkronizasyonu</h3>
+<br>
+
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <div class="col-md-8">
+                    <select id="ProcessTypeSelect" name="ProcessTypeSelect" style="width:200px">
+
+                        @if (ViewBag.ProcessType == null || ViewBag.ProcessType == 1)
+                        {
+                            <option value="1" selected>Ürünleri Aktar</option>
+                            <option value="2">Stokları Güncelle</option>
+                            <option value="3">Fiyatları Güncelle</option>
+                            <option value="4"> Resimleri Güncelle </option>
+                            <option value="5"> Ürün İsimlerini Güncelle </option>
+                        }
+                        else if (ViewBag.ProcessType == 2)
+                        {
+                            <option value="1"> Ürünleri Aktar </option>
+                            <option value="2" selected> Stokları Güncelle </option>
+                            <option value="3"> Fiyatları Güncelle </option>
+                            <option value="4"> Resimleri Güncelle </option>
+                            <option value="5"> Ürün İsimlerini Güncelle </option>
+                        }
+                        else if (ViewBag.ProcessType == 3)
+                        {
+                            <option value="1"> Ürünleri Aktar </option>
+                            <option value="2"> Stokları Güncelle </option>
+                            <option value="3" selected> Fiyatları Güncelle </option>
+                            <option value="4" > Resimleri Güncelle </option>
+                            <option value="5"> Ürün İsimlerini Güncelle </option>
+                        }
+                        else if (ViewBag.ProcessType == 4)
+                        {
+                            <option value="1"> Ürünleri Aktar </option>
+                            <option value="2"> Stokları Güncelle </option>
+                            <option value="3"> Fiyatları Güncelle </option>
+                            <option value="4" selected> Resimleri Güncelle </option>
+                            <option value="5"> Ürün İsimlerini Güncelle </option>
+                        }
+                        else if (ViewBag.ProcessType == 5)
+                        {
+                        <option value="1"> Ürünleri Aktar </option>
+                        <option value="2"> Stokları Güncelle </option>
+                        <option value="3"> Fiyatları Güncelle </option>
+                        <option value="4"> Resimleri Güncelle </option>
+                        <option value="5" selected> Ürün İsimlerini Güncelle </option>
+                        }
+                    </select>
+                    &nbsp; &nbsp;
+                    <input id="run_button" type="button" value="Çalıştır" name="save-info-button" class="k-button save-customer-info-button" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<div id="divResults" style="margin-top:5px;margin-left:10px; padding:4px 4px 4px 4px;">
+
+</div>
+
+<script type="text/javascript">
+    $("#run_button").click(function () {
+        SetProductSync($('#ProcessTypeSelect').val());
+    });
+    function SetProductSync(pt) {
+        var tdata = { ProcessType: pt };
+        $.ajax({
+            type: "GET",
+            data: tdata,
+            url: '/PPProduct/ProductSyncPartial/',
+            success: function (result) {
+                $("#divResults").html(result);
+            }
+        });
+    }
+</script>

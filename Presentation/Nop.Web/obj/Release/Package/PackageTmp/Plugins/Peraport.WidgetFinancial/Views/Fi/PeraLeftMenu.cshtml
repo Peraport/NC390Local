@@ -1,0 +1,53 @@
+﻿@using Nop.Web.Framework;
+<br>
+<hr>
+<div class="block block-account-navigationx">
+    <div class="title">
+        <strong>Hesabım</strong>
+    </div>
+    <div class="listbox">
+        <ul class="list">
+            <li class="customer-info">
+                <a href="@Url.Action("Dashboard", "Fi")" class="elements">
+                    Hesap Özeti
+                </a>
+            </li>
+            <li class="customer-orders">
+                <a href="@Url.Action("CustomerOrders", "Order")" class="elements">
+                    Siparişlerim
+                </a>
+            </li>
+            <li class="customer-addresses">
+                <a href="@Url.Action("He", "Fi")" class="elements">
+                    Hesap Ekstresi
+                </a>
+            </li>
+            <li class="customer-addresses">
+                <a href="@Url.Action("FaturaTakip", "Fi")" class="elements">
+                    Fatura Takibi ve Ödeme
+                </a>
+            </li>
+            <li class="customer-orders">
+                <a href="@Url.Action("Banka", "Fi")" class="elements">
+                    Banka Hesap Numaraları
+                </a>
+            </li>
+
+
+
+
+            @*<li class="customer-orders">
+                    <a href="@Url.Action("KKPayment", "IsPay")" class="elements">
+                        Ödeme Yap
+                    </a>
+                </li>*@
+            @*<li class="downloadable-products">
+                    <a href="@Url.Action("Test", "Fi")" class="elements">
+                        Fatura Öde
+                    </a>
+                </li>*@
+
+        </ul>
+    </div>
+</div>
+

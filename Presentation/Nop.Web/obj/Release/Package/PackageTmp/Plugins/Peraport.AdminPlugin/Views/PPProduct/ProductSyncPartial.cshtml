@@ -1,0 +1,36 @@
+﻿@model List<Nop.Plugin.Peraport.AdminPlugin.Models.ResultModel>
+
+
+@if (Model == null)
+{
+    <ul>
+        <li>İşlem yapılmadı. Ürün listesi güncel.</li>
+    </ul>
+}
+else
+{
+    foreach (var item in Model)
+    {
+        if (item.NAME != "Resim")
+        {
+            @item.NAME
+            <span>--></span>
+            @item.NOTE
+            <br/>
+        }
+        else
+        {
+            <button class="accordion">@item.NOTE</button>
+            <div class="panel">
+                <ul>
+                    @foreach (var itemx in item.LOGS)
+                        {
+                        <li>
+                            @itemx
+                        </li>
+                    }
+                </ul>
+            </div>
+        }
+    }
+}
