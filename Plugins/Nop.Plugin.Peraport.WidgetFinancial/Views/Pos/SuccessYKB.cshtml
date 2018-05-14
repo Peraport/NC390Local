@@ -1,0 +1,29 @@
+﻿@{
+    Layout = "~/Views/Shared/_PeraLayout.cshtml";
+}
+@section left
+{
+    @Html.Action("PeraLeftMenu", "Fi")
+}
+
+<br />
+<h2><font color="green">İşlem Başarılı</font></h2>
+<br /><br />
+@if (ViewBag.Amount != "")
+{
+    <span>Tutar : @ViewBag.Amount TL</span>
+}
+<br /><br />
+
+İşlem Mesajı : @ViewBag.Message
+
+<br /><br />
+@if(ViewBag.Warning!="")
+{
+<span>Uyarı : @ViewBag.Warning</span>
+}
+<br />
+
+
+
+

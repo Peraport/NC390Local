@@ -35,3 +35,4 @@ SevenSpikes.Nop.Plugins.AjaxCart
 SevenSpikes.Nop.Plugins.AjaxFilters
 Widgets.LiveSupportiChat
 Widgets.BsLiveChat
+Nop.Plugin.Peraport.WidgetPopup

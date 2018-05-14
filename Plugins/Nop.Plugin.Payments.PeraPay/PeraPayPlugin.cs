@@ -372,8 +372,11 @@ namespace Nop.Plugin.Payments.PeraPay
             else if (secenek[0] == "Isbank")//working
             {
                 #region İş Bankası      
-                String sendTrnxUrl = "https://cpm.payflex.com.tr/CpWeb/SecurePayment?Ptkn=";
-                String PostUrl = "https://cpm.payflex.com.tr/CpWeb/api/RegisterTransaction";
+                String PostUrl = " https://cpm.vpos.isbank.com.tr/CpWeb/api/RegisterTransaction";
+                String sendTrnxUrl = "https://cpm.vpos.isbank.com.tr/CpWeb/SecurePayment?Ptkn=";
+                //Gerçek ortamı adresleri;
+                //String sendTrnxUrl = "https://cpm.payflex.com.tr/CpWeb/SecurePayment?Ptkn=";
+                //String PostUrl = "https://cpm.payflex.com.tr/CpWeb/api/RegisterTransaction";
 
                 String TransactionId = Guid.NewGuid().ToString("N");/*Her işlemde random olmalıdır.*/
                 String Amount = postProcessPaymentRequest.Order.OrderTotal.ToString("0.00").Replace(',', '.');

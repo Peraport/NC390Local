@@ -72,6 +72,7 @@
   <ItemGroup>
     <Compile Include="Controllers\FiController.cs" />
     <Compile Include="Controllers\IsPayController.cs" />
+    <Compile Include="Controllers\PosController.cs" />
     <Compile Include="Models\DashModel.cs" />
     <Compile Include="Models\InfoModel.cs" />
     <Compile Include="Models\FiModel.cs" />
@@ -176,6 +177,18 @@
     </None>
     <None Include="Views\IsPay\KKPayment.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Views\Pos\FailYKB.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Views\Pos\Index.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Views\Pos\PosResult.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Views\Pos\SuccessYKB.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>

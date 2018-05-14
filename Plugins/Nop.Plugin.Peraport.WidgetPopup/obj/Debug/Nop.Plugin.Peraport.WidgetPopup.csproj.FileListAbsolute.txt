@@ -1,0 +1,14 @@
+C:\works\NC390\Presentation\Nop.Web\Plugins\Peraport.Popup\Description.txt
+C:\works\NC390\Presentation\Nop.Web\Plugins\Peraport.Popup\Views\Configure.cshtml
+C:\works\NC390\Presentation\Nop.Web\Plugins\Peraport.Popup\Views\PublicInfo.cshtml
+C:\works\NC390\Presentation\Nop.Web\Plugins\Peraport.Popup\Nop.Plugin.Peraport.WidgetPopup.dll
+C:\works\NC390\Presentation\Nop.Web\Plugins\Peraport.Popup\Nop.Plugin.Peraport.WidgetPopup.pdb
+C:\works\NC390\Presentation\Nop.Web\Plugins\Peraport.WidgetPopup\web.config
+C:\works\NC390\Presentation\Nop.Web\Plugins\Peraport.WidgetPopup\Description.txt
+C:\works\NC390\Presentation\Nop.Web\Plugins\Peraport.WidgetPopup\Views\Pop\Configure.cshtml
+C:\works\NC390\Presentation\Nop.Web\Plugins\Peraport.WidgetPopup\Views\Pop\PublicInfo.cshtml
+C:\works\NC390\Presentation\Nop.Web\Plugins\Peraport.WidgetPopup\Nop.Plugin.Peraport.WidgetPopup.dll
+C:\works\NC390\Presentation\Nop.Web\Plugins\Peraport.WidgetPopup\Nop.Plugin.Peraport.WidgetPopup.pdb
+C:\works\NC390\Plugins\Nop.Plugin.Peraport.WidgetPopup\obj\Debug\Nop.Plugin.Peraport.WidgetPopup.csprojResolveAssemblyReference.cache
+C:\works\NC390\Plugins\Nop.Plugin.Peraport.WidgetPopup\obj\Debug\Nop.Plugin.Peraport.WidgetPopup.dll
+C:\works\NC390\Plugins\Nop.Plugin.Peraport.WidgetPopup\obj\Debug\Nop.Plugin.Peraport.WidgetPopup.pdb

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import schemaLocation="http://31.145.149.190:8733/NopService?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Service.Models" />
-  <xs:import schemaLocation="http://31.145.149.190:8733/NopService?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
-  <xs:import schemaLocation="http://31.145.149.190:8733/NopService?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/Service" />
-  <xs:import schemaLocation="http://31.145.149.190:8733/NopService?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/PPLibrary" />
+  <xs:import schemaLocation="http://31.206.53.244:8734/NopService?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Service.Models" />
+  <xs:import schemaLocation="http://31.206.53.244:8734/NopService?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:import schemaLocation="http://31.206.53.244:8734/NopService?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/Service" />
+  <xs:import schemaLocation="http://31.206.53.244:8734/NopService?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/PPLibrary" />
   <xs:element name="GetAddressFromErp">
     <xs:complexType>
       <xs:sequence />
@@ -270,6 +270,38 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="DeleteMatches">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="c" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="table" nillable="true" type="xs:string" />
+        <xs:element xmlns:q24="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="ids" nillable="true" type="q24:ArrayOfstring" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteMatchesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q25="http://schemas.datacontract.org/2004/07/Service" minOccurs="0" name="DeleteMatchesResult" nillable="true" type="q25:ArrayOfRESULT_S" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="MatchRecords">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="alan" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="table" nillable="true" type="xs:string" />
+        <xs:element xmlns:q26="http://schemas.datacontract.org/2004/07/Service" minOccurs="0" name="M" nillable="true" type="q26:ArrayOfMATCHING_S" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="MatchRecordsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q27="http://schemas.datacontract.org/2004/07/Service" minOccurs="0" name="MatchRecordsResult" nillable="true" type="q27:ArrayOfRESULT_S" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="SqlExecuteNonQuery">
     <xs:complexType>
       <xs:sequence>
@@ -296,7 +328,7 @@
   <xs:element name="GetWSDataResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q24="http://schemas.datacontract.org/2004/07/Service" minOccurs="0" name="GetWSDataResult" nillable="true" type="q24:ArrayOfWSData" />
+        <xs:element xmlns:q28="http://schemas.datacontract.org/2004/07/Service" minOccurs="0" name="GetWSDataResult" nillable="true" type="q28:ArrayOfWSData" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -311,7 +343,7 @@
   <xs:element name="GetCustomerLimitResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q25="http://schemas.datacontract.org/2004/07/Service" minOccurs="0" name="GetCustomerLimitResult" nillable="true" type="q25:CUSTOMER_LIMIT" />
+        <xs:element xmlns:q29="http://schemas.datacontract.org/2004/07/Service" minOccurs="0" name="GetCustomerLimitResult" nillable="true" type="q29:CUSTOMER_LIMIT" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -325,7 +357,7 @@
   <xs:element name="GetGeneralSettingsResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q26="http://schemas.datacontract.org/2004/07/PPLibrary" minOccurs="0" name="GetGeneralSettingsResult" nillable="true" type="q26:GENERAL_SETTINGS" />
+        <xs:element xmlns:q30="http://schemas.datacontract.org/2004/07/PPLibrary" minOccurs="0" name="GetGeneralSettingsResult" nillable="true" type="q30:GENERAL_SETTINGS" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -339,21 +371,35 @@
   <xs:element name="GetOrderResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q27="http://schemas.datacontract.org/2004/07/Service.Models" minOccurs="0" name="GetOrderResult" nillable="true" type="q27:Documentx" />
+        <xs:element xmlns:q31="http://schemas.datacontract.org/2004/07/Service.Models" minOccurs="0" name="GetOrderResult" nillable="true" type="q31:Documentx" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="MyTest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="p" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="MyTestResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="MyTestResult" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="GetDataUsingDataContract">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q28="http://schemas.datacontract.org/2004/07/PPLibrary" minOccurs="0" name="composite" nillable="true" type="q28:CompositeType" />
+        <xs:element xmlns:q32="http://schemas.datacontract.org/2004/07/PPLibrary" minOccurs="0" name="composite" nillable="true" type="q32:CompositeType" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="GetDataUsingDataContractResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q29="http://schemas.datacontract.org/2004/07/PPLibrary" minOccurs="0" name="GetDataUsingDataContractResult" nillable="true" type="q29:CompositeType" />
+        <xs:element xmlns:q33="http://schemas.datacontract.org/2004/07/PPLibrary" minOccurs="0" name="GetDataUsingDataContractResult" nillable="true" type="q33:CompositeType" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

@@ -3510,6 +3510,18 @@ namespace Nop.Web.PPService {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/INopService/getMatch", ReplyAction="http://tempuri.org/INopService/getMatchResponse")]
         System.Threading.Tasks.Task<Nop.Web.PPService.MATCHING_S> getMatchAsync(string c, string table, string id);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/INopService/DeleteMatches", ReplyAction="http://tempuri.org/INopService/DeleteMatchesResponse")]
+        Nop.Web.PPService.RESULT_S[] DeleteMatches(string c, string table, string[] ids);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/INopService/DeleteMatches", ReplyAction="http://tempuri.org/INopService/DeleteMatchesResponse")]
+        System.Threading.Tasks.Task<Nop.Web.PPService.RESULT_S[]> DeleteMatchesAsync(string c, string table, string[] ids);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/INopService/MatchRecords", ReplyAction="http://tempuri.org/INopService/MatchRecordsResponse")]
+        Nop.Web.PPService.RESULT_S[] MatchRecords(string alan, string table, Nop.Web.PPService.MATCHING_S[] M);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/INopService/MatchRecords", ReplyAction="http://tempuri.org/INopService/MatchRecordsResponse")]
+        System.Threading.Tasks.Task<Nop.Web.PPService.RESULT_S[]> MatchRecordsAsync(string alan, string table, Nop.Web.PPService.MATCHING_S[] M);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/INopService/SqlExecuteNonQuery", ReplyAction="http://tempuri.org/INopService/SqlExecuteNonQueryResponse")]
         int SqlExecuteNonQuery(string cs, string query);
         
@@ -3539,6 +3551,12 @@ namespace Nop.Web.PPService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/INopService/GetOrder", ReplyAction="http://tempuri.org/INopService/GetOrderResponse")]
         System.Threading.Tasks.Task<Nop.Web.PPService.Documentx> GetOrderAsync(long Id);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/INopService/MyTest", ReplyAction="http://tempuri.org/INopService/MyTestResponse")]
+        string MyTest(string p);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/INopService/MyTest", ReplyAction="http://tempuri.org/INopService/MyTestResponse")]
+        System.Threading.Tasks.Task<string> MyTestAsync(string p);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/INopService/GetDataUsingDataContract", ReplyAction="http://tempuri.org/INopService/GetDataUsingDataContractResponse")]
         Nop.Web.PPService.CompositeType GetDataUsingDataContract(Nop.Web.PPService.CompositeType composite);
@@ -3726,6 +3744,22 @@ namespace Nop.Web.PPService {
             return base.Channel.getMatchAsync(c, table, id);
         }
         
+        public Nop.Web.PPService.RESULT_S[] DeleteMatches(string c, string table, string[] ids) {
+            return base.Channel.DeleteMatches(c, table, ids);
+        }
+        
+        public System.Threading.Tasks.Task<Nop.Web.PPService.RESULT_S[]> DeleteMatchesAsync(string c, string table, string[] ids) {
+            return base.Channel.DeleteMatchesAsync(c, table, ids);
+        }
+        
+        public Nop.Web.PPService.RESULT_S[] MatchRecords(string alan, string table, Nop.Web.PPService.MATCHING_S[] M) {
+            return base.Channel.MatchRecords(alan, table, M);
+        }
+        
+        public System.Threading.Tasks.Task<Nop.Web.PPService.RESULT_S[]> MatchRecordsAsync(string alan, string table, Nop.Web.PPService.MATCHING_S[] M) {
+            return base.Channel.MatchRecordsAsync(alan, table, M);
+        }
+        
         public int SqlExecuteNonQuery(string cs, string query) {
             return base.Channel.SqlExecuteNonQuery(cs, query);
         }
@@ -3764,6 +3798,14 @@ namespace Nop.Web.PPService {
         
         public System.Threading.Tasks.Task<Nop.Web.PPService.Documentx> GetOrderAsync(long Id) {
             return base.Channel.GetOrderAsync(Id);
+        }
+        
+        public string MyTest(string p) {
+            return base.Channel.MyTest(p);
+        }
+        
+        public System.Threading.Tasks.Task<string> MyTestAsync(string p) {
+            return base.Channel.MyTestAsync(p);
         }
         
         public Nop.Web.PPService.CompositeType GetDataUsingDataContract(Nop.Web.PPService.CompositeType composite) {

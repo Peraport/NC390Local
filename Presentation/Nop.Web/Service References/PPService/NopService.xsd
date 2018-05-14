@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/Service" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Service" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import schemaLocation="http://31.145.149.190:8733/NopService?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:import schemaLocation="http://31.206.53.244:8734/NopService?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
   <xs:complexType name="ArrayOfMATCHING_S">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="MATCHING_S" nillable="true" type="tns:MATCHING_S" />

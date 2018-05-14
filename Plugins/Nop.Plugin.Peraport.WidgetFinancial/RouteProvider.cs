@@ -73,6 +73,13 @@ namespace Nop.Plugin.Peraport.WidgetFinancial
                  new { controller = "Fi", action = "PaymentSuccess" },
                  new[] { "Nop.Plugin.Peraport.WidgetFinancial.Controllers" }
             );
+
+
+            routes.MapRoute("Plugin.Peraport.WidgetFinancial.Pos",
+                 "Pos/KKHome",
+                 new { controller = "Pos", action = "Index" },
+                 new[] { "Nop.Plugin.Peraport.WidgetFinancial.Controllers" }
+            );
         }
         public int Priority
         {

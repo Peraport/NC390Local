@@ -19,17 +19,17 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://31.145.149.190:8733/NopService" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://31.206.53.244:8734/NopService" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="NopService6.xsd" MetadataType="Schema" ID="82232680-40f4-4ac1-a914-85440421319d" SourceId="1" SourceUrl="http://31.145.149.190:8733/NopService?xsd=xsd3" />
-    <MetadataFile FileName="NopService61.xsd" MetadataType="Schema" ID="2cff798b-1057-47b1-a4fe-57d7d94fb53c" SourceId="1" SourceUrl="http://31.145.149.190:8733/NopService?xsd=xsd2" />
-    <MetadataFile FileName="NopService1.disco" MetadataType="Disco" ID="dd59da29-93f2-46ad-8b73-63c83b522792" SourceId="1" SourceUrl="http://31.145.149.190:8733/NopService?disco" />
-    <MetadataFile FileName="NopService62.xsd" MetadataType="Schema" ID="0e9602a3-77ef-45e3-b825-06c9a4e948ff" SourceId="1" SourceUrl="http://31.145.149.190:8733/NopService?xsd=xsd0" />
-    <MetadataFile FileName="NopService63.xsd" MetadataType="Schema" ID="46393b8e-66aa-450f-a85e-8ca86c3fff13" SourceId="1" SourceUrl="http://31.145.149.190:8733/NopService?xsd=xsd1" />
-    <MetadataFile FileName="NopService64.xsd" MetadataType="Schema" ID="170ce9cd-f993-4bd6-a344-a83c41c6bd90" SourceId="1" SourceUrl="http://31.145.149.190:8733/NopService?xsd=xsd5" />
-    <MetadataFile FileName="NopService65.xsd" MetadataType="Schema" ID="64e5181b-0d8f-4068-ad22-c7088bb4e567" SourceId="1" SourceUrl="http://31.145.149.190:8733/NopService?xsd=xsd4" />
-    <MetadataFile FileName="NopService1.wsdl" MetadataType="Wsdl" ID="dfe83537-046a-40b2-ac9a-af0665c89083" SourceId="1" SourceUrl="http://31.145.149.190:8733/NopService?wsdl" />
+    <MetadataFile FileName="NopService.disco" MetadataType="Disco" ID="f092fdfb-e432-4bab-a88e-1c5006c14d89" SourceId="1" SourceUrl="http://31.206.53.244:8734/NopService?disco" />
+    <MetadataFile FileName="NopService.xsd" MetadataType="Schema" ID="ac70f611-be67-4895-9ceb-719066841f3c" SourceId="1" SourceUrl="http://31.206.53.244:8734/NopService?xsd=xsd4" />
+    <MetadataFile FileName="NopService1.xsd" MetadataType="Schema" ID="83f50af8-f8bb-4221-906d-68c064684b27" SourceId="1" SourceUrl="http://31.206.53.244:8734/NopService?xsd=xsd5" />
+    <MetadataFile FileName="NopService2.xsd" MetadataType="Schema" ID="f177b3c6-afd0-4c83-8403-1d98e22cfea0" SourceId="1" SourceUrl="http://31.206.53.244:8734/NopService?xsd=xsd2" />
+    <MetadataFile FileName="NopService3.xsd" MetadataType="Schema" ID="9683d6e8-3c6f-4e46-b917-fd6aea0f8a41" SourceId="1" SourceUrl="http://31.206.53.244:8734/NopService?xsd=xsd3" />
+    <MetadataFile FileName="NopService4.xsd" MetadataType="Schema" ID="fd1cb179-2b49-44f9-b679-658edb515d1d" SourceId="1" SourceUrl="http://31.206.53.244:8734/NopService?xsd=xsd0" />
+    <MetadataFile FileName="NopService5.xsd" MetadataType="Schema" ID="39663894-5aca-4a4c-8cdd-dd7f95d6a87a" SourceId="1" SourceUrl="http://31.206.53.244:8734/NopService?xsd=xsd1" />
+    <MetadataFile FileName="NopService.wsdl" MetadataType="Wsdl" ID="1c8a9ce5-a140-41d8-985b-b38fc7813626" SourceId="1" SourceUrl="http://31.206.53.244:8734/NopService?wsdl" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

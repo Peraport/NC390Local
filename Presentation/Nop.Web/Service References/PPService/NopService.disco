@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <discovery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/disco/">
-  <contractRef ref="http://31.145.149.190:8733/NopService?wsdl" docRef="http://31.145.149.190:8733/NopService" xmlns="http://schemas.xmlsoap.org/disco/scl/" />
+  <contractRef ref="http://31.206.53.244:8734/NopService?wsdl" docRef="http://31.206.53.244:8734/NopService" xmlns="http://schemas.xmlsoap.org/disco/scl/" />
 </discovery>
