@@ -77,9 +77,45 @@ namespace Nop.Plugin.Peraport.WidgetFinancial.Controllers
 
         #region tanımlar
 
+        //private const string formSendGR = "<form style=\"background: #eee url('../Content/Images/background2.png') center bottom no-repeat; height: 1200px;\" " +
+        //  " action=\"{0}\" method=\"POST\" />" +
+        //  "<input type=\"hidden\" name=\"secure3dsecuritylevel\" value=\"3D_OOS_FULL\" />" +
+        //  "<input type=\"hidden\" name=\"mode\" value=\"{1}\" />" +
+        //  "<input type=\"hidden\" name=\"apiversion\" value=\"{2}\" />" +
+        //  "<input type=\"hidden\" name=\"terminalprovuserid\" value=\"{3}\" />" +
+        //  "<input type=\"hidden\" name=\"terminaluserid\" value=\"{4}\" />" +
+        //  "<input type=\"hidden\" name=\"terminalid\" value=\"{5}\" />" +
+        //  "<input type=\"hidden\" name=\"terminalmerchantid\" value=\"{6}\" />" +
+        //  "<input type=\"hidden\" name=\"orderid\" value=\"{7}\" />" +
+        //  "<input type=\"hidden\" name=\"customeremailaddress\" value=\"info@a321.com.tr\" />" +
+        //  "<input type=\"hidden\" name=\"customeripaddress\" value=\"127.0.0.1\" />" +
+        //  "<input type=\"hidden\" name=\"txntype\" value=\"{8}\" />" +
+        //  "<input type=\"hidden\" name=\"txnamount\" value=\"{9}\" />" +
+        //  "<input type=\"hidden\" name=\"txncurrencycode\" value=\"{10}\" />" +
+        //  "<input type=\"hidden\" name=\"companyname\" value=\"A321\" />" +
+        //  "<input type=\"hidden\" name=\"txninstallmentcount\" value=\"{11}\" />" +
+        //  "<input type=\"hidden\" name=\"successurl\" value=\"{12}\" />" +
+        //  "<input type=\"hidden\" name=\"errorurl\" value=\"{13}\" />" +
+        //  "<input type=\"hidden\" name=\"secure3dhash\" value=\"{14}\" />" +
+        //  "<input type=\"hidden\" name=\"lang\" value=\"{15}\" />" +
+        //  "<input type=\"hidden\" name=\"motoind\" value=\"{16}\" />" +
+        //  "<input type=\"hidden\" name=\"txntimestamp\" value=\"{17}\" />" +
+        //  "<input type=\"hidden\" name=\"refreshtime\" value=\"{18}\" />" +
+        //  "<font face=\"Helvetica\" size=\"3\" color=\"#606060\">" +
+        //  "<center>" +
+        //  "<br />" +
+        //  "<br />" +
+        //  "<h2>Banka sayfasına yönlendiriliyorsunuz...<h2>  <br />" +
+        //  "<br />" +
+
+        //  "</center>" +
+        //  "</form>"
+        //    + "<script> document.forms[0].submit();</script>"
+        //    ;
+
         private const string formSendGR = "<form style=\"background: #eee url('../Content/Images/background2.png') center bottom no-repeat; height: 1200px;\" " +
           " action=\"{0}\" method=\"POST\" />" +
-          "<input type=\"hidden\" name=\"secure3dsecuritylevel\" value=\"3D_OOS_FULL\" />" +
+          "<input type=\"hidden\" name=\"secure3dsecuritylevel\" value=\"CUSTOM_PAY\" />" +
           "<input type=\"hidden\" name=\"mode\" value=\"{1}\" />" +
           "<input type=\"hidden\" name=\"apiversion\" value=\"{2}\" />" +
           "<input type=\"hidden\" name=\"terminalprovuserid\" value=\"{3}\" />" +
@@ -90,6 +126,8 @@ namespace Nop.Plugin.Peraport.WidgetFinancial.Controllers
           "<input type=\"hidden\" name=\"customeremailaddress\" value=\"info@a321.com.tr\" />" +
           "<input type=\"hidden\" name=\"customeripaddress\" value=\"127.0.0.1\" />" +
           "<input type=\"hidden\" name=\"txntype\" value=\"{8}\" />" +
+          "<input type=\"hidden\" name=\"txnsubtype\" value=\"sales\" />" +
+          "<input type=\"hidden\" name=\"Garantipay\" value=\"Y\" />" +
           "<input type=\"hidden\" name=\"txnamount\" value=\"{9}\" />" +
           "<input type=\"hidden\" name=\"txncurrencycode\" value=\"{10}\" />" +
           "<input type=\"hidden\" name=\"companyname\" value=\"A321\" />" +
@@ -101,6 +139,7 @@ namespace Nop.Plugin.Peraport.WidgetFinancial.Controllers
           "<input type=\"hidden\" name=\"motoind\" value=\"{16}\" />" +
           "<input type=\"hidden\" name=\"txntimestamp\" value=\"{17}\" />" +
           "<input type=\"hidden\" name=\"refreshtime\" value=\"{18}\" />" +
+          "<input type=\"hidden\" name=\"submerchantid\" value=\"{19}\" />" +// SubMerchantID
           "<font face=\"Helvetica\" size=\"3\" color=\"#606060\">" +
           "<center>" +
           "<br />" +
@@ -112,7 +151,6 @@ namespace Nop.Plugin.Peraport.WidgetFinancial.Controllers
           "</form>"
             + "<script> document.forms[0].submit();</script>"
             ;
-
         private const string formSendYK = "<form style=\"background: #eee url('../Content/Images/background2.png') center bottom no-repeat; height: 1200px;\" " +
           " name = \"mercForm\"  action=\"{0}\" method=\"POST\" />" +
           "<input type=\"hidden\" name=\"posnetID\" value=\"{1}\" />" +
@@ -181,7 +219,7 @@ namespace Nop.Plugin.Peraport.WidgetFinancial.Controllers
                 string lang = "tr";
                 string strtimestamp = DateTime.Now.ToString();
 
-                var resultString = string.Format(formSendYK, badr, posnetid, mid, xid, trantype, instalment, amount, lang, currencyCode, successURL, errorURL, bnk);
+                var resultString = string.Format(formSendYK, badr, posnetid, mid, xid, trantype, instalment, amount, lang, currencyCode, successURL, errorURL);
                 var fs = resultString;
                 HttpContext.Response.Clear();
                 HttpContext.Response.Write(fs);
@@ -202,7 +240,7 @@ namespace Nop.Plugin.Peraport.WidgetFinancial.Controllers
                 string strMode = "PROD";// "TEST";
                 string strApiVersion = "v0.01";
                 string strTerminalProvUserID = "PROVOOS";
-                string strType = "sales";
+                string strType = "gpdatarequest";// "sales";
                 string strAmount = Convert.ToInt32((1 * 100)).ToString();
                 string strCurrencyCode = "949";
                 string strInstallmentCount = taksit; //Taksit Sayısı. Bos gönderilirse taksit yapılmaz

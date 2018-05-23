@@ -108,6 +108,134 @@ namespace Nop.Plugin.Payments.PeraPay
         }
         #endregion
 
+        #region tanımlar
+
+        //private const string formSendGR = "<form style=\"background: #eee url('../Content/Images/background2.png') center bottom no-repeat; height: 1200px;\" " +
+        //  " action=\"{0}\" method=\"POST\" />" +
+        //  "<input type=\"hidden\" name=\"secure3dsecuritylevel\" value=\"3D_OOS_FULL\" />" +
+        //  "<input type=\"hidden\" name=\"mode\" value=\"{1}\" />" +
+        //  "<input type=\"hidden\" name=\"apiversion\" value=\"{2}\" />" +
+        //  "<input type=\"hidden\" name=\"terminalprovuserid\" value=\"{3}\" />" +
+        //  "<input type=\"hidden\" name=\"terminaluserid\" value=\"{4}\" />" +
+        //  "<input type=\"hidden\" name=\"terminalid\" value=\"{5}\" />" +
+        //  "<input type=\"hidden\" name=\"terminalmerchantid\" value=\"{6}\" />" +
+        //  "<input type=\"hidden\" name=\"orderid\" value=\"{7}\" />" +
+        //  "<input type=\"hidden\" name=\"customeremailaddress\" value=\"info@a321.com.tr\" />" +
+        //  "<input type=\"hidden\" name=\"customeripaddress\" value=\"127.0.0.1\" />" +
+        //  "<input type=\"hidden\" name=\"txntype\" value=\"{8}\" />" +
+        //  "<input type=\"hidden\" name=\"txnamount\" value=\"{9}\" />" +
+        //  "<input type=\"hidden\" name=\"txncurrencycode\" value=\"{10}\" />" +
+        //  "<input type=\"hidden\" name=\"companyname\" value=\"A321\" />" +
+        //  "<input type=\"hidden\" name=\"txninstallmentcount\" value=\"{11}\" />" +
+        //  "<input type=\"hidden\" name=\"successurl\" value=\"{12}\" />" +
+        //  "<input type=\"hidden\" name=\"errorurl\" value=\"{13}\" />" +
+        //  "<input type=\"hidden\" name=\"secure3dhash\" value=\"{14}\" />" +
+        //  "<input type=\"hidden\" name=\"lang\" value=\"{15}\" />" +
+        //  "<input type=\"hidden\" name=\"motoind\" value=\"{16}\" />" +
+        //  "<input type=\"hidden\" name=\"txntimestamp\" value=\"{17}\" />" +
+        //  "<input type=\"hidden\" name=\"refreshtime\" value=\"{18}\" />" +
+        //  "<input type=\"hidden\" name=\"submerchantid\" value=\"{19}\" />" +// SubMerchantID
+        //  "<font face=\"Helvetica\" size=\"3\" color=\"#606060\">" +
+        //  "<center>" +
+        //  "<br />" +
+        //  "<br />" +
+        //  "<h2>Banka sayfasına yönlendiriliyorsunuz...<h2>  <br />" +
+        //  "<br />" +
+
+        //  "</center>" +
+        //  "</form>"
+        //    + "<script> document.forms[0].submit();</script>"
+        //    ;
+
+
+        private const string formSendGRPay = "<form style=\"background: #eee url('../Content/Images/background2.png') center bottom no-repeat; height: 1200px;\" " +
+          " action=\"{0}\" method=\"POST\" />" +
+          "<input type=\"hidden\" name=\"secure3dsecuritylevel\" value=\"CUSTOM_PAY\" />" +
+          "<input type=\"hidden\" name=\"mode\" value=\"{1}\" />" +
+          "<input type=\"hidden\" name=\"apiversion\" value=\"{2}\" />" +
+          "<input type=\"hidden\" name=\"terminalprovuserid\" value=\"{3}\" />" +
+          "<input type=\"hidden\" name=\"terminaluserid\" value=\"{4}\" />" +
+          "<input type=\"hidden\" name=\"terminalid\" value=\"{5}\" />" +
+          "<input type=\"hidden\" name=\"terminalmerchantid\" value=\"{6}\" />" +
+          "<input type=\"hidden\" name=\"orderid\" value=\"{7}\" />" +
+          "<input type=\"hidden\" name=\"customeremailaddress\" value=\"info@a321.com.tr\" />" +
+          "<input type=\"hidden\" name=\"customeripaddress\" value=\"127.0.0.1\" />" +
+          "<input type=\"hidden\" name=\"txntype\" value=\"{8}\" />" +
+          "<input type=\"hidden\" name=\"txnsubtype\" value=\"sales\" />" +
+          "<input type=\"hidden\" name=\"garantipay\" value=\"Y\" />" +
+          "<input type=\"hidden\" name=\"bnsuseflag\" value=\"N\" />" +
+          "<input type=\"hidden\" name=\"fbbuseflag\" value=\"N\" />" +
+          "<input type=\"hidden\" name=\"txnamount\" value=\"{9}\" />" +
+          "<input type=\"hidden\" name=\"txncurrencycode\" value=\"{10}\" />" +
+          "<input type=\"hidden\" name=\"companyname\" value=\"A321\" />" +
+          "<input type=\"hidden\" name=\"txninstallmentcount\" value=\"{11}\" />" +
+          "<input type=\"hidden\" name=\"successurl\" value=\"{12}\" />" +
+          "<input type=\"hidden\" name=\"errorurl\" value=\"{13}\" />" +
+          "<input type=\"hidden\" name=\"secure3dhash\" value=\"{14}\" />" +
+          "<input type=\"hidden\" name=\"lang\" value=\"{15}\" />" +
+          "<input type=\"hidden\" name=\"motoind\" value=\"{16}\" />" +
+          "<input type=\"hidden\" name=\"txntimestamp\" value=\"{17}\" />" +
+          "<input type=\"hidden\" name=\"refreshtime\" value=\"{18}\" />" +
+          "<font face=\"Helvetica\" size=\"3\" color=\"#606060\">" +
+          "<center>" +
+          "<br />" +
+          "<br />" +
+          "<h2>Banka sayfasına yönlendiriliyorsunuz...<h2>  <br />" +
+          "<br />" +
+
+          "</center>" +
+          "</form>"
+            + "<script> document.forms[0].submit();</script>"
+            ;
+
+        private const string formSendYK = "<form style=\"background: #eee url('../Content/Images/background2.png') center bottom no-repeat; height: 1200px;\" " +
+          " name = \"mercForm\"  action=\"{0}\" method=\"POST\" />" +
+          "<input type=\"hidden\" name=\"posnetID\" value=\"{1}\" />" +
+          "<input type=\"hidden\" name=\"mid\" value=\"{2}\" />" +
+          "<input type=\"hidden\" name=\"xid\" value=\"{3}\" />" +
+          "<input type=\"hidden\" name=\"tranType\" value=\"{4}\" />" +
+          "<input type=\"hidden\" name=\"instalment\" value=\"{5}\" />" +
+            "<input type=\"hidden\" name=\"amount\" value=\"{6}\" />" +
+          "<input type=\"hidden\" name=\"lang\" value=\"{7}\" />" +
+          "<input type=\"hidden\" name=\"currencyCode\" value=\"{8}\" />" +
+          "<input type=\"hidden\" name=\"merchantReturnSuccessURL\" value=\"{9}\" />" +
+          "<input type=\"hidden\" name=\"merchantReturnFailURL\" value=\"{10}\" />" +
+          "<font face=\"Helvetica\" size=\"3\" color=\"#606060\">" +
+          "<center>" +
+          "<br />" +
+          "<br />" +
+          "<h2>Banka sayfasına yönlendiriliyorsunuz...<h2>  <br />" +
+          "<br />" +
+
+          "</center>" +
+          "</form>"
+            + "<script> document.forms[0].submit();</script>"
+            ;
+        #endregion
+
+        #region Garanti utils
+
+        public string GetSHA1(string SHA1Data)
+        {
+            SHA1 sha = new SHA1CryptoServiceProvider();
+            string HashedPassword = SHA1Data;
+            byte[] hashbytes = Encoding.GetEncoding("ISO-8859-9").GetBytes(HashedPassword);
+            byte[] inputbytes = sha.ComputeHash(hashbytes);
+            return GetHexaDecimal(inputbytes);
+        }
+        public string GetHexaDecimal(byte[] bytes)
+        {
+            StringBuilder s = new StringBuilder();
+            int length = bytes.Length;
+            for (int n = 0; n <= length - 1; n++)
+            {
+                s.Append(String.Format("{0,2:x}", bytes[n]).Replace(" ", "0"));
+            }
+            return s.ToString();
+        }
+        #endregion
+
+        #region İş Utils
         protected string XmlParser(string xmlString)
         {
             string CommonPaymentUrlNode = "";
@@ -180,6 +308,8 @@ namespace Nop.Plugin.Payments.PeraPay
             return responseFromServer;
         }
 
+        #endregion
+
         public bool SupportCapture
         {
             get { return false; }
@@ -241,59 +371,6 @@ namespace Nop.Plugin.Payments.PeraPay
 
         }
 
-        #region Garanti
-        private const string formSendGR = "<form id=\"GarantiForm\" style=\"background: #eee url('../Content/Images/background2.png') center bottom no-repeat; height: 1200px;\" " +
-          " action=\"{0}\" method=\"POST\" />" +
-          "<input type=\"hidden\" name=\"secure3dsecuritylevel\" value=\"3D_OOS_FULL\" />" +
-          "<input type=\"hidden\" name=\"mode\" value=\"{1}\" />" +
-          "<input type=\"hidden\" name=\"apiversion\" value=\"{2}\" />" +
-          "<input type=\"hidden\" name=\"terminalprovuserid\" value=\"{3}\" />" +
-          "<input type=\"hidden\" name=\"terminaluserid\" value=\"{4}\" />" +
-          "<input type=\"hidden\" name=\"terminalid\" value=\"{5}\" />" +
-          "<input type=\"hidden\" name=\"terminalmerchantid\" value=\"{6}\" />" +
-          "<input type=\"hidden\" name=\"orderid\" value=\"{7}\" />" +
-          "<input type=\"hidden\" name=\"customeremailaddress\" value=\"info@kavsan.com.tr\" />" +
-          "<input type=\"hidden\" name=\"customeripaddress\" value=\"127.0.0.1\" />" +
-          "<input type=\"hidden\" name=\"txntype\" value=\"{8}\" />" +
-          "<input type=\"hidden\" name=\"txnamount\" value=\"{9}\" />" +
-          "<input type=\"hidden\" name=\"txncurrencycode\" value=\"{10}\" />" +
-          "<input type=\"hidden\" name=\"companyname\" value=\"Kavsan\" />" +
-          "<input type=\"hidden\" name=\"txninstallmentcount\" value=\"{11}\" />" +
-          "<input type=\"hidden\" name=\"successurl\" value=\"{12}\" />" +
-          "<input type=\"hidden\" name=\"errorurl\" value=\"{13}\" />" +
-          "<input type=\"hidden\" name=\"secure3dhash\" value=\"{14}\" />" +
-          "<input type=\"hidden\" name=\"lang\" value=\"{15}\" />" +
-          "<input type=\"hidden\" name=\"motoind\" value=\"{16}\" />" +
-          "<input type=\"hidden\" name=\"txntimestamp\" value=\"{17}\" />" +
-          "<input type=\"hidden\" name=\"refreshtime\" value=\"{18}\" />" +
-          "<font face=\"Helvetica\" size=\"3\" color=\"#606060\">" +
-          "<center>" +
-          "<br />" +
-          "<br />" +
-          "<h2>Ödeme Yönlendirme<h2> <br />{19} <br />" +
-          "<br />" +
-          "<input type=\"submit\" value=\"Garanti Bankası Ödeme Sayfasına Devam Et\"/>" +
-          "</center>" +
-          "</form> <script>document.getElementById('GarantiForm').submit();</script>";
-        public string GetSHA1(string SHA1Data)
-        {
-            SHA1 sha = new SHA1CryptoServiceProvider();
-            string HashedPassword = SHA1Data;
-            byte[] hashbytes = Encoding.GetEncoding("ISO-8859-9").GetBytes(HashedPassword);
-            byte[] inputbytes = sha.ComputeHash(hashbytes);
-            return GetHexaDecimal(inputbytes);
-        }
-        public string GetHexaDecimal(byte[] bytes)
-        {
-            StringBuilder s = new StringBuilder();
-            int length = bytes.Length;
-            for (int n = 0; n <= length - 1; n++)
-            {
-                s.Append(String.Format("{0,2:x}", bytes[n]).Replace(" ", "0"));
-            }
-            return s.ToString();
-        }
-        #endregion
         public static Dictionary<string, object> DeserializeCustomValues(string customValuesXml)
         {
             if (string.IsNullOrWhiteSpace(customValuesXml))
@@ -324,45 +401,48 @@ namespace Nop.Plugin.Payments.PeraPay
 
             _httpContext.Session["BANKA"] = secenek[0];
 
+            postProcessPaymentRequest.Order.CustomerId.ToString();
+
             if (secenek[0] == "Garanti")
             {
-                #region Garanti Bankası      
-                //String badr = "https://sanalposprov.garanti.com.tr/servlet/gt3dengine";
-                String badr = "https://sanalposprov.garanti.com.tr/VPServlet";
-                
 
-                String refreshtime = "1";
+                #region Garanti Bankası      
+                string badr = "https://sanalposprov.garanti.com.tr/servlet/gt3dengine";
+                string refreshtime = "1";
                 string strMode = "PROD";// "TEST";
                 string strApiVersion = "v0.01";
                 string strTerminalProvUserID = "PROVOOS";
-                string strType = "sales";
+                string strType = "gpdatarequest";// "sales";
                 string strAmount = Convert.ToInt32((postProcessPaymentRequest.Order.OrderTotal * 100)).ToString();
                 string strCurrencyCode = "949";
                 string strInstallmentCount = secenek[1];//taksit sayısı
                 string strTerminalUserID = "PROVOOS";
                 string strOrderID = postProcessPaymentRequest.Order.Id.ToString();
-                //string strCustomeripaddress = "127.0.0.1";
-                string strTerminalID = "10021483";// "30691299";
-                string _strTerminalID = "010021483";// "030691299"; //Basına 0 eklenerek 9 digite tamamlanmalıdır.
-                string strTerminalMerchantID = "9363379";// "7000679"; //Üye syeri Numarası
-                string strStoreKey = "54414d45524f54544954414d45524f545449373432303134";// "12345678"; //3D Secure sifreniz
-                string strProvisionPassword = "Tamerotti74";// "123qweASD"; //Terminal UserID sifresi
-                string strSuccessURL = _webHelper.GetStoreLocation() + "Pay/LPSuccess";
-                string strErrorURL = _webHelper.GetStoreLocation() + "Pay/LPCancel";
-                //string strCompanyName = "Medisol";
+                string strTerminalID = "10149385";
+                string _strTerminalID = "010149385";//Basına 0 eklenerek 9 digite tamamlanmalıdır.
+                string strTerminalMerchantID = "0254181";//Üye syeri Numarası
+                string strStoreKey = "A321EDA007ADA34000937155A321EDA007ADA34000937155"; //3D Secure sifreniz
+                string strProvisionPassword = "TelekomA321.";//Terminal UserID sifresi
+                string strSuccessURL = _webHelper.GetStoreLocation() + "Pay/LPSuccessGB";
+                string strErrorURL = _webHelper.GetStoreLocation() + "Pay/LPFailGB";
                 string strlang = "tr";
                 string strMotoInd = "N";
                 string strtimestamp = DateTime.Now.ToString();
+                string submechantid = postProcessPaymentRequest.Order.CustomerId.ToString();
+                //submechantid B2B sistem için Garanti bankası talep ediyor. 
+                //Garanti sisteminde tanımlı kullanıcı ve kredi kartı üzerinde işlem yapıyor
                 string SecurityData = GetSHA1(strProvisionPassword + _strTerminalID).ToUpper();
-                string HashData = GetSHA1(strTerminalID + strOrderID + strAmount + strSuccessURL + strErrorURL + strType + strInstallmentCount + strStoreKey + SecurityData).ToUpper();
+                string HashData = GetSHA1(strTerminalID + strOrderID + strAmount + strSuccessURL + strErrorURL +
+                strType + strInstallmentCount + strStoreKey + SecurityData).ToUpper();
 
                 _httpContext.Session["ORDERID"] = strOrderID;
-                _httpContext.Session["AMOUNT"] = strAmount;
+                _httpContext.Session["AMOUNT"] = postProcessPaymentRequest.Order.OrderTotal.ToString();
+                _httpContext.Session["BANKA"] = secenek[0];
+                _httpContext.Session["TAKSIT"] = secenek[1];
 
-
-                var resultString = string.Format(formSendGR, badr, strMode, strApiVersion, strTerminalProvUserID, strTerminalUserID, strTerminalID,
+                var resultString = string.Format(formSendGRPay, badr, strMode, strApiVersion, strTerminalProvUserID, strTerminalUserID, strTerminalID,
                     strTerminalMerchantID, strOrderID, strType, strAmount, strCurrencyCode, strInstallmentCount, strSuccessURL, strErrorURL,
-                         HashData, strlang, strMotoInd, strtimestamp, refreshtime, secenek[0]);
+                         HashData, strlang, strMotoInd, strtimestamp, refreshtime,submechantid);
                 var fs = resultString;
                 _httpContext.Response.Clear();
                 _httpContext.Response.Write(fs);
@@ -392,6 +472,12 @@ namespace Nop.Plugin.Payments.PeraPay
                 String SuccessUrl = _webHelper.GetStoreLocation() + "Pay/LPSuccess";
                 String FailUrl = _webHelper.GetStoreLocation() + "Pay/LPCancel";
 
+                _httpContext.Session["ORDERID"] = OrderId;
+                _httpContext.Session["AMOUNT"] = Amount;
+                _httpContext.Session["BANKA"] = secenek[0];
+                _httpContext.Session["TAKSIT"] = secenek[1];
+
+
                 String post = "HostMerchantId=" + HostMerchantId + "&AmountCode=" + AmountCode + "&Amount=" + Amount + "&MerchantPassword=" + MerchantPassword + "&TransactionId=" + TransactionId + "&OrderID=" + OrderId + "&OrderDescription=" + OrderDescription + "&InstallmentCount=" + InstalmentCount + "&TransactionType=" + TransactionType + "&IsSecure=" + IsSecure + "&AllowNotEnrolledCard=" + AllowNotEnrolledCard + "&SuccessUrl=" + SuccessUrl + "&FailUrl=" + FailUrl;
 
                 String response = GetResponseText(PostUrl, post);
@@ -403,8 +489,6 @@ namespace Nop.Plugin.Payments.PeraPay
                 }
                 else
                 {
-                    _httpContext.Session["ORDERID"] = OrderId;
-                    _httpContext.Session["AMOUNT"] = Amount;
                     _httpContext.Response.Redirect(newURL);
                 }
                 #endregion
@@ -412,6 +496,33 @@ namespace Nop.Plugin.Payments.PeraPay
             else if (secenek[0] == "YapiKredi")
             {
                 #region YapıKredi
+                string orderid= postProcessPaymentRequest.Order.Id.ToString();
+                string badr = "https://www.posnet.ykb.com/3DSWebService/OOS";//Gerçek  test için badr = "http://setmpos.ykb.com/3DSWebService/OOS";
+                string posnetid = "285544";//A321
+                string mid = "6701010031";//A321
+                string amount = postProcessPaymentRequest.Order.OrderTotal.ToString("0.00").Replace(',', '.');
+                string currencyCode = "TL";
+                string instalment = secenek[1]; //Taksit Sayısı. Bos gönderilirse taksit yapılmaz
+                string s = "0";
+                for (int i = 1; i < 20 - orderid.Length; i++) { s = s + "0"; }
+                string xid = s + orderid.ToString();
+                string trantype = "Sale";
+                string successURL = _webHelper.GetStoreLocation() + "Pay/LPSuccessYKB";
+                string errorURL = _webHelper.GetStoreLocation() + "Pay/LPFailYKB";
+                string lang = "tr";
+                string strtimestamp = DateTime.Now.ToString();
+
+                _httpContext.Session["ORDERID"] = orderid;
+                _httpContext.Session["AMOUNT"] = amount;
+                _httpContext.Session["BANKA"] = secenek[0];
+                _httpContext.Session["TAKSIT"] = secenek[1];
+
+
+                var resultString = string.Format(formSendYK, badr, posnetid, mid, xid, trantype, instalment, amount, lang, currencyCode, successURL, errorURL);
+                var fs = resultString;
+                _httpContext.Response.Clear();
+                _httpContext.Response.Write(fs);
+                _httpContext.Response.End();
                 #endregion
             }
         }

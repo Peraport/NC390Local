@@ -20,6 +20,8 @@ using Nop.Plugin.Payments.PeraPay.Models;
 using Nop.Services.Localization;
 using Nop.Web.PPService;
 using System.ServiceModel.Security;
+using System.Globalization;
+using Nop.Services.Authentication;
 
 namespace Nop.Plugin.Payments.PeraPay.Controllers
 {
@@ -36,9 +38,12 @@ namespace Nop.Plugin.Payments.PeraPay.Controllers
         private readonly IStoreContext _storeContext;
         private readonly IOrderService _orderService;
         private readonly IOrderProcessingService _orderProcessingService;
+        private readonly IAuthenticationService _authService;
+
         public PayController(IWorkContext workContext,
             IOrderProcessingService orderProcessingService,
             IOrderService orderService,
+            IAuthenticationService authService,
             IStoreContext storeContext,
             IStoreService storeService,
             ISettingService settingService,
@@ -53,6 +58,7 @@ namespace Nop.Plugin.Payments.PeraPay.Controllers
             this._settingService = settingService;
             this._localizationService = localizationService;
             this._PayPaymentSettings = PayPaymentSettings;
+            _authService = authService;
             this._orderTotalCalculationService = orderTotalCalculationService;
             this._ShoppingCartService = ShoppingCartService;
             this._storeContext = storeContext;
@@ -61,45 +67,183 @@ namespace Nop.Plugin.Payments.PeraPay.Controllers
         }
         #endregion
 
+        public bool AfterKKFail(Order order)
+        {
+            _orderProcessingService.ReOrder(order);
+            _orderService.DeleteOrder(order);
+            return true;
+        }
+        public bool AfterKKSuccess(Order order, string Amount, string Banka, string Taksit)
+        {
+            try
+            {
+                NopServiceClient client = new NopServiceClient();
+                client.ClientCredentials.Windows.AllowedImpersonationLevel = System.Security.Principal.TokenImpersonationLevel.Anonymous;
+
+                //Ödemeyi Erp ye aktarma
+                List<MATCHING_S> MatchList = new List<MATCHING_S>();
+                MATCHING_S m1 = new MATCHING_S { TABLE_NAME = "Payment", BASE_ID = order.Id, MATCH_ID = order.CustomerId, BASE_STR = "" };
+                MatchList.Add(m1);
+
+                var xxx = client.MatchTwoRecord(MatchList.ToArray());
+
+                var amount = Amount;
+                decimal d = decimal.Parse(amount, CultureInfo.InvariantCulture);
+                var customer = _authService.GetAuthenticatedCustomer();
+                ErpPayment p = new ErpPayment { DATE = DateTime.Now, TOTAL = d, NOPCUSTOMER_ID = customer.Id, ERPCUSTOMER_ID = -1, ERPCUSTOMER_CODE = "", NOTE = "", CODE = "WEB" };
+                var r = client.CopyNopPaymentToErp(p);
+
+                string paynote = "";
+                if (r.CODE == "OK")
+                    paynote = "İşlem Başarılı. " + amount + " TL kartınızdan çekildi ve hesabınıza aktarıldı.";
+                else
+                    paynote = "UYARI. " + amount + " TL kartınızdan çekildi ancak hesabınıza aktarılırken bir problem oluştu. Konuyla ilgili Lütfen Müşteri Temsilcinize bilgi veriniz.";
+
+                //Siparişi Güncelle
+                order.OrderStatus = OrderStatus.Processing;
+                order.PaymentStatus = PaymentStatus.Paid;
+                OrderNote on1 = new OrderNote();
+                on1.Note = "Tutar : " + Amount + "Banka : " + Banka + " Taksit : " + Taksit + " Note : " + paynote;
+                on1.OrderId = order.Id;
+                on1.DisplayToCustomer = true;
+                on1.CreatedOnUtc = DateTime.UtcNow;
+                order.OrderNotes.Add(on1);
+                _orderService.UpdateOrder(order);
+
+                //Siparişi Erp ye akratıyoruz.
+                var a = client.CopyOrdersNopToErp("Id", order.Id.ToString());
+
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+                return true;
+            }
+        }
+
+        [ValidateInput(false)]
+        public ActionResult LPSuccessGB(FormCollection form)
+        {
+            string oid = Session["ORDERID"].ToString();
+            string amount = Session["AMOUNT"].ToString();
+            string banka = Session["BANKA"].ToString();
+            string taksit = Session["TAKSIT"].ToString();
+
+            Order order = _orderService.GetOrderById(Convert.ToInt32(oid));
+            if (order == null || order.Deleted || _workContext.CurrentCustomer.Id != order.CustomerId)
+                return new HttpUnauthorizedResult();
+
+            AfterKKSuccess(order, amount, banka, taksit);
+            return RedirectToAction("Completed", "Checkout", new { area = "" });
+        }
+
+        [ValidateInput(false)]
+        public ActionResult LPFailGB()
+        {
+            try
+            {
+                if (Session["ORDERID"] != null)
+                {
+                    string oid = Session["ORDERID"].ToString();
+
+                    var order = _orderService.GetOrderById(Convert.ToInt32(oid));
+                    if (order == null || order.Deleted || _workContext.CurrentCustomer.Id != order.CustomerId)
+                        return new HttpUnauthorizedResult();
+
+                    AfterKKFail(order);
+
+                    string returnMessage = "";
+                    string errorMessage = "";
+                    string refNo = "";
+                    returnMessage = Request.Form["mderrormessage"];
+                    errorMessage = Request.Form["errmsg"];
+                    refNo = Request.Form["mdstatus"];
+                    if (errorMessage == "") errorMessage = returnMessage;
+                    var res = returnMessage + " Ref No: " + refNo;
+
+                    if (errorMessage.Contains("0809")) errorMessage += "Bayi Kodu ve Kredi Kartı numaranız sisteme kayıtlı olmadığı için işleminiz gerçekleşmemiştir. Lütfen müşteri temsilciniz ile iletişime geçiniz. ";
+
+                    ViewBag.Amount = Request.Form["amount"];
+                    ViewBag.Warning = errorMessage;
+                    ViewBag.Message = res;
+
+                    return View("~/Plugins/Payments.PeraPay/Views/Pay/PeraPayFail.cshtml", new PeraPayBasicModel { NAME = "Hata Kodu : " + refNo + "   Hata Mesajı : " + errorMessage });
+                }
+                else
+                    return View("~/Plugins/Payments.PeraPay/Views/Pay/PeraPayFail.cshtml", new PeraPayBasicModel { NAME = "Banka ile iletişim Kurulamadı. (SESSİONOIDNULL)" });
+            }
+            catch (Exception ex)
+            {
+                return View("~/Plugins/Payments.PeraPay/Views/Pay/PeraPayFail.cshtml", new PeraPayBasicModel { NAME = "Banka ile iletişim Kurulamadı. (CATCHEX)" });
+            }
+        }
+
+        [ValidateInput(false)]
+        public ActionResult LPSuccessYKB(FormCollection form)
+        {
+                string oid = Session["ORDERID"].ToString();
+                string amount = Session["AMOUNT"].ToString();
+                string banka = Session["BANKA"].ToString();
+                string taksit = Session["TAKSIT"].ToString();
+
+                Order order = _orderService.GetOrderById(Convert.ToInt32(oid));
+                if (order == null || order.Deleted || _workContext.CurrentCustomer.Id != order.CustomerId) return new HttpUnauthorizedResult();
+
+                AfterKKSuccess(order, amount, banka, taksit);
+                return RedirectToAction("Completed", "Checkout", new { area = "" });
+        }
+
+        [ValidateInput(false)]
+        public ActionResult LPFailYKB()
+        {
+            try
+            {
+                if (Session["ORDERID"] != null)
+                {
+                    string oid = Session["ORDERID"].ToString();
+
+                    var order = _orderService.GetOrderById(Convert.ToInt32(oid));
+                    if (order == null || order.Deleted || _workContext.CurrentCustomer.Id != order.CustomerId)
+                        return new HttpUnauthorizedResult();
+
+                    AfterKKFail(order);
+
+                    string returnMessage = "";
+                    string errorMessage = "";
+                    string refNo = "";
+                    returnMessage = Request.Params["returnmessage"];
+                    errorMessage = Request.Params["errmsg"];
+                    refNo = Request.Params["ykbrefno"];
+                    var res = returnMessage + " Ref No: " + refNo;
+                    ViewBag.Amount = Request.Params["amount"];
+                    ViewBag.Warning = errorMessage;
+                    ViewBag.Message = res;
+
+                    return View("~/Plugins/Payments.PeraPay/Views/Pay/PeraPayFail.cshtml", new PeraPayBasicModel { NAME = "Hata Kodu : " + refNo + "   Hata Mesajı : " + errorMessage });
+                }
+                else
+                    return View("~/Plugins/Payments.PeraPay/Views/Pay/PeraPayFail.cshtml", new PeraPayBasicModel { NAME = "Banka ile iletişim Kurulamadı. (SESSİONOIDNULL)" });
+            }
+            catch (Exception ex)
+            {
+                return View("~/Plugins/Payments.PeraPay/Views/Pay/PeraPayFail.cshtml", new PeraPayBasicModel { NAME = "Banka ile iletişim Kurulamadı. (CATCHEX)" });
+            }
+        }
 
         [ValidateInput(false)]
         public ActionResult LPSuccess(string RC, string Message, string TransactionId, string AuthCode, string MaskedPan)
         {
             string oid = Session["ORDERID"].ToString();
             string amount = Session["AMOUNT"].ToString();
+            string banka = Session["BANKA"].ToString();
+            string taksit = Session["TAKSIT"].ToString();
 
             Order order = _orderService.GetOrderById(Convert.ToInt32(oid));
             if (order == null || order.Deleted || _workContext.CurrentCustomer.Id != order.CustomerId)
                 return new HttpUnauthorizedResult();
 
-            order.OrderStatus = OrderStatus.Processing;
-            order.PaymentStatus = PaymentStatus.Paid;
-            Core.Domain.Orders.OrderNote on1 = new Core.Domain.Orders.OrderNote();
-            on1.Note = "Trans Id: " + TransactionId;
-            on1.OrderId = order.Id;
-            on1.DisplayToCustomer = true;
-            on1.CreatedOnUtc = DateTime.UtcNow;
-            order.OrderNotes.Add(on1);
-            _orderService.UpdateOrder(order);
-
-
-
-
-            List<MATCHING_S> MatchList = new List<MATCHING_S>();
-            MATCHING_S m1 = new MATCHING_S { TABLE_NAME = "Payment", BASE_ID = order.Id, MATCH_ID = order.CustomerId, BASE_STR = TransactionId };
-            //MATCHING_S m2 = new MATCHING_S { TABLE_NAME = "Order", PRINCIPAL_ID = order.Id, MATCH_ID = order.CustomerId, NOTE = TransactionId };
-            MatchList.Add(m1);
-            //MatchList.Add(m2);
-
-            NopServiceClient client = new NopServiceClient();
-            client.ClientCredentials.Windows.AllowedImpersonationLevel = System.Security.Principal.TokenImpersonationLevel.Anonymous;
-
-            //Siparişi Erp ye akratıyoruz.
-            var a = client.CopyOrdersNopToErp("Id", oid);
-
-            var xxx = client.MatchTwoRecord(MatchList.ToArray());
-
-            //return RedirectToRoute("CheckoutCompleted", new { orderId = order.Id });
+            AfterKKSuccess(order, amount, banka, taksit);
             return RedirectToAction("Completed", "Checkout", new { area = "" });
         }
 
@@ -132,8 +276,7 @@ namespace Nop.Plugin.Payments.PeraPay.Controllers
                     if (order == null || order.Deleted || _workContext.CurrentCustomer.Id != order.CustomerId)
                         return new HttpUnauthorizedResult();
 
-                    _orderProcessingService.ReOrder(order);
-                    _orderService.DeleteOrder(order);
+                    AfterKKFail(order);
 
                     if (RC != null && RC != "")
                         return View("~/Plugins/Payments.PeraPay/Views/Pay/PeraPayFail.cshtml", new PeraPayBasicModel { NAME = "Hata Kodu : " + RC + "   Hata Mesajı : " + Message });
