@@ -1,0 +1,30 @@
+﻿@model Nop.Plugin.Peraport.AdminPlugin.Models.ResultModel
+
+
+@if (Model == null)
+{
+    <ul>
+        <li>İşlem yapılmadı. </li>
+    </ul>
+}
+else
+{
+    if (Model.NAME != "Resim")
+    {
+        @Model.NAME
+        <span>--></span>
+            @Model.NOTE
+            <br /><hr />
+    }
+    else
+    {
+                <ul>
+                    @foreach (var itemx in Model.LOGS)
+                    {
+                        <li>
+                            @itemx
+                        </li>
+                    }
+                </ul>
+    }
+}

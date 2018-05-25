@@ -1,0 +1,55 @@
+﻿
+@{
+    Layout = "~/Administration/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h3>Ürün Senkronizasyonu</h3>
+<br>
+
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <div class="col-md-8">
+                    <select id="ProcessTypeSelect" name="ProcessTypeSelect" style="width:200px">
+
+                        @if (ViewBag.ProcessType == null || ViewBag.ProcessType == 1)
+                        {
+                            <option value="1" selected>Sipariş Çokla</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-8">
+                    Sipariş Numarası : <input id="Oid" type="text" name="Oid" class="k-button save-customer-info-button" />
+                </div>
+                <div class="col-md-8">
+                    Müşteri Kodu :
+                    <input id="Cuids" type="text" name="Cuids" class="k-button save-customer-info-button" />
+                    <br /> Virgül ile ayırarak çoklu giriş yapılabilir.
+                </div>
+                <div class="col-md-8">
+                    <input id="run_button" type="button" value="Çalıştır" name="save-info-button" class="k-button save-customer-info-button" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<div id="divResults" style="margin-top:5px;margin-left:10px; padding:4px 4px 4px 4px;">
+
+</div>
+
+<script type="text/javascript">
+    $("#run_button").click(function () {
+        
+        var tdata = { Oid: $('#Oid').val(), Cuids: $('#Cuids').val() };
+        $.ajax({
+            type: "GET",
+            data: tdata,
+            url: '/PPAdmin/SiparisCoklaProcess/',
+            success: function (result) {
+                $("#divResults").html(result);
+            }
+        });
+    });
+</script>

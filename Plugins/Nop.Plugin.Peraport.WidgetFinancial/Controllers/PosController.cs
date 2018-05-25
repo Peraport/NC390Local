@@ -113,7 +113,7 @@ namespace Nop.Plugin.Peraport.WidgetFinancial.Controllers
         //    + "<script> document.forms[0].submit();</script>"
         //    ;
 
-        private const string formSendGR = "<form style=\"background: #eee url('../Content/Images/background2.png') center bottom no-repeat; height: 1200px;\" " +
+        private const string formSendGRPay = "<form style=\"background: #eee url('../Content/Images/background2.png') center bottom no-repeat; height: 1200px;\" " +
           " action=\"{0}\" method=\"POST\" />" +
           "<input type=\"hidden\" name=\"secure3dsecuritylevel\" value=\"CUSTOM_PAY\" />" +
           "<input type=\"hidden\" name=\"mode\" value=\"{1}\" />" +
@@ -123,14 +123,9 @@ namespace Nop.Plugin.Peraport.WidgetFinancial.Controllers
           "<input type=\"hidden\" name=\"terminalid\" value=\"{5}\" />" +
           "<input type=\"hidden\" name=\"terminalmerchantid\" value=\"{6}\" />" +
           "<input type=\"hidden\" name=\"orderid\" value=\"{7}\" />" +
-          "<input type=\"hidden\" name=\"customeremailaddress\" value=\"info@a321.com.tr\" />" +
-          "<input type=\"hidden\" name=\"customeripaddress\" value=\"127.0.0.1\" />" +
           "<input type=\"hidden\" name=\"txntype\" value=\"{8}\" />" +
-          "<input type=\"hidden\" name=\"txnsubtype\" value=\"sales\" />" +
-          "<input type=\"hidden\" name=\"Garantipay\" value=\"Y\" />" +
           "<input type=\"hidden\" name=\"txnamount\" value=\"{9}\" />" +
           "<input type=\"hidden\" name=\"txncurrencycode\" value=\"{10}\" />" +
-          "<input type=\"hidden\" name=\"companyname\" value=\"A321\" />" +
           "<input type=\"hidden\" name=\"txninstallmentcount\" value=\"{11}\" />" +
           "<input type=\"hidden\" name=\"successurl\" value=\"{12}\" />" +
           "<input type=\"hidden\" name=\"errorurl\" value=\"{13}\" />" +
@@ -139,7 +134,17 @@ namespace Nop.Plugin.Peraport.WidgetFinancial.Controllers
           "<input type=\"hidden\" name=\"motoind\" value=\"{16}\" />" +
           "<input type=\"hidden\" name=\"txntimestamp\" value=\"{17}\" />" +
           "<input type=\"hidden\" name=\"refreshtime\" value=\"{18}\" />" +
-          "<input type=\"hidden\" name=\"submerchantid\" value=\"{19}\" />" +// SubMerchantID
+          "<input type=\"hidden\" name=\"totalinstallmentcount\" value=\"{19}\" />" +
+          "<input type=\"hidden\" name=\"installmentnumber1\" value=\"{20}\" />" +
+          "<input type=\"hidden\" name=\"installmentamount1\" value=\"{21}\" />" +
+          "<input type=\"hidden\" name=\"txnsubtype\" value=\"sales\" />" +
+          "<input type=\"hidden\" name=\"garantipay\" value=\"Y\" />" +
+          "<input type=\"hidden\" name=\"bnsuseflag\" value=\"N\" />" +
+          "<input type=\"hidden\" name=\"chequeuseflag\" value=\"N\" />"+
+          "<input type=\"hidden\" name=\"fbbuseflag\" value=\"N\" />" +
+          "<input type=\"hidden\" name=\"companyname\" value=\"A321\" />" +
+          "<input type=\"hidden\" name=\"customeremailaddress\" value=\"info@a321.com.tr\" />" +
+          "<input type=\"hidden\" name=\"customeripaddress\" value=\"127.0.0.1\" />" +
           "<font face=\"Helvetica\" size=\"3\" color=\"#606060\">" +
           "<center>" +
           "<br />" +
@@ -151,6 +156,7 @@ namespace Nop.Plugin.Peraport.WidgetFinancial.Controllers
           "</form>"
             + "<script> document.forms[0].submit();</script>"
             ;
+
         private const string formSendYK = "<form style=\"background: #eee url('../Content/Images/background2.png') center bottom no-repeat; height: 1200px;\" " +
           " name = \"mercForm\"  action=\"{0}\" method=\"POST\" />" +
           "<input type=\"hidden\" name=\"posnetID\" value=\"{1}\" />" +
@@ -256,17 +262,23 @@ namespace Nop.Plugin.Peraport.WidgetFinancial.Controllers
                 string strlang = "tr";
                 string strMotoInd = "N";
                 string strtimestamp = DateTime.Now.ToString();
+
+                string totalinstallmentcount = "1";
+                string installmentnumber1 = "3";
+                string installmentamount1 = strAmount;
+
                 string SecurityData = GetSHA1(strProvisionPassword + _strTerminalID).ToUpper();
                 string HashData = GetSHA1(strTerminalID + strOrderID + strAmount + strSuccessURL + strErrorURL +
                 strType + strInstallmentCount + strStoreKey + SecurityData).ToUpper();
 
-                var resultString = string.Format(formSendGR, badr, strMode, strApiVersion, strTerminalProvUserID, strTerminalUserID, strTerminalID,
-                    strTerminalMerchantID, strOrderID, strType, strAmount, strCurrencyCode, taksit, strSuccessURL, strErrorURL,
-                         HashData, strlang, strMotoInd, strtimestamp, refreshtime);
+                var resultString = string.Format(formSendGRPay, badr, strMode, strApiVersion, strTerminalProvUserID, strTerminalUserID, strTerminalID,
+                    strTerminalMerchantID, strOrderID, strType, strAmount, strCurrencyCode, strInstallmentCount, strSuccessURL, strErrorURL,
+                         HashData, strlang, strMotoInd, strtimestamp, refreshtime,totalinstallmentcount,installmentnumber1,installmentamount1);
                 var fs = resultString;
-                HttpContext.Response.Clear();
-                HttpContext.Response.Write(fs);
-                HttpContext.Response.End();
+                _httpContext.Response.Clear();
+                _httpContext.Response.Write(fs);
+                _httpContext.Response.End();
+
             }
 
             #endregion

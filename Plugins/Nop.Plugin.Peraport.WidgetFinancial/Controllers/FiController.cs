@@ -17,8 +17,10 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Security.Cryptography;
 using System.ServiceModel.Security;
 using System.Text;
+using System.Web;
 using System.Web.Mvc;
 
 namespace Nop.Plugin.Peraport.WidgetFinancial.Controllers
@@ -31,6 +33,7 @@ namespace Nop.Plugin.Peraport.WidgetFinancial.Controllers
         private readonly ISettingService _settingService;
         private readonly IAuthenticationService _authService;
         private readonly IWebHelper _webHelper;
+        private readonly HttpContextBase _httpContext;
 
         private readonly IOrderModelFactory _orderModelFactory;
         private readonly IOrderService _orderService;
@@ -48,6 +51,7 @@ namespace Nop.Plugin.Peraport.WidgetFinancial.Controllers
                                         IWebHelper webHelper,
                                         IOrderModelFactory orderModelFactory,
                                         IOrderService orderService,
+                                            HttpContextBase httpContext,
                                         IPaymentService paymentService
             )
         {
@@ -59,6 +63,7 @@ namespace Nop.Plugin.Peraport.WidgetFinancial.Controllers
             _orderModelFactory = orderModelFactory;
             _orderService = orderService;
             _paymentService = paymentService;
+            _httpContext = httpContext;
 
             #region _fi
 
@@ -111,6 +116,76 @@ namespace Nop.Plugin.Peraport.WidgetFinancial.Controllers
 
         }
         #endregion
+
+        #region tanımlar
+        private const string formSendGRPay = "<form style=\"background: #eee url('../Content/Images/background2.png') center bottom no-repeat; height: 1200px;\" " +
+          " action=\"{0}\" method=\"POST\" />" +
+          "<input type=\"hidden\" name=\"secure3dsecuritylevel\" value=\"CUSTOM_PAY\" />" +
+          "<input type=\"hidden\" name=\"mode\" value=\"{1}\" />" +
+          "<input type=\"hidden\" name=\"apiversion\" value=\"{2}\" />" +
+          "<input type=\"hidden\" name=\"terminalprovuserid\" value=\"{3}\" />" +
+          "<input type=\"hidden\" name=\"terminaluserid\" value=\"{4}\" />" +
+          "<input type=\"hidden\" name=\"terminalid\" value=\"{5}\" />" +
+          "<input type=\"hidden\" name=\"terminalmerchantid\" value=\"{6}\" />" +
+          "<input type=\"hidden\" name=\"orderid\" value=\"{7}\" />" +
+          "<input type=\"hidden\" name=\"txntype\" value=\"{8}\" />" +
+          "<input type=\"hidden\" name=\"txnamount\" value=\"{9}\" />" +
+          "<input type=\"hidden\" name=\"txncurrencycode\" value=\"{10}\" />" +
+          "<input type=\"hidden\" name=\"txninstallmentcount\" value=\"{11}\" />" +
+          "<input type=\"hidden\" name=\"successurl\" value=\"{12}\" />" +
+          "<input type=\"hidden\" name=\"errorurl\" value=\"{13}\" />" +
+          "<input type=\"hidden\" name=\"secure3dhash\" value=\"{14}\" />" +
+          "<input type=\"hidden\" name=\"lang\" value=\"{15}\" />" +
+          "<input type=\"hidden\" name=\"motoind\" value=\"{16}\" />" +
+          "<input type=\"hidden\" name=\"txntimestamp\" value=\"{17}\" />" +
+          "<input type=\"hidden\" name=\"refreshtime\" value=\"{18}\" />" +
+          "<input type=\"hidden\" name=\"totalinstallmentcount\" value=\"{19}\" />" +
+          "<input type=\"hidden\" name=\"installmentnumber1\" value=\"{20}\" />" +
+          "<input type=\"hidden\" name=\"installmentamount1\" value=\"{21}\" />" +
+          "<input type=\"hidden\" name=\"txnsubtype\" value=\"sales\" />" +
+          "<input type=\"hidden\" name=\"garantipay\" value=\"Y\" />" +
+          "<input type=\"hidden\" name=\"bnsuseflag\" value=\"N\" />" +
+          "<input type=\"hidden\" name=\"chequeuseflag\" value=\"N\" />" +
+          "<input type=\"hidden\" name=\"fbbuseflag\" value=\"N\" />" +
+          "<input type=\"hidden\" name=\"companyname\" value=\"A321\" />" +
+          "<input type=\"hidden\" name=\"customeremailaddress\" value=\"info@a321.com.tr\" />" +
+          "<input type=\"hidden\" name=\"customeripaddress\" value=\"127.0.0.1\" />" +
+          "<font face=\"Helvetica\" size=\"3\" color=\"#606060\">" +
+          "<center>" +
+          "<br />" +
+          "<br />" +
+          "<h2>Banka sayfasına yönlendiriliyorsunuz...<h2>  <br />" +
+          "<br />" +
+
+          "</center>" +
+          "</form>"
+            + "<script> document.forms[0].submit();</script>"
+            ;
+
+        private const string formSendYK = "<form style=\"background: #eee url('../Content/Images/background2.png') center bottom no-repeat; height: 1200px;\" " +
+          " name = \"mercForm\"  action=\"{0}\" method=\"POST\" />" +
+          "<input type=\"hidden\" name=\"posnetID\" value=\"{1}\" />" +
+          "<input type=\"hidden\" name=\"mid\" value=\"{2}\" />" +
+          "<input type=\"hidden\" name=\"xid\" value=\"{3}\" />" +
+          "<input type=\"hidden\" name=\"tranType\" value=\"{4}\" />" +
+          "<input type=\"hidden\" name=\"instalment\" value=\"{5}\" />" +
+            "<input type=\"hidden\" name=\"amount\" value=\"{6}\" />" +
+          "<input type=\"hidden\" name=\"lang\" value=\"{7}\" />" +
+          "<input type=\"hidden\" name=\"currencyCode\" value=\"{8}\" />" +
+          "<input type=\"hidden\" name=\"merchantReturnSuccessURL\" value=\"{9}\" />" +
+          "<input type=\"hidden\" name=\"merchantReturnFailURL\" value=\"{10}\" />" +
+          "<font face=\"Helvetica\" size=\"3\" color=\"#606060\">" +
+          "<center>" +
+          "<br />" +
+          "<br />" +
+          "<h2>Banka sayfasına yönlendiriliyorsunuz...<h2>  <br />" +
+          "<br />" +
+
+          "</center>" +
+          "</form>"
+            + "<script> document.forms[0].submit();</script>"
+            ;
+        #endregion
         public FinanceReportModel GetDocuments(long Id)
         {
             try
@@ -156,7 +231,7 @@ namespace Nop.Plugin.Peraport.WidgetFinancial.Controllers
         {
             NopServiceClient client = new NopServiceClient();
             client.ClientCredentials.Windows.AllowedImpersonationLevel = System.Security.Principal.TokenImpersonationLevel.Anonymous;
-            var _model = client.GetCustomerLimit("MNG",oid.ToString());
+            var _model = client.GetCustomerLimit("MNG", oid.ToString());
             return _model.CUSTOMER_CODE;
         }
 
@@ -622,6 +697,7 @@ namespace Nop.Plugin.Peraport.WidgetFinancial.Controllers
             var faturalar = client.GetInvoicesFromErp(customer.Id.ToString());
             return View("~/Plugins/Peraport.WidgetFinancial/Views/Fi/Test.cshtml", faturalar);
         }
+
         public ActionResult KKPayForm(FiModelFatura f)
         {
             return PartialView("~/Plugins/Peraport.WidgetFinancial/Views/Fi/KKPay.cshtml", f);
@@ -635,110 +711,25 @@ namespace Nop.Plugin.Peraport.WidgetFinancial.Controllers
             //return "0";
         }
 
-        [HttpPost]/*FaturaTakip den geliyor. Fatura ödeme Bölümü*/
-        public ActionResult KKPay(FormCollection form)
+
+        public string GetSHA1(string SHA1Data)
         {
-            var Zaman = DateTime.Now;
-            string _OrderId = "" + Zaman.Year + Zaman.Month + Zaman.Day + Zaman.Hour + Zaman.Minute + Zaman.Second + Zaman.Millisecond;
-            string _OrderDesc = "" + Zaman.Year + Zaman.Month + Zaman.Day + Zaman.Hour + Zaman.Minute + Zaman.Second + Zaman.Millisecond;
-
-
-            //Gerçek ortamı adresleri;
-            String sendTrnxUrl = "https://cpm.payflex.com.tr/CpWeb/SecurePayment?Ptkn=";
-            String PostUrl = "https://cpm.payflex.com.tr/CpWeb/api/RegisterTransaction";
-
-            String TransactionId = Guid.NewGuid().ToString("N");/*Her işlemde random olmalıdır.*/
-            String Amount = form["Tutar"];
-            Amount = Amount.Replace(",", "");
-
-            String AmountCode = "949";
-            String HostMerchantId = "662206572";// form["IsyeriNo"];
-            String MerchantPassword = "A662206572";//form["IsyeriSifre"];
-            String InstalmentCount = form["Taksit"];
-            String OrderId = _OrderId;// "";// form["OrderId"];
-            String OrderDescription = _OrderDesc;// "";// form["OrderDESC"];
-            String TransactionType = "Sale";
-            String IsSecure = "true"; //form["IsSecure"];
-            String AllowNotEnrolledCard = "false";// form["IsSecure"]; 
-            String SuccessUrl = _webHelper.GetStoreLocation() + "Fi/PaymentSuccess";
-            String FailUrl = _webHelper.GetStoreLocation() + "Fi/PaymentFail";
-
-            String post = "HostMerchantId=" + HostMerchantId + "&AmountCode=" + AmountCode + "&Amount=" + Amount + "&MerchantPassword=" + MerchantPassword + "&TransactionId=" + TransactionId + "&OrderID=" + OrderId + "&OrderDescription=" + OrderDescription + "&InstallmentCount=" + InstalmentCount + "&TransactionType=" + TransactionType + "&IsSecure=" + IsSecure + "&AllowNotEnrolledCard=" + AllowNotEnrolledCard + "&SuccessUrl=" + SuccessUrl + "&FailUrl=" + FailUrl;
-
-            String response = GetResponseText(PostUrl, post);
-            response = response.Replace("0 - ", "");
-            //form1.Visible = false;
-            Response.Write("<h1>Sonuç değerleri</h1>");
-            Response.Write(response);
-            string newURL = string.Format("{0}{1}", sendTrnxUrl, XmlParser(response));
-
-            if (newURL.Contains("?Ptkn=null"))
+            SHA1 sha = new SHA1CryptoServiceProvider();
+            string HashedPassword = SHA1Data;
+            byte[] hashbytes = Encoding.GetEncoding("ISO-8859-9").GetBytes(HashedPassword);
+            byte[] inputbytes = sha.ComputeHash(hashbytes);
+            return GetHexaDecimal(inputbytes);
+        }
+        public string GetHexaDecimal(byte[] bytes)
+        {
+            StringBuilder s = new StringBuilder();
+            int length = bytes.Length;
+            for (int n = 0; n <= length - 1; n++)
             {
-                Response.Redirect(_webHelper.GetStoreLocation() + "Fi/Test");
+                s.Append(String.Format("{0,2:x}", bytes[n]).Replace(" ", "0"));
             }
-            else
-            {
-                //Session["ORDERID"] = OrderId;
-                Session["AMOUNT"] = Amount;
-                Response.Redirect(newURL);
-            }
-            return View("~/Plugins/Peraport.WidgetFinancial/Views/Fi/KKPay.cshtml", new FiModelFatura { ID = 0, TUTAR = 0 });
+            return s.ToString();
         }
-
-        public ActionResult PaymentFail(string RC, string ErrorCode, string Message, string TransactionId)
-        {
-            //string MaskedPan = "Kart Numarası";
-            //var amount = Session["AMOUNT"].ToString();
-            //decimal d = decimal.Parse(amount, CultureInfo.InvariantCulture);
-
-
-            Session["AMOUNT"] = null;
-            ViewBag.ResultCode = RC;
-            ViewBag.Message = Message;
-
-
-
-            //var customer = _authService.GetAuthenticatedCustomer();
-            //ErpPayment p = new ErpPayment { DATE = DateTime.Now, TOTAL = d, NOPCUSTOMER_ID = customer.Id, ERPCUSTOMER_ID = -1, ERPCUSTOMER_CODE = "", CODE="WEB", NOTE = MaskedPan };
-            //NopServiceClient client = new NopServiceClient();
-            //var r = client.CopyNopPaymentToErp(p);
-
-            //if (r.CODE == "OK")
-            //    ViewBag.Note = "İşlem Başarılı. "+ amount +" TL kartınızdan çekildi ve hesabınıza aktarıldı.";
-            //else
-            //    ViewBag.Note = "UYARI. " + amount + " TL kartınızdan çekildi ancak hesabınıza aktarılırken bir problem oluştu. Konuyla ilgili Lütfen Müşteri Temsilcinize bilgi veriniz.";
-
-
-
-            return View("~/Plugins/Peraport.WidgetFinancial/Views/Fi/PaymentFail.cshtml");
-        }
-
-        public ActionResult PaymentSuccess(string RC, string Message, string TransactionId, string AuthCode, string MaskedPan)
-        {
-            var amount = Session["AMOUNT"].ToString();
-            decimal d = decimal.Parse(amount, CultureInfo.InvariantCulture);
-            Session["AMOUNT"] = null;
-
-            var customer = _authService.GetAuthenticatedCustomer();
-            ErpPayment p = new ErpPayment { DATE = DateTime.Now, TOTAL = d, NOPCUSTOMER_ID = customer.Id, ERPCUSTOMER_ID = -1, ERPCUSTOMER_CODE = "", NOTE = MaskedPan, CODE = "WEB" };
-            NopServiceClient client = new NopServiceClient();
-            client.ClientCredentials.Windows.AllowedImpersonationLevel = System.Security.Principal.TokenImpersonationLevel.Anonymous;
-            var r = client.CopyNopPaymentToErp(p);
-
-            if (r.CODE == "OK")
-                ViewBag.Note = "İşlem Başarılı. " + amount + " TL kartınızdan çekildi ve hesabınıza aktarıldı.";
-            else
-                ViewBag.Note = "UYARI. " + amount + " TL kartınızdan çekildi ancak hesabınıza aktarılırken bir problem oluştu. Konuyla ilgili Lütfen Müşteri Temsilcinize bilgi veriniz.";
-
-
-            ViewBag.TransactionId = TransactionId;
-            ViewBag.AuthCode = AuthCode;
-            ViewBag.MaskedPan = MaskedPan;
-            ViewBag.ResultCode = RC;
-            ViewBag.Message = Message;
-            return View("~/Plugins/Peraport.WidgetFinancial/Views/Fi/PaymentSuccess.cshtml");
-        }
-
         protected string XmlParser(string xmlString)
         {
             string CommonPaymentUrlNode = "";
@@ -811,7 +802,391 @@ namespace Nop.Plugin.Peraport.WidgetFinancial.Controllers
             return responseFromServer;
         }
 
+        public bool AfterKKSuccess( Order order, string Amount, string Banka, string Taksit)
+        {
+            try
+            {
+                NopServiceClient client = new NopServiceClient();
+                client.ClientCredentials.Windows.AllowedImpersonationLevel = System.Security.Principal.TokenImpersonationLevel.Anonymous;
+
+                //Ödemeyi Erp ye aktarma
+                var customer = _authService.GetAuthenticatedCustomer();
+                List<MATCHING_S> MatchList = new List<MATCHING_S>();
+                MATCHING_S m1 = new MATCHING_S { TABLE_NAME = "Payment", BASE_ID = 0, MATCH_ID = customer.Id, BASE_STR = "" };
+                MatchList.Add(m1);
+
+                var xxx = client.MatchTwoRecord(MatchList.ToArray());
+
+                var amount = Amount;
+                decimal d = decimal.Parse(amount, CultureInfo.InvariantCulture);
+                ErpPayment p = new ErpPayment { DATE = DateTime.Now, TOTAL = d, NOPCUSTOMER_ID = customer.Id, ERPCUSTOMER_ID = -1, ERPCUSTOMER_CODE = "", NOTE = "", CODE = "WEB" };
+                var r = client.CopyNopPaymentToErp(p);
+
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+                return true;
+            }
+        }
 
 
+        [HttpPost]/*FaturaTakip den geliyor. Fatura ödeme Bölümü*/
+        public ActionResult KKPay(FormCollection f)
+        {
+            string banka = f["banka"];
+            var b = banka.Split('-');
+            string taksit = "";
+            string bnk = b[0];
+            taksit = b[1];
+            if (taksit == "0") taksit = "";
+
+            var Zaman = DateTime.Now;
+            string orderid = "" + Zaman.Year + Zaman.Month + Zaman.Day + Zaman.Hour + Zaman.Minute + Zaman.Second + Zaman.Millisecond;
+            string _OrderDesc = "" + Zaman.Year + Zaman.Month + Zaman.Day + Zaman.Hour + Zaman.Minute + Zaman.Second + Zaman.Millisecond;
+
+            var sa = f["Tutar"];
+            if(sa.Contains(',')&& sa.Contains('.'))
+            {
+                if (sa.IndexOf('.') > sa.IndexOf(','))
+                {
+                    sa = sa.Replace(",", "");
+                    sa = sa.Replace(".", ",");
+                }
+                else
+                    sa = sa.Replace(".", "");
+            }
+            else
+                sa = sa.Replace(".", ",");
+
+            try
+            {
+                decimal tutar = Convert.ToDecimal(sa);
+                var strGarantiTutar = (tutar * 100).ToString("0");
+                var strTutar = tutar.ToString("0.00");
+                strTutar = strTutar.Replace(",", ".");
+
+                _httpContext.Session["ORDERID"] = orderid;
+                _httpContext.Session["AMOUNT"] = strTutar;
+                _httpContext.Session["BANKA"] = bnk;
+                _httpContext.Session["TAKSIT"] = taksit;
+
+                #region YK
+
+                if (bnk == "YK")
+                {
+                    string badr = "https://www.posnet.ykb.com/3DSWebService/OOS";//Gerçek  test için badr = "http://setmpos.ykb.com/3DSWebService/OOS";
+                    string posnetid = "285544";//A321
+                    string mid = "6701010031";//A321
+                    string amount = strTutar;
+                    string currencyCode = "TL";
+                    string instalment = taksit; //Taksit Sayısı. Bos gönderilirse taksit yapılmaz
+                    string s = "0";
+                    for (int i = 1; i < 20 - orderid.Length; i++) { s = s + "0"; }
+                    string xid = s + orderid.ToString();
+                    string trantype = "Sale";
+                    string successURL = _webHelper.GetStoreLocation() + "Fi/LPSuccessYKB";
+                    string errorURL = _webHelper.GetStoreLocation() + "Fi/LPFailYKB";
+                    string lang = "tr";
+                    string strtimestamp = DateTime.Now.ToString();
+
+                    var resultString = string.Format(formSendYK, badr, posnetid, mid, xid, trantype, instalment, amount, lang, currencyCode, successURL, errorURL);
+                    var fs = resultString;
+                    HttpContext.Response.Clear();
+                    HttpContext.Response.Write(fs);
+                    HttpContext.Response.End();
+                }
+
+
+                #endregion
+
+                #region Garanti
+
+                if (bnk == "GB")
+                {
+                    if (taksit == "1") { taksit = ""; }
+                    String badr = "https://sanalposprov.garanti.com.tr/servlet/gt3dengine";
+
+                    String refreshtime = "1";
+                    string strMode = "PROD";// "TEST";
+                    string strApiVersion = "v0.01";
+                    string strTerminalProvUserID = "PROVOOS";
+                    string strType = "gpdatarequest";// "sales";
+                    string strAmount = strGarantiTutar;
+                    string strCurrencyCode = "949";
+                    string strInstallmentCount = "";// taksit; //Taksit Sayısı. Bos gönderilirse taksit yapılmaz
+                    string strTerminalUserID = "PROVOOS";
+                    string strOrderID = orderid;
+                    string strTerminalID = "10149385";
+                    string _strTerminalID = "010149385";//Basına 0 eklenerek 9 digite tamamlanmalıdır.
+                    string strTerminalMerchantID = "0254181";//Üye syeri Numarası
+                    string strStoreKey = "A321EDA007ADA34000937155A321EDA007ADA34000937155"; //3D Secure sifreniz
+                    string strProvisionPassword = "TelekomA321.";//Terminal UserID sifresi
+                    string strSuccessURL = _webHelper.GetStoreLocation() + "Fi/LPSuccessGB";
+                    string strErrorURL = _webHelper.GetStoreLocation() + "Fi/LPFailGB";
+                    string strlang = "tr";
+                    string strMotoInd = "N";
+                    string strtimestamp = DateTime.Now.ToString();
+
+                    string totalinstallmentcount = "1";
+                    string installmentnumber1 = "3";
+                    string installmentamount1 = strAmount;
+
+                    string SecurityData = GetSHA1(strProvisionPassword + _strTerminalID).ToUpper();
+                    string HashData = GetSHA1(strTerminalID + strOrderID + strAmount + strSuccessURL + strErrorURL +
+                    strType + strInstallmentCount + strStoreKey + SecurityData).ToUpper();
+
+                    var resultString = string.Format(formSendGRPay, badr, strMode, strApiVersion, strTerminalProvUserID, strTerminalUserID, strTerminalID,
+                        strTerminalMerchantID, strOrderID, strType, strAmount, strCurrencyCode, strInstallmentCount, strSuccessURL, strErrorURL,
+                             HashData, strlang, strMotoInd, strtimestamp, refreshtime, totalinstallmentcount, installmentnumber1, installmentamount1);
+                    var fs = resultString;
+                    _httpContext.Response.Clear();
+                    _httpContext.Response.Write(fs);
+                    _httpContext.Response.End();
+
+                }
+
+                #endregion
+
+                #region İş Bankası
+
+                if (bnk == "IB")
+                {
+
+                    String PostUrl = " https://cpm.vpos.isbank.com.tr/CpWeb/api/RegisterTransaction";
+                    String sendTrnxUrl = "https://cpm.vpos.isbank.com.tr/CpWeb/SecurePayment?Ptkn=";
+
+                    String TransactionId = Guid.NewGuid().ToString("N");/*Her işlemde random olmalıdır.*/
+                    String Amount = strTutar;
+
+                    String AmountCode = "949";
+                    String HostMerchantId = "662206572";// form["IsyeriNo"];
+                    String MerchantPassword = "A662206572";//form["IsyeriSifre"];
+                    String InstalmentCount = taksit;
+                    String OrderId = orderid;// "";// form["OrderId"];
+                    String OrderDescription = _OrderDesc;// "";// form["OrderDESC"];
+                    String TransactionType = "Sale";
+                    String IsSecure = "true"; //form["IsSecure"];
+                    String AllowNotEnrolledCard = "false";// form["IsSecure"]; 
+                    String SuccessUrl = _webHelper.GetStoreLocation() + "Fi/LPSuccessIB";
+                    String FailUrl = _webHelper.GetStoreLocation() + "Fi/LPFailIB";
+
+                    String post = "HostMerchantId=" + HostMerchantId + "&AmountCode=" + AmountCode + "&Amount=" + Amount + "&MerchantPassword=" + MerchantPassword + "&TransactionId=" + TransactionId + "&OrderID=" + OrderId + "&OrderDescription=" + OrderDescription + "&InstallmentCount=" + InstalmentCount + "&TransactionType=" + TransactionType + "&IsSecure=" + IsSecure + "&AllowNotEnrolledCard=" + AllowNotEnrolledCard + "&SuccessUrl=" + SuccessUrl + "&FailUrl=" + FailUrl;
+
+                    String response = GetResponseText(PostUrl, post);
+                    response = response.Replace("0 - ", "");
+                    //form1.Visible = false;
+                    Response.Write("<h1>Sonuç değerleri</h1>");
+                    Response.Write(response);
+                    string newURL = string.Format("{0}{1}", sendTrnxUrl, XmlParser(response));
+
+                    if (newURL.Contains("?Ptkn=null"))
+                    {
+                        Response.Redirect(HttpContext.Request.Url.Scheme + "://" + HttpContext.Request.Url.Host + ":" + HttpContext.Request.Url.Port + "/Pos/LPCancel?Err=BankaUlaşılamaz");
+                    }
+                    else
+                    {
+                        Response.Redirect(newURL);
+                    }
+                }
+
+                #endregion
+
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Message = "Hata Oluştu."+ex.Message;
+            }
+
+            ViewBag.Amount = sa;
+            return View("~/Plugins/Peraport.WidgetFinancial/Views/Fi/Fail.cshtml");
+        }
+
+        [ValidateInput(false)]
+        public ActionResult LPSuccessYKB(FormCollection form)
+        {
+            string returnMessage = "";
+            string errorMessage = "";
+            string refNo = "";
+            returnMessage = Request.Params["returnmessage"];
+            errorMessage = Request.Params["errmsg"];
+            refNo = Request.Params["ykbrefno"];
+            var res = returnMessage + " Ref No: " + refNo;
+
+            string oid = Session["ORDERID"].ToString();
+            string amount = Session["AMOUNT"].ToString();
+            string banka = Session["BANKA"].ToString();
+            string taksit = Session["TAKSIT"].ToString();
+            AfterKKSuccess(null, amount, banka, taksit);
+
+            ViewBag.Amount = amount;
+            ViewBag.Warning = errorMessage;
+            ViewBag.Message = res;
+
+            return View("~/Plugins/Peraport.WidgetFinancial/Views/Fi/Success.cshtml");
+        }
+
+        [ValidateInput(false)]
+        public ActionResult LPFailYKB()
+        {
+            string returnMessage = "";
+            string errorMessage = "";
+            string refNo = "";
+            returnMessage = Request.Params["returnmessage"];
+            errorMessage = Request.Params["errmsg"];
+            refNo = Request.Params["ykbrefno"];
+
+            var res = returnMessage + " Ref No: " + refNo;
+
+            ViewBag.Amount = Request.Params["amount"];
+            ViewBag.Warning = errorMessage;
+            ViewBag.Message = res;
+            return View("~/Plugins/Peraport.WidgetFinancial/Views/Fi/Fail.cshtml");
+        }
+
+
+        [ValidateInput(false)]
+        public ActionResult LPSuccessIB(FormCollection form)
+        {
+            string returnMessage = "";
+            string errorMessage = "";
+            string refNo = "";
+            returnMessage = Request.Params["returnmessage"];
+            errorMessage = Request.Params["Message"];
+            refNo = Request.Params["Rc"];
+
+            var res = returnMessage + " Ref No: " + refNo;
+
+            string oid = Session["ORDERID"].ToString();
+            string amount = Session["AMOUNT"].ToString();
+            string banka = Session["BANKA"].ToString();
+            string taksit = Session["TAKSIT"].ToString();
+            AfterKKSuccess(null, amount, banka, taksit);
+
+            ViewBag.Amount = amount;
+            ViewBag.Warning = errorMessage;
+            ViewBag.Message = res;
+
+            return View("~/Plugins/Peraport.WidgetFinancial/Views/Fi/Success.cshtml");
+        }
+
+        [ValidateInput(false)]
+        public ActionResult LPFailIB()
+        {
+            string returnMessage = "";
+            string errorMessage = "";
+            string refNo = "";
+            returnMessage = Request.Params["returnmessage"];
+            errorMessage = Request.Params["Message"];
+            refNo = Request.Params["Rc"];
+            var res = returnMessage + " Ref No: " + refNo;
+            ViewBag.Amount = Request.Params["amount"];
+            ViewBag.Warning = errorMessage;
+            ViewBag.Message = res;
+
+            return View("~/Plugins/Peraport.WidgetFinancial/Views/Fi/Fail.cshtml");
+        }
+
+
+        [ValidateInput(false)]
+        public ActionResult LPSuccessGB(FormCollection form)
+        {
+            string oid = Session["ORDERID"].ToString();
+            string amount = Session["AMOUNT"].ToString();
+            string banka = Session["BANKA"].ToString();
+            string taksit = Session["TAKSIT"].ToString();
+            AfterKKSuccess(null, amount, banka, taksit);
+
+            var res = "";
+            if (res == "")
+            {
+                foreach (var item in Request.Form.AllKeys)
+                {
+                    res += item + " -> " + Request.Form[item] + " | ";
+                }
+            }
+
+            ViewBag.Message = res;
+
+            ViewBag.Amount = amount;
+            ViewBag.Warning = "";
+            ViewBag.Message = banka;
+
+            return View("~/Plugins/Peraport.WidgetFinancial/Views/Fi/Success.cshtml");
+        }
+
+        [ValidateInput(false)]
+        public ActionResult LPFailGB()
+        {
+            string returnMessage = "";
+            string errorMessage = "";
+            string refNo = "";
+            returnMessage = Request.Form["mderrormessage"];
+            errorMessage = Request.Form["errmsg"];
+            refNo = Request.Form["mdstatus"];
+
+            var res = returnMessage + " Ref No: " + refNo;
+
+            ViewBag.Amount = Request.Form["amount"];
+            ViewBag.Warning = errorMessage;
+            ViewBag.Message = res;
+            return View("~/Plugins/Peraport.WidgetFinancial/Views/Fi/Fail.cshtml");
+        }
+
+
+        //public ActionResult PaymentFail(string RC, string ErrorCode, string Message, string TransactionId)
+        //{
+        //    //string MaskedPan = "Kart Numarası";
+        //    //var amount = Session["AMOUNT"].ToString();
+        //    //decimal d = decimal.Parse(amount, CultureInfo.InvariantCulture);
+
+
+        //    Session["AMOUNT"] = null;
+        //    ViewBag.ResultCode = RC;
+        //    ViewBag.Message = Message;
+
+
+
+        //    //var customer = _authService.GetAuthenticatedCustomer();
+        //    //ErpPayment p = new ErpPayment { DATE = DateTime.Now, TOTAL = d, NOPCUSTOMER_ID = customer.Id, ERPCUSTOMER_ID = -1, ERPCUSTOMER_CODE = "", CODE="WEB", NOTE = MaskedPan };
+        //    //NopServiceClient client = new NopServiceClient();
+        //    //var r = client.CopyNopPaymentToErp(p);
+
+        //    //if (r.CODE == "OK")
+        //    //    ViewBag.Note = "İşlem Başarılı. "+ amount +" TL kartınızdan çekildi ve hesabınıza aktarıldı.";
+        //    //else
+        //    //    ViewBag.Note = "UYARI. " + amount + " TL kartınızdan çekildi ancak hesabınıza aktarılırken bir problem oluştu. Konuyla ilgili Lütfen Müşteri Temsilcinize bilgi veriniz.";
+
+
+
+        //    return View("~/Plugins/Peraport.WidgetFinancial/Views/Fi/PaymentFail.cshtml");
+        //}
+
+        //public ActionResult PaymentSuccess(string RC, string Message, string TransactionId, string AuthCode, string MaskedPan)
+        //{
+        //    var amount = Session["AMOUNT"].ToString();
+        //    decimal d = decimal.Parse(amount, CultureInfo.InvariantCulture);
+        //    Session["AMOUNT"] = null;
+
+        //    var customer = _authService.GetAuthenticatedCustomer();
+        //    ErpPayment p = new ErpPayment { DATE = DateTime.Now, TOTAL = d, NOPCUSTOMER_ID = customer.Id, ERPCUSTOMER_ID = -1, ERPCUSTOMER_CODE = "", NOTE = MaskedPan, CODE = "WEB" };
+        //    NopServiceClient client = new NopServiceClient();
+        //    client.ClientCredentials.Windows.AllowedImpersonationLevel = System.Security.Principal.TokenImpersonationLevel.Anonymous;
+        //    var r = client.CopyNopPaymentToErp(p);
+
+        //    if (r.CODE == "OK")
+        //        ViewBag.Note = "İşlem Başarılı. " + amount + " TL kartınızdan çekildi ve hesabınıza aktarıldı.";
+        //    else
+        //        ViewBag.Note = "UYARI. " + amount + " TL kartınızdan çekildi ancak hesabınıza aktarılırken bir problem oluştu. Konuyla ilgili Lütfen Müşteri Temsilcinize bilgi veriniz.";
+
+
+        //    ViewBag.TransactionId = TransactionId;
+        //    ViewBag.AuthCode = AuthCode;
+        //    ViewBag.MaskedPan = MaskedPan;
+        //    ViewBag.ResultCode = RC;
+        //    ViewBag.Message = Message;
+        //    return View("~/Plugins/Peraport.WidgetFinancial/Views/Fi/PaymentSuccess.cshtml");
+        //}
     }
 }

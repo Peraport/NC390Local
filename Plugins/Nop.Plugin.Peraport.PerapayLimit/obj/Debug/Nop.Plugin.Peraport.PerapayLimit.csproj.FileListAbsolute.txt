@@ -10,3 +10,15 @@ C:\works\NC390Local\Presentation\Nop.Web\Plugins\Peraport.PerapayLimit\Nop.Plugi
 C:\works\NC390Local\Plugins\Nop.Plugin.Peraport.PerapayLimit\obj\Debug\Nop.Plugin.Peraport.PerapayLimit.csprojResolveAssemblyReference.cache
 C:\works\NC390Local\Plugins\Nop.Plugin.Peraport.PerapayLimit\obj\Debug\Nop.Plugin.Peraport.PerapayLimit.dll
 C:\works\NC390Local\Plugins\Nop.Plugin.Peraport.PerapayLimit\obj\Debug\Nop.Plugin.Peraport.PerapayLimit.pdb
+C:\works\NC390\Presentation\Nop.Web\Plugins\Peraport.PerapayLimit\Description.txt
+C:\works\NC390\Presentation\Nop.Web\Plugins\Peraport.PerapayLimit\logo.jpg
+C:\works\NC390\Presentation\Nop.Web\Plugins\Peraport.PerapayLimit\web.config
+C:\works\NC390\Presentation\Nop.Web\Plugins\Peraport.PerapayLimit\Views\Configure.cshtml
+C:\works\NC390\Presentation\Nop.Web\Plugins\Peraport.PerapayLimit\Views\PaymentInfo.cshtml
+C:\works\NC390\Presentation\Nop.Web\Plugins\Peraport.PerapayLimit\app.config
+C:\works\NC390\Presentation\Nop.Web\Plugins\Peraport.PerapayLimit\Nop.Plugin.Peraport.PerapayLimit.dll.config
+C:\works\NC390\Presentation\Nop.Web\Plugins\Peraport.PerapayLimit\Nop.Plugin.Peraport.PerapayLimit.dll
+C:\works\NC390\Presentation\Nop.Web\Plugins\Peraport.PerapayLimit\Nop.Plugin.Peraport.PerapayLimit.pdb
+C:\works\NC390\Plugins\Nop.Plugin.Peraport.PerapayLimit\obj\Debug\Nop.Plugin.Peraport.PerapayLimit.csprojResolveAssemblyReference.cache
+C:\works\NC390\Plugins\Nop.Plugin.Peraport.PerapayLimit\obj\Debug\Nop.Plugin.Peraport.PerapayLimit.dll
+C:\works\NC390\Plugins\Nop.Plugin.Peraport.PerapayLimit\obj\Debug\Nop.Plugin.Peraport.PerapayLimit.pdb

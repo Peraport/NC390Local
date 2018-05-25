@@ -207,8 +207,13 @@
                                         <div class="divTableCell">Taksit</div>
                                         <div class="divTableCell">
                                             <div class="select-style">
-                                                <select name="Taksit">
-                                                    <option value=''>Tek Çekim</option>
+                                                <select name="banka">
+                                                    <option value="IB-0">İş Bankası Tek Çekim</option>
+                                                    <option value="IB-3">İş Bankası 3 Taksit</option>
+                                                    <option value="GB-0">Garanti Bankası Tek Çekim</option>
+                                                    <option value="GB-3">Garanti Bankası 3 Taksit</option>
+                                                    <option value="YK-0">Yapı Kredi Bankası Tek Çekim</option>
+                                                    <option value="YK-3">Yapı Kredi 3 Taksit</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -293,7 +298,8 @@
     /*Ödemeye Git*/
     function GosterGizle() {
         var table = $('#example').DataTable();
-        if (table.rows('.selected').data().length > 0) {
+        //if (table.rows('.selected').data().length > 0) {
+            if (true) {
 
             var toplam = 0;
             for (var i = 0; i < table.rows('.selected').data().length; i++) {
@@ -380,7 +386,8 @@
 
     $('#button').click(function () {
         var table = $('#example').DataTable();
-        if (table.rows('.selected').data().length > 0) {
+        //if (table.rows('.selected').data().length > 0) {
+            if (true) {
             var toplam = 0;
             var Faturalar = [];
             var RowId = [];
@@ -413,7 +420,7 @@
             });
         }
         else {
-            $("#result").html("<font color=\"red\">Tutar SIFIR olamaz</font>");
+            $("#result").html("<font color=\"red\">Tutar 0(SIFIR) olamaz</font>");
         }
     });
 
@@ -451,9 +458,13 @@
 else
 {
     <ul>
-        @foreach (var item in Model.NOTES)
+        <li>@Model.NOTE</li>
+        @if (Model.NOTES != null)
         {
-            <li>@item.NOTE</li>
+            foreach (var item in Model.NOTES)
+            {
+                <li>@item.NOTE</li>
+            }
         }
     </ul>
 }

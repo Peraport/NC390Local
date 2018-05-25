@@ -1,0 +1,14 @@
+﻿@using Nop.Web.Framework;
+@using System.Web.Mvc.Html;
+
+
+@{
+    Layout = "";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <span>Hazırlanıyor...</span>
+
+}

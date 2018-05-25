@@ -9,3 +9,14 @@ C:\works\NC390Local\Plugins\Nop.Plugin.Shipping.UPS\obj\Debug\Nop.Plugin.Shippin
 C:\works\NC390Local\Plugins\Nop.Plugin.Shipping.UPS\obj\Debug\Nop.Plugin.Shipping.UPS.dll
 C:\works\NC390Local\Plugins\Nop.Plugin.Shipping.UPS\obj\Debug\Nop.Plugin.Shipping.UPS.pdb
 C:\works\NC390Local\Plugins\Nop.Plugin.Shipping.UPS\obj\Debug\Nop.Plugin.Shipping.UPS.csprojResolveAssemblyReference.cache
+C:\works\NC390\Presentation\Nop.Web\Plugins\Shipping.UPS\Views\Configure.cshtml
+C:\works\NC390\Presentation\Nop.Web\Plugins\Shipping.UPS\web.config
+C:\works\NC390\Presentation\Nop.Web\Plugins\Shipping.UPS\Description.txt
+C:\works\NC390\Presentation\Nop.Web\Plugins\Shipping.UPS\logo.jpg
+C:\works\NC390\Presentation\Nop.Web\Plugins\Shipping.UPS\Nop.Plugin.Shipping.UPS.dll.config
+C:\works\NC390\Presentation\Nop.Web\Plugins\Shipping.UPS\Nop.Plugin.Shipping.UPS.dll
+C:\works\NC390\Presentation\Nop.Web\Plugins\Shipping.UPS\Nop.Plugin.Shipping.UPS.pdb
+C:\works\NC390\Plugins\Nop.Plugin.Shipping.UPS\obj\Debug\Nop.Plugin.Shipping.UPS.csproj.App.config
+C:\works\NC390\Plugins\Nop.Plugin.Shipping.UPS\obj\Debug\Nop.Plugin.Shipping.UPS.csprojResolveAssemblyReference.cache
+C:\works\NC390\Plugins\Nop.Plugin.Shipping.UPS\obj\Debug\Nop.Plugin.Shipping.UPS.dll
+C:\works\NC390\Plugins\Nop.Plugin.Shipping.UPS\obj\Debug\Nop.Plugin.Shipping.UPS.pdb

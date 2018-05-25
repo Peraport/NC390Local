@@ -65,6 +65,8 @@ C:\works\NC390Local\Plugins\Nop.Plugin.Peraport.WidgetFinancial\obj\Debug\Nop.Pl
 C:\works\NC390\Presentation\Nop.Web\Plugins\Peraport.WidgetFinancial\Content\images\isbank.png
 C:\works\NC390\Presentation\Nop.Web\Plugins\Peraport.WidgetFinancial\web.config
 C:\works\NC390\Presentation\Nop.Web\Plugins\Peraport.WidgetFinancial\Description.txt
+C:\works\NC390\Presentation\Nop.Web\Plugins\Peraport.WidgetFinancial\Views\Fi\Fail.cshtml
+C:\works\NC390\Presentation\Nop.Web\Plugins\Peraport.WidgetFinancial\Views\Fi\Success.cshtml
 C:\works\NC390\Presentation\Nop.Web\Plugins\Peraport.WidgetFinancial\Views\Pos\FailYKB.cshtml
 C:\works\NC390\Presentation\Nop.Web\Plugins\Peraport.WidgetFinancial\Views\Pos\Index.cshtml
 C:\works\NC390\Presentation\Nop.Web\Plugins\Peraport.WidgetFinancial\Views\Pos\PosResult.cshtml
@@ -87,8 +89,6 @@ C:\works\NC390\Presentation\Nop.Web\Plugins\Peraport.WidgetFinancial\Views\Fi\He
 C:\works\NC390\Presentation\Nop.Web\Plugins\Peraport.WidgetFinancial\Views\Fi\HesapEkstreV.cshtml
 C:\works\NC390\Presentation\Nop.Web\Plugins\Peraport.WidgetFinancial\Views\Fi\HesapOzetPartial.cshtml
 C:\works\NC390\Presentation\Nop.Web\Plugins\Peraport.WidgetFinancial\Views\Fi\HesapOzetV.cshtml
-C:\works\NC390\Presentation\Nop.Web\Plugins\Peraport.WidgetFinancial\Views\Fi\PaymentFail.cshtml
-C:\works\NC390\Presentation\Nop.Web\Plugins\Peraport.WidgetFinancial\Views\Fi\PaymentSuccess.cshtml
 C:\works\NC390\Presentation\Nop.Web\Plugins\Peraport.WidgetFinancial\Views\Fi\KKPay.cshtml
 C:\works\NC390\Presentation\Nop.Web\Plugins\Peraport.WidgetFinancial\Views\Fi\FaturaTakip.cshtml
 C:\works\NC390\Presentation\Nop.Web\Plugins\Peraport.WidgetFinancial\Views\Fi\Test.cshtml

@@ -158,16 +158,9 @@ namespace Nop.Plugin.Payments.PeraPay
           "<input type=\"hidden\" name=\"terminalid\" value=\"{5}\" />" +
           "<input type=\"hidden\" name=\"terminalmerchantid\" value=\"{6}\" />" +
           "<input type=\"hidden\" name=\"orderid\" value=\"{7}\" />" +
-          "<input type=\"hidden\" name=\"customeremailaddress\" value=\"info@a321.com.tr\" />" +
-          "<input type=\"hidden\" name=\"customeripaddress\" value=\"127.0.0.1\" />" +
           "<input type=\"hidden\" name=\"txntype\" value=\"{8}\" />" +
-          "<input type=\"hidden\" name=\"txnsubtype\" value=\"sales\" />" +
-          "<input type=\"hidden\" name=\"garantipay\" value=\"Y\" />" +
-          "<input type=\"hidden\" name=\"bnsuseflag\" value=\"N\" />" +
-          "<input type=\"hidden\" name=\"fbbuseflag\" value=\"N\" />" +
           "<input type=\"hidden\" name=\"txnamount\" value=\"{9}\" />" +
           "<input type=\"hidden\" name=\"txncurrencycode\" value=\"{10}\" />" +
-          "<input type=\"hidden\" name=\"companyname\" value=\"A321\" />" +
           "<input type=\"hidden\" name=\"txninstallmentcount\" value=\"{11}\" />" +
           "<input type=\"hidden\" name=\"successurl\" value=\"{12}\" />" +
           "<input type=\"hidden\" name=\"errorurl\" value=\"{13}\" />" +
@@ -176,6 +169,17 @@ namespace Nop.Plugin.Payments.PeraPay
           "<input type=\"hidden\" name=\"motoind\" value=\"{16}\" />" +
           "<input type=\"hidden\" name=\"txntimestamp\" value=\"{17}\" />" +
           "<input type=\"hidden\" name=\"refreshtime\" value=\"{18}\" />" +
+          "<input type=\"hidden\" name=\"totalinstallmentcount\" value=\"{19}\" />" +
+          "<input type=\"hidden\" name=\"installmentnumber1\" value=\"{20}\" />" +
+          "<input type=\"hidden\" name=\"installmentamount1\" value=\"{21}\" />" +
+          "<input type=\"hidden\" name=\"txnsubtype\" value=\"sales\" />" +
+          "<input type=\"hidden\" name=\"garantipay\" value=\"Y\" />" +
+          "<input type=\"hidden\" name=\"bnsuseflag\" value=\"N\" />" +
+          "<input type=\"hidden\" name=\"chequeuseflag\" value=\"N\" />" +
+          "<input type=\"hidden\" name=\"fbbuseflag\" value=\"N\" />" +
+          "<input type=\"hidden\" name=\"companyname\" value=\"A321\" />" +
+          "<input type=\"hidden\" name=\"customeremailaddress\" value=\"info@a321.com.tr\" />" +
+          "<input type=\"hidden\" name=\"customeripaddress\" value=\"127.0.0.1\" />" +
           "<font face=\"Helvetica\" size=\"3\" color=\"#606060\">" +
           "<center>" +
           "<br />" +
@@ -440,9 +444,14 @@ namespace Nop.Plugin.Payments.PeraPay
                 _httpContext.Session["BANKA"] = secenek[0];
                 _httpContext.Session["TAKSIT"] = secenek[1];
 
+                string totalinstallmentcount = "1";
+                string installmentnumber1 = "3";
+                string installmentamount1 = strAmount;
+
                 var resultString = string.Format(formSendGRPay, badr, strMode, strApiVersion, strTerminalProvUserID, strTerminalUserID, strTerminalID,
                     strTerminalMerchantID, strOrderID, strType, strAmount, strCurrencyCode, strInstallmentCount, strSuccessURL, strErrorURL,
-                         HashData, strlang, strMotoInd, strtimestamp, refreshtime,submechantid);
+                         HashData, strlang, strMotoInd, strtimestamp, refreshtime, totalinstallmentcount, installmentnumber1, installmentamount1);
+
                 var fs = resultString;
                 _httpContext.Response.Clear();
                 _httpContext.Response.Write(fs);

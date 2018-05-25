@@ -1,0 +1,9 @@
+﻿Group: _Peraport
+FriendlyName: WidgetWidgetPopup
+SystemName: Nop.Plugin.Peraport.WidgetPopup
+Version: 1.00
+SupportedVersions: 3.90
+Author: Peraport Team
+DisplayOrder: 1
+FileName: Nop.Plugin.Peraport.WidgetPopup.dll
+Description: PopUp
