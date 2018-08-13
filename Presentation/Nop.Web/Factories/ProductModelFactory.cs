@@ -39,7 +39,7 @@ namespace Nop.Web.Factories
     public partial class ProductModelFactory : IProductModelFactory
     {
         #region Fields
-        
+
         private readonly ISpecificationAttributeService _specificationAttributeService;
         private readonly ICategoryService _categoryService;
         private readonly IManufacturerService _manufacturerService;
@@ -209,231 +209,231 @@ namespace Nop.Web.Factories
             switch (product.ProductType)
             {
                 case ProductType.GroupedProduct:
-                {
-                    #region Grouped product
-
-                    var associatedProducts = _productService.GetAssociatedProducts(product.Id,
-                        _storeContext.CurrentStore.Id);
-
-                    //add to cart button (ignore "DisableBuyButton" property for grouped products)
-                    priceModel.DisableBuyButton =
-                        !_permissionService.Authorize(StandardPermissionProvider.EnableShoppingCart) ||
-                        !_permissionService.Authorize(StandardPermissionProvider.DisplayPrices);
-
-                    //add to wishlist button (ignore "DisableWishlistButton" property for grouped products)
-                    priceModel.DisableWishlistButton =
-                        !_permissionService.Authorize(StandardPermissionProvider.EnableWishlist) ||
-                        !_permissionService.Authorize(StandardPermissionProvider.DisplayPrices);
-
-                    //compare products
-                    priceModel.DisableAddToCompareListButton = !_catalogSettings.CompareProductsEnabled;
-                    switch (associatedProducts.Count)
                     {
-                        case 0:
-                        {
-                            //no associated products
-                        }
-                            break;
-                        default:
-                        {
-                            //we have at least one associated product
-                            //compare products
-                            priceModel.DisableAddToCompareListButton = !_catalogSettings.CompareProductsEnabled;
-                            //priceModel.AvailableForPreOrder = false;
+                        #region Grouped product
 
-                            if (_permissionService.Authorize(StandardPermissionProvider.DisplayPrices))
-                            {
-                                //find a minimum possible price
-                                decimal? minPossiblePrice = null;
-                                Product minPriceProduct = null;
-                                foreach (var associatedProduct in associatedProducts)
+                        var associatedProducts = _productService.GetAssociatedProducts(product.Id,
+                            _storeContext.CurrentStore.Id);
+
+                        //add to cart button (ignore "DisableBuyButton" property for grouped products)
+                        priceModel.DisableBuyButton =
+                            !_permissionService.Authorize(StandardPermissionProvider.EnableShoppingCart) ||
+                            !_permissionService.Authorize(StandardPermissionProvider.DisplayPrices);
+
+                        //add to wishlist button (ignore "DisableWishlistButton" property for grouped products)
+                        priceModel.DisableWishlistButton =
+                            !_permissionService.Authorize(StandardPermissionProvider.EnableWishlist) ||
+                            !_permissionService.Authorize(StandardPermissionProvider.DisplayPrices);
+
+                        //compare products
+                        priceModel.DisableAddToCompareListButton = !_catalogSettings.CompareProductsEnabled;
+                        switch (associatedProducts.Count)
+                        {
+                            case 0:
                                 {
-                                    var tmpMinPossiblePrice = _priceCalculationService.GetFinalPrice(associatedProduct, _workContext.CurrentCustomer);
-
-                                    if (associatedProduct.HasTierPrices)
-                                    {
-                                        //calculate price for the maximum quantity if we have tier prices, and choose minimal
-                                        tmpMinPossiblePrice = Math.Min(tmpMinPossiblePrice, 
-                                            _priceCalculationService.GetFinalPrice(associatedProduct, _workContext.CurrentCustomer, quantity: int.MaxValue));
-                                    }
-
-                                    if (!minPossiblePrice.HasValue || tmpMinPossiblePrice < minPossiblePrice.Value)
-                                    {
-                                        minPriceProduct = associatedProduct;
-                                        minPossiblePrice = tmpMinPossiblePrice;
-                                    }
+                                    //no associated products
                                 }
-                                if (minPriceProduct != null && !minPriceProduct.CustomerEntersPrice)
+                                break;
+                            default:
                                 {
-                                    if (minPriceProduct.CallForPrice)
-                                    {
-                                        priceModel.OldPrice = null;
-                                        priceModel.Price = _localizationService.GetResource("Products.CallForPrice");
-                                    }
-                                    else if (minPossiblePrice.HasValue)
-                                    {
-                                        //calculate prices
-                                        decimal taxRate;
-                                        decimal finalPriceBase = _taxService.GetProductPrice(minPriceProduct, minPossiblePrice.Value, out taxRate);
-                                        decimal finalPrice = _currencyService.ConvertFromPrimaryStoreCurrency(finalPriceBase, _workContext.WorkingCurrency);
+                                    //we have at least one associated product
+                                    //compare products
+                                    priceModel.DisableAddToCompareListButton = !_catalogSettings.CompareProductsEnabled;
+                                    //priceModel.AvailableForPreOrder = false;
 
-                                        priceModel.OldPrice = null;
-                                        priceModel.Price = String.Format(_localizationService.GetResource("Products.PriceRangeFrom"), _priceFormatter.FormatPrice(finalPrice));
-                                        priceModel.PriceValue = finalPrice;
+                                    if (_permissionService.Authorize(StandardPermissionProvider.DisplayPrices))
+                                    {
+                                        //find a minimum possible price
+                                        decimal? minPossiblePrice = null;
+                                        Product minPriceProduct = null;
+                                        foreach (var associatedProduct in associatedProducts)
+                                        {
+                                            var tmpMinPossiblePrice = _priceCalculationService.GetFinalPrice(associatedProduct, _workContext.CurrentCustomer);
 
-                                        //PAngV baseprice (used in Germany)
-                                        priceModel.BasePricePAngV = product.FormatBasePrice(finalPrice,
-                                            _localizationService, _measureService, _currencyService, _workContext,
-                                            _priceFormatter);
+                                            if (associatedProduct.HasTierPrices)
+                                            {
+                                                //calculate price for the maximum quantity if we have tier prices, and choose minimal
+                                                tmpMinPossiblePrice = Math.Min(tmpMinPossiblePrice,
+                                                    _priceCalculationService.GetFinalPrice(associatedProduct, _workContext.CurrentCustomer, quantity: int.MaxValue));
+                                            }
+
+                                            if (!minPossiblePrice.HasValue || tmpMinPossiblePrice < minPossiblePrice.Value)
+                                            {
+                                                minPriceProduct = associatedProduct;
+                                                minPossiblePrice = tmpMinPossiblePrice;
+                                            }
+                                        }
+                                        if (minPriceProduct != null && !minPriceProduct.CustomerEntersPrice)
+                                        {
+                                            if (minPriceProduct.CallForPrice)
+                                            {
+                                                priceModel.OldPrice = null;
+                                                priceModel.Price = _localizationService.GetResource("Products.CallForPrice");
+                                            }
+                                            else if (minPossiblePrice.HasValue)
+                                            {
+                                                //calculate prices
+                                                decimal taxRate;
+                                                decimal finalPriceBase = _taxService.GetProductPrice(minPriceProduct, minPossiblePrice.Value, out taxRate);
+                                                decimal finalPrice = _currencyService.ConvertFromPrimaryStoreCurrency(finalPriceBase, _workContext.WorkingCurrency);
+
+                                                priceModel.OldPrice = null;
+                                                priceModel.Price = String.Format(_localizationService.GetResource("Products.PriceRangeFrom"), _priceFormatter.FormatPrice(finalPrice));
+                                                priceModel.PriceValue = finalPrice;
+
+                                                //PAngV baseprice (used in Germany)
+                                                priceModel.BasePricePAngV = product.FormatBasePrice(finalPrice,
+                                                    _localizationService, _measureService, _currencyService, _workContext,
+                                                    _priceFormatter);
+                                            }
+                                            else
+                                            {
+                                                //Actually it's not possible (we presume that minimalPrice always has a value)
+                                                //We never should get here
+                                                Debug.WriteLine("Cannot calculate minPrice for product #{0}", product.Id);
+                                            }
+                                        }
                                     }
                                     else
                                     {
-                                        //Actually it's not possible (we presume that minimalPrice always has a value)
-                                        //We never should get here
-                                        Debug.WriteLine("Cannot calculate minPrice for product #{0}", product.Id);
+                                        //hide prices
+                                        priceModel.OldPrice = null;
+                                        priceModel.Price = null;
                                     }
                                 }
-                            }
-                            else
-                            {
-                                //hide prices
-                                priceModel.OldPrice = null;
-                                priceModel.Price = null;
-                            }
+                                break;
                         }
-                            break;
-                    }
 
-                    #endregion
-                }
+                        #endregion
+                    }
                     break;
                 case ProductType.SimpleProduct:
                 default:
-                {
-                    #region Simple product
-
-                    //add to cart button
-                    priceModel.DisableBuyButton = product.DisableBuyButton ||
-                                                  !_permissionService.Authorize(StandardPermissionProvider.EnableShoppingCart) ||
-                                                  !_permissionService.Authorize(StandardPermissionProvider.DisplayPrices);
-
-                    //add to wishlist button
-                    priceModel.DisableWishlistButton = product.DisableWishlistButton ||
-                                                       !_permissionService.Authorize(StandardPermissionProvider.EnableWishlist) ||
-                                                       !_permissionService.Authorize(StandardPermissionProvider.DisplayPrices);
-                    //compare products
-                    priceModel.DisableAddToCompareListButton = !_catalogSettings.CompareProductsEnabled;
-
-                    //rental
-                    priceModel.IsRental = product.IsRental;
-
-                    //pre-order
-                    if (product.AvailableForPreOrder)
                     {
-                        priceModel.AvailableForPreOrder = !product.PreOrderAvailabilityStartDateTimeUtc.HasValue ||
-                                                          product.PreOrderAvailabilityStartDateTimeUtc.Value >=
-                                                          DateTime.UtcNow;
-                        priceModel.PreOrderAvailabilityStartDateTimeUtc = product.PreOrderAvailabilityStartDateTimeUtc;
-                    }
+                        #region Simple product
 
-                    //prices
-                    if (_permissionService.Authorize(StandardPermissionProvider.DisplayPrices))
-                    {
-                        if (!product.CustomerEntersPrice)
+                        //add to cart button
+                        priceModel.DisableBuyButton = product.DisableBuyButton ||
+                                                      !_permissionService.Authorize(StandardPermissionProvider.EnableShoppingCart) ||
+                                                      !_permissionService.Authorize(StandardPermissionProvider.DisplayPrices);
+
+                        //add to wishlist button
+                        priceModel.DisableWishlistButton = product.DisableWishlistButton ||
+                                                           !_permissionService.Authorize(StandardPermissionProvider.EnableWishlist) ||
+                                                           !_permissionService.Authorize(StandardPermissionProvider.DisplayPrices);
+                        //compare products
+                        priceModel.DisableAddToCompareListButton = !_catalogSettings.CompareProductsEnabled;
+
+                        //rental
+                        priceModel.IsRental = product.IsRental;
+
+                        //pre-order
+                        if (product.AvailableForPreOrder)
                         {
-                            if (product.CallForPrice)
+                            priceModel.AvailableForPreOrder = !product.PreOrderAvailabilityStartDateTimeUtc.HasValue ||
+                                                              product.PreOrderAvailabilityStartDateTimeUtc.Value >=
+                                                              DateTime.UtcNow;
+                            priceModel.PreOrderAvailabilityStartDateTimeUtc = product.PreOrderAvailabilityStartDateTimeUtc;
+                        }
+
+                        //prices
+                        if (_permissionService.Authorize(StandardPermissionProvider.DisplayPrices))
+                        {
+                            if (!product.CustomerEntersPrice)
                             {
-                                //call for price
-                                priceModel.OldPrice = null;
-                                priceModel.Price = _localizationService.GetResource("Products.CallForPrice");
-                            }
-                            else
-                            {
-                                //prices
-                                var minPossiblePrice = _priceCalculationService.GetFinalPrice(product, _workContext.CurrentCustomer);
-
-                                if (product.HasTierPrices)
+                                if (product.CallForPrice)
                                 {
-                                    //calculate price for the maximum quantity if we have tier prices, and choose minimal
-                                    minPossiblePrice = Math.Min(minPossiblePrice, 
-                                        _priceCalculationService.GetFinalPrice(product, _workContext.CurrentCustomer, quantity: int.MaxValue));
-                                }
-
-                                decimal taxRate;
-                                decimal oldPriceBase = _taxService.GetProductPrice(product, product.OldPrice, out taxRate);
-                                decimal finalPriceBase = _taxService.GetProductPrice(product, minPossiblePrice, out taxRate);
-
-                                decimal oldPrice = _currencyService.ConvertFromPrimaryStoreCurrency(oldPriceBase, _workContext.WorkingCurrency);
-                                decimal finalPrice = _currencyService.ConvertFromPrimaryStoreCurrency(finalPriceBase, _workContext.WorkingCurrency);
-
-                                //do we have tier prices configured?
-                                var tierPrices = new List<TierPrice>();
-                                if (product.HasTierPrices)
-                                {
-                                    tierPrices.AddRange(product.TierPrices.OrderBy(tp => tp.Quantity)
-                                        .FilterByStore(_storeContext.CurrentStore.Id)
-                                        .FilterForCustomer(_workContext.CurrentCustomer)
-                                        .FilterByDate()
-                                        .RemoveDuplicatedQuantities());
-                                }
-                                //When there is just one tier price (with  qty 1), there are no actual savings in the list.
-                                var displayFromMessage = tierPrices.Any() &&
-                                                         !(tierPrices.Count == 1 && tierPrices[0].Quantity <= 1);
-                                if (displayFromMessage)
-                                {
+                                    //call for price
                                     priceModel.OldPrice = null;
-                                    priceModel.Price = String.Format(_localizationService.GetResource("Products.PriceRangeFrom"), _priceFormatter.FormatPrice(finalPrice));
-                                    priceModel.PriceValue = finalPrice;
+                                    priceModel.Price = _localizationService.GetResource("Products.CallForPrice");
                                 }
                                 else
                                 {
-                                    if (finalPriceBase != oldPriceBase && oldPriceBase != decimal.Zero)
+                                    //prices
+                                    var minPossiblePrice = _priceCalculationService.GetFinalPrice(product, _workContext.CurrentCustomer);
+
+                                    if (product.HasTierPrices)
                                     {
-                                        priceModel.OldPrice = _priceFormatter.FormatPrice(oldPrice);
-                                        priceModel.Price = _priceFormatter.FormatPrice(finalPrice);
+                                        //calculate price for the maximum quantity if we have tier prices, and choose minimal
+                                        minPossiblePrice = Math.Min(minPossiblePrice,
+                                            _priceCalculationService.GetFinalPrice(product, _workContext.CurrentCustomer, quantity: int.MaxValue));
+                                    }
+
+                                    decimal taxRate;
+                                    decimal oldPriceBase = _taxService.GetProductPrice(product, product.OldPrice, out taxRate);
+                                    decimal finalPriceBase = _taxService.GetProductPrice(product, minPossiblePrice, out taxRate);
+
+                                    decimal oldPrice = _currencyService.ConvertFromPrimaryStoreCurrency(oldPriceBase, _workContext.WorkingCurrency);
+                                    decimal finalPrice = _currencyService.ConvertFromPrimaryStoreCurrency(finalPriceBase, _workContext.WorkingCurrency);
+
+                                    //do we have tier prices configured?
+                                    var tierPrices = new List<TierPrice>();
+                                    if (product.HasTierPrices)
+                                    {
+                                        tierPrices.AddRange(product.TierPrices.OrderBy(tp => tp.Quantity)
+                                            .FilterByStore(_storeContext.CurrentStore.Id)
+                                            .FilterForCustomer(_workContext.CurrentCustomer)
+                                            .FilterByDate()
+                                            .RemoveDuplicatedQuantities());
+                                    }
+                                    //When there is just one tier price (with  qty 1), there are no actual savings in the list.
+                                    var displayFromMessage = tierPrices.Any() &&
+                                                             !(tierPrices.Count == 1 && tierPrices[0].Quantity <= 1);
+                                    if (displayFromMessage)
+                                    {
+                                        priceModel.OldPrice = null;
+                                        priceModel.Price = String.Format(_localizationService.GetResource("Products.PriceRangeFrom"), _priceFormatter.FormatPrice(finalPrice));
                                         priceModel.PriceValue = finalPrice;
                                     }
                                     else
                                     {
-                                        priceModel.OldPrice = null;
-                                        priceModel.Price = _priceFormatter.FormatPrice(finalPrice);
-                                        priceModel.PriceValue = finalPrice;
+                                        if (finalPriceBase != oldPriceBase && oldPriceBase != decimal.Zero)
+                                        {
+                                            priceModel.OldPrice = _priceFormatter.FormatPrice(oldPrice);
+                                            priceModel.Price = _priceFormatter.FormatPrice(finalPrice);
+                                            priceModel.PriceValue = finalPrice;
+                                        }
+                                        else
+                                        {
+                                            priceModel.OldPrice = null;
+                                            priceModel.Price = _priceFormatter.FormatPrice(finalPrice);
+                                            priceModel.PriceValue = finalPrice;
+                                        }
                                     }
+                                    if (product.IsRental)
+                                    {
+                                        //rental product
+                                        priceModel.OldPrice = _priceFormatter.FormatRentalProductPeriod(product,
+                                            priceModel.OldPrice);
+                                        priceModel.Price = _priceFormatter.FormatRentalProductPeriod(product,
+                                            priceModel.Price);
+                                    }
+
+
+                                    //property for German market
+                                    //we display tax/shipping info only with "shipping enabled" for this product
+                                    //we also ensure this it's not free shipping
+                                    priceModel.DisplayTaxShippingInfo = _catalogSettings.DisplayTaxShippingInfoProductBoxes
+                                                                        && product.IsShipEnabled &&
+                                                                        !product.IsFreeShipping;
+
+
+                                    //PAngV baseprice (used in Germany)
+                                    priceModel.BasePricePAngV = product.FormatBasePrice(finalPrice,
+                                        _localizationService, _measureService, _currencyService, _workContext,
+                                        _priceFormatter);
                                 }
-                                if (product.IsRental)
-                                {
-                                    //rental product
-                                    priceModel.OldPrice = _priceFormatter.FormatRentalProductPeriod(product,
-                                        priceModel.OldPrice);
-                                    priceModel.Price = _priceFormatter.FormatRentalProductPeriod(product,
-                                        priceModel.Price);
-                                }
-
-
-                                //property for German market
-                                //we display tax/shipping info only with "shipping enabled" for this product
-                                //we also ensure this it's not free shipping
-                                priceModel.DisplayTaxShippingInfo = _catalogSettings.DisplayTaxShippingInfoProductBoxes
-                                                                    && product.IsShipEnabled &&
-                                                                    !product.IsFreeShipping;
-
-
-                                //PAngV baseprice (used in Germany)
-                                priceModel.BasePricePAngV = product.FormatBasePrice(finalPrice,
-                                    _localizationService, _measureService, _currencyService, _workContext,
-                                    _priceFormatter);
                             }
                         }
-                    }
-                    else
-                    {
-                        //hide prices
-                        priceModel.OldPrice = null;
-                        priceModel.Price = null;
-                    }
+                        else
+                        {
+                            //hide prices
+                            priceModel.OldPrice = null;
+                            priceModel.Price = null;
+                        }
 
-                    #endregion
-                }
+                        #endregion
+                    }
                     break;
             }
 
@@ -1123,6 +1123,7 @@ namespace Nop.Web.Factories
                 var model = new ProductOverviewModel
                 {
                     Id = product.Id,
+                    StockQuantity = product.StockQuantity,
                     Name = product.GetLocalized(x => x.Name),
                     ShortDescription = product.GetLocalized(x => x.ShortDescription),
                     FullDescription = product.GetLocalized(x => x.FullDescription),
@@ -1277,8 +1278,8 @@ namespace Nop.Web.Factories
             {
                 model.ProductTags = PrepareProductTagModels(product);
             }
-            
-           //pictures
+
+            //pictures
             model.DefaultPictureZoomEnabled = _mediaSettings.DefaultPictureZoomEnabled;
             var pictureModels = PrepareProductDetailsPictureModel(product, isAssociatedProduct);
             model.DefaultPictureModel = pictureModels.DefaultPictureModel;
@@ -1318,7 +1319,7 @@ namespace Nop.Web.Factories
 
             //product attributes
             model.ProductAttributes = PrepareProductAttributeModels(product, updatecartitem);
-            
+
             //product specifications
             //do not prepare this model for the associated products. anyway it's not used
             if (!isAssociatedProduct)
@@ -1434,9 +1435,9 @@ namespace Nop.Web.Factories
                 pageIndex = page.Value - 1;
             }
 
-            var list = _productService.GetAllProductReviews(customerId: _workContext.CurrentCustomer.Id, 
-                approved: null, 
-                pageIndex: pageIndex, 
+            var list = _productService.GetAllProductReviews(customerId: _workContext.CurrentCustomer.Id,
+                approved: null,
+                pageIndex: pageIndex,
                 pageSize: pageSize);
 
             var productReviews = new List<CustomerProductReviewModel>();

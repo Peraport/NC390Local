@@ -4981,25 +4981,25 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/14/2017 18:09:22</publishTime>
     </File>
     <File Include="bin/Nop.Admin.dll">
-      <publishTime>05/24/2018 02:01:12</publishTime>
+      <publishTime>05/25/2018 12:35:37</publishTime>
     </File>
     <File Include="bin/Nop.Core.dll">
-      <publishTime>05/24/2018 02:04:52</publishTime>
+      <publishTime>05/29/2018 00:15:50</publishTime>
     </File>
     <File Include="bin/Nop.Data.dll">
-      <publishTime>05/24/2018 02:04:54</publishTime>
+      <publishTime>05/29/2018 00:15:52</publishTime>
     </File>
     <File Include="bin/Nop.Services.dll">
-      <publishTime>05/24/2018 02:04:57</publishTime>
+      <publishTime>05/29/2018 00:15:54</publishTime>
     </File>
     <File Include="bin/Nop.Services.XmlSerializers.dll">
-      <publishTime>05/24/2018 02:04:58</publishTime>
+      <publishTime>05/29/2018 00:15:55</publishTime>
     </File>
     <File Include="bin/Nop.Web.dll">
-      <publishTime>05/24/2018 02:05:02</publishTime>
+      <publishTime>05/29/2018 00:15:58</publishTime>
     </File>
     <File Include="bin/Nop.Web.Framework.dll">
-      <publishTime>05/24/2018 02:05:00</publishTime>
+      <publishTime>05/29/2018 00:15:56</publishTime>
     </File>
     <File Include="bin/Owin.dll">
       <publishTime>12/06/2016 17:09:53</publishTime>
@@ -7105,7 +7105,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/07/2017 15:42:20</publishTime>
     </File>
     <File Include="Plugins/Peraport.WidgetFinancial/Nop.Plugin.Peraport.WidgetFinancial.dll">
-      <publishTime>05/24/2018 02:01:21</publishTime>
+      <publishTime>05/25/2018 12:35:39</publishTime>
     </File>
     <File Include="Plugins/Peraport.WidgetFinancial/Nop.Plugin.Peraport.WidgetFinancial.dll.config">
       <publishTime>12/07/2017 16:35:33</publishTime>
@@ -7170,8 +7170,11 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Plugins/Peraport.WidgetFinancial/Views/Fi/EOdemeListesi.cshtml">
       <publishTime>12/07/2017 15:16:24</publishTime>
     </File>
+    <File Include="Plugins/Peraport.WidgetFinancial/Views/Fi/Fail.cshtml">
+      <publishTime>05/25/2018 11:41:15</publishTime>
+    </File>
     <File Include="Plugins/Peraport.WidgetFinancial/Views/Fi/FaturaTakip.cshtml">
-      <publishTime>05/24/2018 00:28:44</publishTime>
+      <publishTime>05/25/2018 09:50:25</publishTime>
     </File>
     <File Include="Plugins/Peraport.WidgetFinancial/Views/Fi/He.cshtml">
       <publishTime>02/12/2018 09:36:46</publishTime>
@@ -7224,6 +7227,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Plugins/Peraport.WidgetFinancial/Views/Fi/PublicInfo.cshtml">
       <publishTime>05/11/2018 16:05:19</publishTime>
     </File>
+    <File Include="Plugins/Peraport.WidgetFinancial/Views/Fi/Success.cshtml">
+      <publishTime>05/25/2018 11:41:17</publishTime>
+    </File>
     <File Include="Plugins/Peraport.WidgetFinancial/Views/Fi/Test.cshtml">
       <publishTime>03/05/2018 11:13:18</publishTime>
     </File>
@@ -7250,6 +7256,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Plugins/Peraport.WidgetFinancial/web.config">
       <publishTime>12/07/2017 16:21:15</publishTime>
+    </File>
+    <File Include="Plugins/Peraport.WidgetFinancialk.rar">
+      <publishTime>05/24/2018 01:42:09</publishTime>
     </File>
     <File Include="Plugins/Peraport.WidgetFinancialxx %282%29.rar">
       <publishTime>05/14/2018 14:58:45</publishTime>

@@ -126,7 +126,8 @@ namespace Nop.Web.Controllers
 
             //model
             var model = _catalogModelFactory.PrepareCategoryModel(category, command);
-
+            //MT stok sralaması için eklendi
+            model.Products = model.Products.OrderByDescending(x => x.StockQuantity).ToList();
             //template
             var templateViewPath = _catalogModelFactory.PrepareCategoryTemplateViewPath(category.CategoryTemplateId);
             return View(templateViewPath, model);

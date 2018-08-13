@@ -880,7 +880,7 @@ namespace Nop.Plugin.Peraport.AdminPlugin.Controllers
 
             string sorgu = ""
                 /*1      2        3      4      5        6         7           8          9     10          11          12*/
-                + " SELECT distinct I.LOGICALREF,I.CODE,I.NAME+' '+I.NAME3,I.VAT ,P.PRICE,CONVERT(VARCHAR(12), P.BEGDATE,104) BEGDATE , P.BEGTIME,CONVERT(VARCHAR(12), P.ENDDATE,104) ENDDATE,P.ENDTIME,UB.BARCODE,P.CURRENCY,P.UOMREF,I.SPECODE2"
+                + " SELECT distinct I.LOGICALREF,I.CODE,I.NAME+' '+I.NAME3+' ' + I.CODE , I.VAT ,P.PRICE,CONVERT(VARCHAR(12), P.BEGDATE,104) BEGDATE , P.BEGTIME,CONVERT(VARCHAR(12), P.ENDDATE,104) ENDDATE,P.ENDTIME,UB.BARCODE,P.CURRENCY,P.UOMREF,I.SPECODE2"
                 + " FROM[LogoDB].[dbo].[LG_517_PRCLIST] P"
                 + " left join[LogoDB].[dbo].[LG_517_ITEMS] I ON P.CARDREF = I.LOGICALREF"
                 + " left join[LogoDB].[dbo].[LG_517_CHARASGN] CA on CA.ITEMREF = I.LOGICALREF"
@@ -890,7 +890,7 @@ namespace Nop.Plugin.Peraport.AdminPlugin.Controllers
                 + " FROM[LogoDB].[dbo].[LG_517_PRCLIST] P"
                 + " where BEGDATE<=convert(date, getdate()) and P.UOMREF=23"
                 + " group by P.CARDREF, P.CURRENCY) a on a.LOGREF=P.LOGICALREF and a.CARDREF=P.CARDREF and a.CURRENCY=p.CURRENCY and p.BEGDATE=a.maxtar and p.ENDDATE=a.maxend"
-                + " WHERE I.ACTIVE=0 AND I.CARDTYPE = 1 and P.UOMREF=23 and UB.BARCODE is not null and (I.SPECODE4 is not null and I.SPECODE4<>'' ) ORDER BY BEGDATE DESC"
+                + " WHERE I.ACTIVE=0 AND I.CARDTYPE = 1 and P.UOMREF=23 and UB.BARCODE is not null and (I.SPECODE4 is not null and I.SPECODE4<>'' ) and I.CYPHCODE='B2B' ORDER BY BEGDATE DESC"
                  ;
             var resultQuery = client.GetWSData(csErp.VALUE_STR, sorgu);
             List<ErpProduct> ErpProducts = new List<ErpProduct>();
@@ -949,7 +949,7 @@ namespace Nop.Plugin.Peraport.AdminPlugin.Controllers
                         + " left join[LogoDB].[dbo].[LG_517_SPECODES] SPC5 on I.SPECODE5 = SPC5.SPECODE and SPC5.SPETYP5=1"
                         + " left join[LogoDB].[dbo].[LG_517_CHARASGN] CA on CA.ITEMREF = I.LOGICALREF"
                         + " left join[LogoDB].[dbo].[LG_517_CHARCODE] CC ON CA.CHARCODEREF=CC.LOGICALREF"
-                        + " WHERE I.CARDTYPE = 1 and I.ACTIVE=0 and (I.SPECODE4 is not null and I.SPECODE4<>'' ) and I.SPECODE2<>'DEMO'";
+                        + " WHERE I.CARDTYPE = 1 and I.ACTIVE=0 and (I.SPECODE4 is not null and I.SPECODE4<>'' ) and I.CYPHCODE='B2B' and I.SPECODE2<>'DEMO'";
                         var resultCat = client.GetWSData(csErp.VALUE_STR, erpKat);
 
                         var ErpProducts = GetErpProductsFromErp();
@@ -991,7 +991,8 @@ namespace Nop.Plugin.Peraport.AdminPlugin.Controllers
                                         OrderMinimumQuantity = 1,
                                         Price = item.PRICE,
                                         ManageInventoryMethodId = 1,
-                                        LowStockActivityId = 1,
+                                        MinStockQuantity=5,
+                                        LowStockActivityId = 2,
                                         DisplayStockAvailability = true,
                                         DisplayStockQuantity = true,
                                         IsFreeShipping = true,
@@ -1093,10 +1094,12 @@ namespace Nop.Plugin.Peraport.AdminPlugin.Controllers
                         var NopProducts = _productService.SearchProducts();
                         List<Product> taskProduct = new List<Product>();
 
+                        ErpProducts = ErpProducts.Where(x => x.CODE == "RK070320001").ToList();
+
                         rm.Add(new ResultModel { NAME = "-", NOTE = "Nop Product :" + NopProducts.Count() });
                         rm.Add(new ResultModel { NAME = "-", NOTE = "Erpden gelen Product Sayısı :" + resultQuery.Count() });
                         rm.Add(new ResultModel { NAME = "-", NOTE = "Başlıyoruz...." });
-
+                        var nopGuncellistesi = new List<int>();
                         foreach (var item in ErpProducts)
                         {
                             Product nopEs = NopProducts.Where(x => x.UserAgreementText == item.CODE).FirstOrDefault();
@@ -1104,11 +1107,21 @@ namespace Nop.Plugin.Peraport.AdminPlugin.Controllers
                             {
                                 //Stok güncellemesi yapılacak.
                                 nopEs.StockQuantity = (int)item.STOK;
+                                nopEs.Published = true;
                                 taskProduct.Add(nopEs);
+                                nopGuncellistesi.Add(nopEs.Id);
                             }
                         }
                         rm.Add(new ResultModel { NAME = "-", NOTE = "Stok Güncelleme Sayısı :" + taskProduct.Count() });
                         if (taskProduct.Count > 0) _productService.UpdateProducts(taskProduct);
+
+                        /*Güncellenmeyen stokları sıfırla ve yayından kaldır*/
+                        var csNop = client.GetGeneralSettings("CS_Nop");
+                        var guncellenmeyenler = NopProducts.Select(x => x.Id).Except(nopGuncellistesi).ToArray();
+                        var str = String.Join(", ", guncellenmeyenler.ToArray());
+                        var nopQuery = "UPDATE [NopComLocal].[dbo].[Product] SET StockQuantity=0,Published=0,LowStockActivityId=2 where Id in ("+str+");";
+                        var r = client.SqlExecuteNonQuery(csNop.VALUE_STR, nopQuery);
+                        /**/
                         rm.Add(new ResultModel { NAME = "-", NOTE = "İşlem Başarılı. Güncellenen Stok Sayısı :" + taskProduct.Count() });
 
                         return View("~/Plugins/Peraport.AdminPlugin/Views/PPProduct/ProductSyncPartial.cshtml", rm);

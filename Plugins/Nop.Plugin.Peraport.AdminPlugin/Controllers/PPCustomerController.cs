@@ -349,6 +349,7 @@ namespace Nop.Plugin.Peraport.AdminPlugin.Controllers
                         break;
                     case 4:
                         #region Ek Adresler
+                        //
                         var Adresler = client.GetAddressFromErp();
                         foreach (var _adres in Adresler)
                         {
@@ -357,23 +358,51 @@ namespace Nop.Plugin.Peraport.AdminPlugin.Controllers
                                 var _nc = NopCustomers.Where(x=>x.Id==_adres.NOP_ID).FirstOrDefault();
                                 if (_nc != null)
                                 {//müşteri bulundu.
-                                    //Adres varmı diye bak
-                                    if (_nc.Addresses.Where(x => x.Address1 == _adres.ADDRESS).FirstOrDefault() == null)
-                                    {
-                                        if(_adres.EMAIL.Length>3 && _adres.ADDRESS.Length > 10)
+                                    //Müşteri adreslerini AL
+                                    if (_adres.CODE == _nc.Username)
+                                    {//ilk adres ise
+                                        var _fad = _nc.Addresses.Where(x => x.CustomAttributes == _adres.CODE).FirstOrDefault();
+                                        if (_fad != null)
                                         {
-                                            _nc.Addresses.Add(new Address { Company = _adres.NAME, Address1 = _adres.ADDRESS, City = _adres.CITY, Email = _adres.EMAIL, CustomAttributes = _adres.CODE + _adres.NAME, CreatedOnUtc = DateTime.Now });
-                                            _customerService.UpdateCustomer(_nc);
-                                            UsersNote.Add(new ErpUser { EMAIL = _adres.EMAIL, CODE = _nc.AdminComment, CITY = "A *", NAME = _adres.NAME, NOTE = "Adres Eklendi." });
+                                            if(_fad.CustomAttributes==null || _fad.CustomAttributes == "")
+                                            {
+                                                _fad.CustomAttributes = _adres.CODE;
+                                                _customerService.UpdateCustomer(_nc);
+                                            }
                                         }
                                         else
-                                            UsersNote.Add(new ErpUser { EMAIL = _adres.EMAIL, CODE = _nc.AdminComment, CITY = "X *", NAME = _adres.NAME+" -Email:"+_adres.EMAIL, NOTE = "Adres Geçerli Gözükmüyor.-"+_adres.ADDRESS });
-
+                                        {//hiç kayıtlı adresi yok
+                                            if (_adres.ADDRESS.Length > 10)
+                                            {
+                                                _nc.Addresses.Add(new Address { Company = _adres.NAME, Address1 = _adres.ADDRESS, City = _adres.CITY, Email = _adres.EMAIL, CustomAttributes = _adres.CODE, CreatedOnUtc = DateTime.Now });
+                                                _customerService.UpdateCustomer(_nc);
+                                                UsersNote.Add(new ErpUser { EMAIL = _adres.EMAIL, CODE = _nc.AdminComment, CITY = "A *", NAME = _adres.NAME, NOTE = "Adres Eklendi." });
+                                            }
+                                            else
+                                                UsersNote.Add(new ErpUser { EMAIL = _adres.EMAIL, CODE = _nc.AdminComment, CITY = "X *", NAME = _adres.NAME + " -Email:" + _adres.EMAIL, NOTE = "Adres Geçerli Gözükmüyor.-" + _adres.ADDRESS });
+                                        }
                                     }
                                     else
                                     {
-                                        UsersNote.Add(new ErpUser { EMAIL = _adres.EMAIL, CODE = _nc.AdminComment, CITY = "VAR *", NAME = _adres.NAME, NOTE = "Adres Daha Önceden Eklenmiş." });
+                                        //Adres varmı diye bak
+                                        if (_nc.Addresses.Where(x => x.CustomAttributes == _adres.CODE).FirstOrDefault() == null)
+                                        {
+                                            if (_adres.ADDRESS.Length > 10)
+                                            {
+                                                _nc.Addresses.Add(new Address { Company = _adres.NAME, Address1 = _adres.ADDRESS, City = _adres.CITY, Email = _adres.EMAIL, CustomAttributes = _adres.CODE, CreatedOnUtc = DateTime.Now });
+                                                _customerService.UpdateCustomer(_nc);
+                                                UsersNote.Add(new ErpUser { EMAIL = _adres.EMAIL, CODE = _nc.AdminComment, CITY = "A *", NAME = _adres.NAME, NOTE = "Adres Eklendi." });
+                                            }
+                                            else
+                                                UsersNote.Add(new ErpUser { EMAIL = _adres.EMAIL, CODE = _nc.AdminComment, CITY = "X *", NAME = _adres.NAME + " -Email:" + _adres.EMAIL, NOTE = "Adres Geçerli Gözükmüyor.-" + _adres.ADDRESS });
+
+                                        }
+                                        else
+                                        {
+                                            UsersNote.Add(new ErpUser { EMAIL = _adres.EMAIL, CODE = _nc.AdminComment, CITY = "VAR *", NAME = _adres.NAME, NOTE = "Adres Daha Önceden Eklenmiş." });
+                                        }
                                     }
+
                                 }
 
                             }

@@ -72,12 +72,17 @@ namespace Nop.Plugin.Peraport.WidgetFinancial.Controllers
             var customer = _authService.GetAuthenticatedCustomer();
             if (customer != null)
             {
+                int customerid = customer.Id;
+                /* TEST */
+                customerid = 4072;
+                /* TEST */
+
                 NopServiceClient client = new NopServiceClient();
                 client.ClientCredentials.Windows.AllowedImpersonationLevel = System.Security.Principal.TokenImpersonationLevel.Anonymous;
-                _fim = client.GetCustomerFinancial(customer.Id.ToString());
+                _fim = client.GetCustomerFinancial(customerid.ToString());
 
                 #region Sipariş Status Update
-                var orders = _orderService.SearchOrders(0, 0, customer.Id);
+                var orders = _orderService.SearchOrders(0, 0, customerid);
                 if (orders.Count > 0)
                 {
                     var aaa = orders.Select(x => x.Id).ToArray();
@@ -93,7 +98,7 @@ namespace Nop.Plugin.Peraport.WidgetFinancial.Controllers
 
                 #region CurrentLimit Hesaplama (Compated olmayan siparişler de ekleniyor...)
 
-                orders = _orderService.SearchOrders(0, 0, customer.Id);
+                orders = _orderService.SearchOrders(0, 0, customerid);
                 var orders1 = orders.Where(x => x.OrderStatus == OrderStatus.Processing).ToList();
                 decimal ordersTotal = 0;
                 if (orders1.Count > 0)
@@ -268,7 +273,7 @@ namespace Nop.Plugin.Peraport.WidgetFinancial.Controllers
             return stm;
         }
 
-        public List<Order> GetOrders()//Kullanıcı Tüm siparişleri
+        public List<Order> GetOrders(int _ci)//Kullanıcı Tüm siparişleri
         {
             OrderListModel model = new OrderListModel();
             if (_workContext.CurrentVendor != null)
@@ -295,8 +300,7 @@ namespace Nop.Plugin.Peraport.WidgetFinancial.Controllers
                 orderNotes: model.OrderNotes,
                 pageIndex: 0,
                 pageSize: 999);
-            var cust = _authService.GetAuthenticatedCustomer();
-            return orders.Where(x => x.Customer.Id == cust.Id).ToList();
+            return orders.Where(x => x.Customer.Id == _ci).ToList();
         }
 
         public DateTime ConvertToDateDef(string s, DateTime def)
@@ -329,9 +333,10 @@ namespace Nop.Plugin.Peraport.WidgetFinancial.Controllers
 
         public ActionResult OrdersPartial(int OrderType = 1, string StartDate = "", string EndDate = "")
         {
+            var customer = _authService.GetAuthenticatedCustomer();
             DateTime sd = ConvertToDateDef(StartDate, DateTime.Today.AddYears(-10));
             DateTime ed = ConvertToDateDef(EndDate, DateTime.Today.AddDays(1)).AddDays(1);
-            var orders = GetOrders();
+            var orders = GetOrders(customer.Id);
             if (orders != null)
             {
                 orders = orders.Where(x => x.CreatedOnUtc <= ed && x.CreatedOnUtc >= sd).ToList();
@@ -413,9 +418,15 @@ namespace Nop.Plugin.Peraport.WidgetFinancial.Controllers
                 var customer = _authService.GetAuthenticatedCustomer();
                 if (customer != null)
                 {
+                    int customerid = customer.Id;
+                    /* TEST */
+                    customerid = 4072;
+                    /* TEST */
+
+
                     NopServiceClient client = new NopServiceClient();
                     client.ClientCredentials.Windows.AllowedImpersonationLevel = System.Security.Principal.TokenImpersonationLevel.Anonymous;
-                    var heModel = client.GetCustomerFinancialHesapEkstre(customer.Id.ToString(), StartDate, EndDate);
+                    var heModel = client.GetCustomerFinancialHesapEkstre(customerid.ToString(), StartDate, EndDate);
 
                     return View("~/Plugins/Peraport.WidgetFinancial/Views/Fi/HePartial.cshtml", heModel);
                 }
@@ -454,8 +465,15 @@ namespace Nop.Plugin.Peraport.WidgetFinancial.Controllers
         public ActionResult Dashboard()
         {
             var customer = _authService.GetAuthenticatedCustomer();
+            int customerid = customer.Id;
+
+            /* TEST */
+            customerid = 4072;
+            /* TEST */
+
+
             DashModel model = new DashModel { NAME = _fi.NAME, LIMIT = _fi.LIMIT, BAKIYE = _fi.BAKIYE, CURRENT_LIMIT = _fi.CURRENT_LIMIT };
-            var orders = GetOrders();
+            var orders = GetOrders(customerid);
             if (orders != null)
             {
                 model.ALL_ORDERS_QTY = orders.Count();
@@ -470,7 +488,7 @@ namespace Nop.Plugin.Peraport.WidgetFinancial.Controllers
                 model.SHIPPED_ORDERS_VAL = orders2.Sum(x => x.OrderTotal);
             }
 
-            var documents = GetDocuments(customer.Id);
+            var documents = GetDocuments(customerid);
             if (documents.ROWS != null)
             {
                 decimal kismiodenmis = 0;
