@@ -23,4 +23,11 @@ namespace Nop.Plugin.Peraport.WidgetFinancial.Models
         public long ID { get; set; }
         public decimal TUTAR { get; set; }
     }
+
+    public class EFaturaModel
+    {
+        public long ID { get; set; }
+        public decimal TUTAR { get; set; }
+    }
+
 }

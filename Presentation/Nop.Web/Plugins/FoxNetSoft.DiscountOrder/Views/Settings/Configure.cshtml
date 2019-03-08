@@ -1,0 +1,332 @@
+﻿@{
+    Layout = "";
+    Html.SetActiveMenuItemSystemName("FoxNetSoft.DiscountOrder.Configure");
+}
+@model FoxNetSoft.Plugin.Misc.DiscountOrder.Models.DiscountOrderSettingsModel
+@using FoxNetSoft.Plugin.Misc.DiscountOrder.Models;
+@using Nop.Web.Framework;
+@using Nop.Web.Framework.UI
+@Html.Action("StoreScopeConfiguration", "Setting", new { area = "Admin" })
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            @T("Admin.Configuration.Settings.GeneralCommon")
+        </h1>
+        <div class="pull-right">
+            <button type="submit" name="save" class="btn bg-blue">
+                <i class="fa fa-floppy-o"></i>
+                @T("Admin.Common.Save")
+            </button>
+        </div>
+    </div>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("#@Html.FieldIdFor(model => model.DiscountOrderType)").click(toggleDiscountOrderType);
+            $("#@Html.FieldIdFor(model => model.showDebugInfo)").click(toggleshowDebugInfo);
+
+            toggleDiscountOrderType();
+            toggleshowDebugInfo();
+        });
+
+        function toggleshowDebugInfo() {
+            if ($('#@Html.FieldIdFor(model => model.showDebugInfo)').is(':checked')) {
+                $('#pnlclearlogfile, #pnlgetlogfile').show();
+            }
+            else {
+                $('#pnlclearlogfile, #pnlgetlogfile').hide();
+            }
+        }
+        function toggleDiscountOrderType() {
+            var discountOrderTypeId = $('#@Html.FieldIdFor(model => model.DiscountOrderType)').val();
+            $('.discounttypecomment').hide();
+            $('#pnSortProductKey').show();
+            $('#discounttypecomment' + discountOrderTypeId).show();
+            if (discountOrderTypeId == "CheaperXXXProduct"
+                || discountOrderTypeId == "TheSameProduct"
+                || discountOrderTypeId == "TheSameProductAttributes") { 
+                $('#pnSortProductKey').hide();
+            }
+        }
+    </script>
+    <div class="content">
+        <div class="form-horizontal">
+            @Html.ValidationSummary(false)
+            <div class="panel-group">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                    <!--
+                        <p>
+                            @if (Model.IsRegisted == true)
+                            {
+                                @T("Admin.FoxNetSoft.Plugin.Misc.DiscountOrder.IsRegisted")
+                            }
+                            else
+                            {
+                                @T("Admin.FoxNetSoft.Plugin.Misc.DiscountOrder.IsNoRegisted")
+                                <br />
+                                <a href="https://www.foxnetsoft.com/noporderdiscount" target="blank">Buy It Now</a>
+                            }
+                        </p>
+                        -->
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                @Html.OverrideStoreCheckboxFor(model => model.Enabled_OverrideForStore, model => model.Enabled, Model.ActiveStoreScopeConfiguration)
+                                @Html.NopLabelFor(model => model.Enabled)
+                            </div>
+                            <div class="col-md-9">
+                                @Html.NopEditorFor(model => model.Enabled)
+                                @Html.ValidationMessageFor(model => model.Enabled)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                @Html.OverrideStoreCheckboxFor(model => model.DiscountOrderType_OverrideForStore, model => model.DiscountOrderType, Model.ActiveStoreScopeConfiguration)
+                                @Html.NopLabelFor(model => model.DiscountOrderType)
+                            </div>
+                            <div class="col-md-9">
+                                @Html.NopDropDownListFor(m => m.DiscountOrderType, Model.AvailableDiscountOrderTypes)
+                                @Html.ValidationMessageFor(model => model.DiscountOrderType)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                @Html.OverrideStoreCheckboxFor(model => model.ProductNumber_OverrideForStore, model => model.ProductNumber, Model.ActiveStoreScopeConfiguration)
+                                @Html.NopLabelFor(model => model.ProductNumber)
+                            </div>
+                            <div class="col-md-9">
+                                @Html.NopEditorFor(model => model.ProductNumber)
+                                @Html.ValidationMessageFor(model => model.ProductNumber)
+                            </div>
+                        </div>
+                        <div class="form-group" id="pnSortProductKey">
+                            <div class="col-md-3">
+                                @Html.OverrideStoreCheckboxFor(model => model.SortProductKey_OverrideForStore, model => model.SortProductKey, Model.ActiveStoreScopeConfiguration)
+                                @Html.NopLabelFor(model => model.SortProductKey)
+                            </div>
+                            <div class="col-md-9">
+                                @Html.NopDropDownListFor(m => m.SortProductKey, Model.AvailableSortProductKeys)
+                                @Html.ValidationMessageFor(model => model.SortProductKey)
+                            </div>
+                        </div>
+                        <p>
+                        <!--
+                            <div class="discounttypecomment" id="discounttypecommentForEachXXXProduct">
+                                Give discount for each XXX products from the cart using sorting.<br />
+                                <i>
+                                    Example 1.<br />
+                                    a)Customer added in the cart 1-qty cabel 7$, 2-qty Iphones 350$ and 2-qty covers 25$. You want to add discount for each second product sort by 'Price High To Low'.<br />
+                                    b) Plugin sorted products<br />
+                                    Iphones 350$<br />
+                                    Iphones 350$ - discount<br />
+                                    Cover 25$<br />
+                                    Cover 25$ - discount<br />
+                                    Cabel 7$<br />
+                                    Example 2.<br />
+                                    a)Customer added in the cart 1-qty cabel 7$, 2-qty Iphones 350$ and 2-qty covers 25$. You want to add discount for each third product sort by 'Price High To Low'.<br />
+                                    b) Plugin sorted products<br />
+                                    Iphones 350$<br />
+                                    Iphones 350$<br />
+                                    Cover 25$ - discount<br />
+                                    Cover 25$<br />
+                                    Cabel 7$<br />
+                                </i>
+                            </div>
+                            <div class="discounttypecomment" id="discounttypecommentCheaperXXXProduct">
+                                Give discount for cheaper product in each set of XXX expensive products and one cheaper product from the cart.<br />
+                                <i>
+                                    Example 1.<br />
+                                    a)Customer added in the cart 1-qty cabel 7$, 2-qty Iphones 350$ and 2-qty covers 25$. You want to add discount for set of one expensive product and one cheaper product. Set Product Number = 2.<br />
+                                    b) Plugin sorted products<br />
+                                    Iphones 350$ - set 1<br />
+                                    Iphones 350$ - set 2<br />
+                                    Cover 25$<br />
+                                    Cover 25$ - set 2 discount<br />
+                                    Cabel 7$ - set 1 discount<br />
+                                    Example 2.<br />
+                                    a)Customer added in the cart 1-qty cabel 7$, 2-qty Iphones 350$ and 2-qty covers 25$. You want to add discount for set of two expensive products and one cheaper product. Set Product Number = 3.<br />
+                                    b) Plugin sorted products<br />
+                                    Iphones 350$ - set 1<br />
+                                    Iphones 350$- set 1<br />
+                                    Cover 25$<br />
+                                    Cover 25$<br />
+                                    Cabel 7$ - set 1 discount<br />
+                                </i>
+                            </div>
+                            <div class="discounttypecomment" id="discounttypecommentForOneProduct">
+                                Give discount only for one XXX product from the cart using sorting.<br />
+                                <i>
+                                    Example 1.<br />
+                                    a)Customer added in the cart 1-qty cabel 7$, 2-qty Iphones 350$ and 2-qty covers 25$. You want to add discount the cheaper product in the cart. Set Product Number = 1. Sort Products 'Price Low To High'.<br />
+                                    b) Plugin sorted products<br />
+                                    Iphones 350$<br />
+                                    Iphones 350$<br />
+                                    Cover 25$<br />
+                                    Cover 25$<br />
+                                    Cabel 7$ - discount<br />
+                                    Example 2.<br />
+                                    a)Customer added in the cart 1-qty cabel 7$, 2-qty Iphones 350$ and 2-qty covers 25$. You want to add discount the third cheaper product in the cart. Set Product Number = 3. Sort Products 'Price High To Low'.<br />
+                                    b) Plugin sorted products<br />
+                                    Iphones 350$<br />
+                                    Iphones 350$<br />
+                                    Cover 25$- discount<br />
+                                    Cover 25$<br />
+                                    Cabel 7$<br />
+                                </i>
+                            </div>
+                            <div class="discounttypecomment" id="discounttypecommentLastXXXProduct">
+                                Give discount only for last XXX product(s) from the cart using sorting.<br />
+                                <i>
+                                    Example 1.<br />
+                                    a)Customer added in the cart 1-qty cabel 7$, 2-qty Iphones 350$ and 2-qty covers 25$. You want to add discount to the cheaper 2 products in the cart. Set Product Number = 2. Sort Products 'Price High To Low'.<br />
+                                    b) Plugin sorted products<br />
+                                    Iphones 350$<br />
+                                    Iphones 350$<br />
+                                    Cover 25$<br />
+                                    Cover 25$ - discount<br />
+                                    Cabel 7$ - discount<br />
+                                </i>
+                            </div>
+                            
+                    <div class="discounttypecomment" id="discounttypecommentTheSameProduct">
+                        Discount for the purchase of the same product. Ex. Present third product or give discount on third product.<br />
+                        <i>
+                            Example 1.<br />
+                            a)Customer added in the cart 3-qty cabel 7$, 3-qty Iphones (Red, Black,White) 350$ and 2-qty covers 25$. You want to add discount to the thitd same product in the cart. Set Product Number = 3.<br />
+                            b) Plugin sorted products<br />
+                            Iphones Red 350$<br />
+                            Iphones Black 350$<br />
+                            Iphones White 350$- discount<br />
+                            Cover 25$<br />
+                            Cover 25$<br />
+                            Cabel 7$<br />
+                            Cabel 7$<br />
+                            Cabel 7$ - discount<br />
+                        </i>
+                    </div>
+                    <div class="discounttypecomment" id="discounttypecommentTheSameProductAttributes">
+                        Discount for the purchase of the same product with same attributes. Ex. Present third product or give discount on third product.<br />
+                        <i>
+                            Example 1.<br />
+                            a)Customer added in the cart 3-qty cabel 7$, 3-qty Iphones (Red, Black,White) 350$ and 2-qty covers 25$. You want to add discount to the thitd same product in the cart. Set Product Number = 3.<br />
+                            b) Plugin sorted products<br />
+                            Iphones Red 350$<br />
+                            Iphones Black 350$<br />
+                            Iphones White 350$<br />
+                            Cover 25$<br />
+                            Cover 25$<br />
+                            Cabel 7$<br />
+                            Cabel 7$<br />
+                            Cabel 7$ - discount<br />
+                        </i>
+                    </div>
+                                        -->
+                        </p>
+                    </div>
+
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                @Html.OverrideStoreCheckboxFor(model => model.DiscountPercentage_OverrideForStore, model => model.DiscountPercentage, Model.ActiveStoreScopeConfiguration)
+                                @Html.NopLabelFor(model => model.DiscountPercentage)
+                            </div>
+                            <div class="col-md-9">
+                                @Html.NopEditorFor(model => model.DiscountPercentage)
+                                @Html.ValidationMessageFor(model => model.DiscountPercentage)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                @Html.OverrideStoreCheckboxFor(model => model.MinimumOrderAmount_OverrideForStore, model => model.MinimumOrderAmount, Model.ActiveStoreScopeConfiguration)
+                                @Html.NopLabelFor(model => model.MinimumOrderAmount)
+                            </div>
+                            <div class="col-md-9">
+                                @Html.NopEditorFor(model => model.MinimumOrderAmount)
+                                @Html.ValidationMessageFor(model => model.MinimumOrderAmount)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                @Html.OverrideStoreCheckboxFor(model => model.MinimumCartQuantity_OverrideForStore, model => model.MinimumCartQuantity, Model.ActiveStoreScopeConfiguration)
+                                @Html.NopLabelFor(model => model.MinimumCartQuantity)
+                            </div>
+                            <div class="col-md-9">
+                                @Html.NopEditorFor(model => model.MinimumCartQuantity)
+                                @Html.ValidationMessageFor(model => model.MinimumCartQuantity)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                @Html.OverrideStoreCheckboxFor(model => model.StartDateUtc_OverrideForStore, model => model.StartDateUtc, Model.ActiveStoreScopeConfiguration)
+                                @Html.NopLabelFor(model => model.StartDateUtc)
+                            </div>
+                            <div class="col-md-9">
+                                @Html.NopEditorFor(model => model.StartDateUtc)
+                                @Html.ValidationMessageFor(model => model.StartDateUtc)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                @Html.OverrideStoreCheckboxFor(model => model.EndDateUtc_OverrideForStore, model => model.EndDateUtc, Model.ActiveStoreScopeConfiguration)
+                                @Html.NopLabelFor(model => model.EndDateUtc)
+                            </div>
+                            <div class="col-md-9">
+                                @Html.NopEditorFor(model => model.EndDateUtc)
+                                @Html.ValidationMessageFor(model => model.EndDateUtc)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                @Html.NopLabelFor(model => model.CouponCode)
+                            </div>
+                            <div class="col-md-9">
+                                @Html.NopEditorFor(model => model.CouponCode)
+                                @Html.ValidationMessageFor(model => model.CouponCode)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                @Html.NopLabelFor(model => model.showDebugInfo)
+                            </div>
+                            <div class="col-md-9">
+                                @Html.NopEditorFor(model => model.showDebugInfo)
+                                @Html.ValidationMessageFor(model => model.showDebugInfo)
+                                <div id="pnlclearlogfile">
+                                    <a href="@Url.Action("ClearLogFile")" class="k-button">@T("Admin.FoxNetSoft.Plugin.Misc.DiscountOrder.ClearLogFile")</a>
+                                </div>
+                                <div id="pnlgetlogfile">
+                                    <a href="@Url.Action("GetLogFile")" class="k-button">@T("Admin.FoxNetSoft.Plugin.Misc.DiscountOrder.GetLogFile")</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                @Html.NopLabelFor(model => model.StoreUrl)
+                            </div>
+                            <div class="col-md-9">
+                                @Html.NopDisplayFor(model => model.StoreUrl)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                @Html.NopLabelFor(model => model.SerialNumber)
+                            </div>
+                            <div class="col-md-9">
+                                @Html.NopEditorFor(model => model.SerialNumber)
+                                @Html.ValidationMessageFor(model => model.SerialNumber)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

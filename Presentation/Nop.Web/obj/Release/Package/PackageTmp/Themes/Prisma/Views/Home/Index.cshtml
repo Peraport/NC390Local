@@ -6,6 +6,28 @@
 }
 <div class="page home-page">
     <div class="page-body">
+<div class="page home-page">
+    <div class="page-body">
+
+<!--
+	<center>
+	<div id="ytdiv">
+<input type="button" id="ytb" value="Videoyu Gizle" onclick="hideFrame()" style="background-color: white;color: black;border: 2px solid #4CAF50;padding: 5px 3px;display: inline-block; ">
+<br/>
+<iframe id="pane" width="800" height="540" src="https://www.youtube.com/embed/v7gcYiRFcqI?autoplay=1&rel=0&width=800&height=540" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+	</center>
+
+	</div>
+<script language="javascript">
+function hideFrame()
+{
+ytdiv.style.display="none";
+pane.setAttribute("src", " ");
+}
+</script>
+
+-->
+
         @Html.Widget("home_page_top")
         @Html.Action("TopicBlock", "Topic", new { systemName = "HomePageText" })
         @Html.Widget("home_page_before_categories")

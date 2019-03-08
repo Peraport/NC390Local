@@ -8,6 +8,18 @@ namespace Nop.Plugin.Peraport.WidgetFinancial
     {
         public void RegisterRoutes(RouteCollection routes)
         {
+            routes.MapRoute("Plugin.Peraport.WidgetFinancial.EfaturaDetail",
+                 "Fi/EfaturaDetail",
+                 new { controller = "Fi", action = "EfaturaDetail" },
+                 new[] { "Nop.Plugin.Peraport.WidgetFinancial.Controllers" }
+            );
+
+            routes.MapRoute("Plugin.Peraport.WidgetFinancial.Efatura",
+                 "Fi/Efatura",
+                 new { controller = "Fi", action = "Efatura" },
+                 new[] { "Nop.Plugin.Peraport.WidgetFinancial.Controllers" }
+            );
+
             routes.MapRoute("Plugin.Peraport.WidgetFinancial.OrderTracking",
                  "Fi/KargoTakip",
                  new { controller = "Fi", action = "OrderTracking" },

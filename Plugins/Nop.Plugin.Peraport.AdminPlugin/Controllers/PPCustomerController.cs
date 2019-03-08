@@ -374,7 +374,9 @@ namespace Nop.Plugin.Peraport.AdminPlugin.Controllers
                                         {//hiç kayıtlı adresi yok
                                             if (_adres.ADDRESS.Length > 10)
                                             {
-                                                _nc.Addresses.Add(new Address { Company = _adres.NAME, Address1 = _adres.ADDRESS, City = _adres.CITY, Email = _adres.EMAIL, CustomAttributes = _adres.CODE, CreatedOnUtc = DateTime.Now });
+                                                var madr = new Address { ZipPostalCode = "-", PhoneNumber = "-", CountryId = 79, FirstName = "-", LastName = "-", Company = _adres.NAME, Address1 = _adres.ADDRESS, City = _adres.CITY, Email = _adres.EMAIL, CustomAttributes = _adres.CODE, CreatedOnUtc = DateTime.Now };
+                                                if (madr.Email == "") madr.Email = "aaa@aaa.com";
+                                                _nc.Addresses.Add(madr);
                                                 _customerService.UpdateCustomer(_nc);
                                                 UsersNote.Add(new ErpUser { EMAIL = _adres.EMAIL, CODE = _nc.AdminComment, CITY = "A *", NAME = _adres.NAME, NOTE = "Adres Eklendi." });
                                             }
@@ -389,7 +391,10 @@ namespace Nop.Plugin.Peraport.AdminPlugin.Controllers
                                         {
                                             if (_adres.ADDRESS.Length > 10)
                                             {
-                                                _nc.Addresses.Add(new Address { Company = _adres.NAME, Address1 = _adres.ADDRESS, City = _adres.CITY, Email = _adres.EMAIL, CustomAttributes = _adres.CODE, CreatedOnUtc = DateTime.Now });
+                                                var madr = new Address { ZipPostalCode = "-", PhoneNumber = "-", CountryId = 79, FirstName = "-", LastName = "-", Company = _adres.NAME, Address1 = _adres.ADDRESS, City = _adres.CITY, Email = _adres.EMAIL, CustomAttributes = _adres.CODE, CreatedOnUtc = DateTime.Now };
+                                                if (madr.Email == "") madr.Email = "aaa@aaa.com";
+                                                _nc.Addresses.Add(madr);
+                                                //_nc.Addresses.Add(new Address { Company = _adres.NAME, Address1 = _adres.ADDRESS, City = _adres.CITY, Email = _adres.EMAIL, CustomAttributes = _adres.CODE, CreatedOnUtc = DateTime.Now });
                                                 _customerService.UpdateCustomer(_nc);
                                                 UsersNote.Add(new ErpUser { EMAIL = _adres.EMAIL, CODE = _nc.AdminComment, CITY = "A *", NAME = _adres.NAME, NOTE = "Adres Eklendi." });
                                             }

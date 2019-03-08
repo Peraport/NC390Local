@@ -1,0 +1,137 @@
+﻿<Language Name="English" IsRightToLeft="false">
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.DiscountOrder.IsRegisted">
+    <Value>Registered version.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.DiscountOrder.IsNoRegisted">
+    <Value>Unregistered version is fully operational. Only 50 discount will be calculated.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.DiscountOrder.IsExpired">
+    <Value>Your license has expired, you should renew the license with a 50% discount.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.DiscountOrder.Enabled">
+    <Value>Enabled</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.DiscountOrder.Enabled.Hint">
+    <Value>Enabled discount system.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.DiscountOrder.DiscountOrderType">
+    <Value>Type of discount</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.DiscountOrder.DiscountOrderType.Hint">
+    <Value>Provide the type of discount.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.DiscountOrder.ProductNumber">
+    <Value>Product number</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.DiscountOrder.ProductNumber.Hint">
+    <Value>Product number in the basket, using sorting from cheaper to expensive or vice versa for giving discounts. (Example. 5% discount for each (or only) second product in the cart).</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.DiscountOrder.SortProductKey">
+    <Value>Sort products</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.DiscountOrder.SortProductKey.Hint">
+    <Value>Sort products in the cart for giving discount.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.DiscountOrder.DiscountPercentage">
+    <Value>Discount Percentage</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.DiscountOrder.DiscountPercentage.Hint">
+    <Value>The percentage discount to apply to order total.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.DiscountOrder.MinimumOrderAmount">
+    <Value>Minimum order amount</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.DiscountOrder.MinimumOrderAmount.Hint">
+    <Value>Minimum allowed order amount.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.DiscountOrder.MinimumCartQuantity">
+    <Value>Minimum quantities in the cart</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.DiscountOrder.MinimumCartQuantity.Hint">
+    <Value>Provide the minimum quantities of all products in the cart for giving discount. Exampe. You want to give discount if quantities of all products int cart is more than 5 item (ex. 2 IPhones and 3 covers). Default value 0 - don't check the minimum quantities.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.DiscountOrder.StartDate">
+    <Value>Start date</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.DiscountOrder.StartDate.Hint">
+    <Value>The start of the discount period in Coordinated Universal Time (UTC).</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.DiscountOrder.EndDate">
+    <Value>End date</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.DiscountOrder.EndDate.Hint">
+    <Value>The end of the discount period in Coordinated Universal Time (UTC).</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.DiscountOrder.CouponCode">
+    <Value>CouponCode</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.DiscountOrder.CouponCode.Hint">
+    <Value>Provide the coupon code for this discount.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.DiscountOrder.StoreUrl">
+    <Value>Website address (for registration)</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.DiscountOrder.StoreUrl.Hint">
+    <Value>Website address (for registration).</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.DiscountOrder.showDebugInfo">
+    <Value>Enable Debugging</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.DiscountOrder.showDebugInfo.Hint">
+    <Value>Write debugging information into file. In ~/App_Data/ folder.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.DiscountOrder.SerialNumber">
+    <Value>Serial number</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.DiscountOrder.SerialNumber.Hint">
+    <Value>Serial number.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.DiscountOrder.ClearLogFile">
+    <Value>Clear the log-file</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.DiscountOrder.GetLogFile">
+    <Value>Download the log-file</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.DiscountOrder.Field.DiscountOrderProduct.Store">
+    <Value>Store</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.DiscountOrder.Field.DiscountOrderProduct.Product">
+    <Value>Product</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.DiscountOrder.Field.DiscountOrderProduct.CreatedOn">
+    <Value>CreatedOn</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.DiscountOrder.Caption">
+    <Value>Products with discount</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.DiscountOrder.Menu.Brand">
+    <Value>FoxNetSoft</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.DiscountOrder.Menu.Name">
+    <Value>Discount Manager</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.DiscountOrder.Menu.List">
+    <Value>List of products with discount</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.DiscountOrder.Menu.Configure">
+    <Value>Configure</Value>
+  </LocaleResource>
+  <LocaleResource Name="Enums.FoxNetSoft.Plugin.Misc.DiscountOrder.DiscountOrderType.ForEachXXXProduct">
+    <Value>For each XXX products</Value>
+  </LocaleResource>
+  <LocaleResource Name="Enums.FoxNetSoft.Plugin.Misc.DiscountOrder.DiscountOrderType.ForOneProduct">
+    <Value>For one XXX product</Value>
+  </LocaleResource>
+  <LocaleResource Name="Enums.FoxNetSoft.Plugin.Misc.DiscountOrder.DiscountOrderType.LastXXXProduct">
+    <Value>Last XXX product(s)</Value>
+  </LocaleResource>
+  <LocaleResource Name="Enums.FoxNetSoft.Plugin.Misc.DiscountOrder.DiscountOrderType.CheaperXXXProduct">
+    <Value>Cheaper product in XXX product(s)</Value>
+  </LocaleResource>
+  <LocaleResource Name="Enums.FoxNetSoft.Plugin.Misc.DiscountOrder.DiscountOrderType.TheSameProduct">
+    <Value>The same product</Value>    
+  </LocaleResource>
+  <LocaleResource Name="Enums.FoxNetSoft.Plugin.Misc.DiscountOrder.DiscountOrderType.TheSameProductAttributes">
+    <Value>The same product with attributes</Value>
+  </LocaleResource>
+</Language>

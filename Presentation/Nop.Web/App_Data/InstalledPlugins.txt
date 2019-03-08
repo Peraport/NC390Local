@@ -36,3 +36,4 @@ SevenSpikes.Nop.Plugins.AjaxFilters
 Widgets.LiveSupportiChat
 Widgets.BsLiveChat
 Nop.Plugin.Peraport.WidgetPopup
+FoxNetSoft.Plugin.Misc.DiscountOrder

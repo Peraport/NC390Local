@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/ProDisplay.Global._Response" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/ProDisplay.Global._Response" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://31.210.47.145:8585/Service.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:complexType name="ArrayOfParameters.InvoiceList">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Parameters.InvoiceList" nillable="true" type="tns:Parameters.InvoiceList" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfParameters.InvoiceList" nillable="true" type="tns:ArrayOfParameters.InvoiceList" />
+  <xs:complexType name="Parameters.InvoiceList">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomerCode" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CustomerName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="InvoiceDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="InvoiceGuid" type="ser:guid" />
+      <xs:element minOccurs="0" name="InvoiceNumber" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="InvoiceTotal" type="xs:decimal" />
+      <xs:element minOccurs="0" name="InvoiceType" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Parameters.InvoiceList" nillable="true" type="tns:Parameters.InvoiceList" />
+  <xs:complexType name="Parameters.InvoiceByte">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Data" nillable="true" type="xs:base64Binary" />
+      <xs:element minOccurs="0" name="Statu" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Parameters.InvoiceByte" nillable="true" type="tns:Parameters.InvoiceByte" />
+</xs:schema>

@@ -18,6 +18,5 @@ C:\works\NC390\Presentation\Nop.Web\Plugins\Feed.GoogleShopping\Nop.Plugin.Feed.
 C:\works\NC390\Presentation\Nop.Web\Plugins\Feed.GoogleShopping\Nop.Plugin.Feed.GoogleShopping.dll
 C:\works\NC390\Presentation\Nop.Web\Plugins\Feed.GoogleShopping\Nop.Plugin.Feed.GoogleShopping.pdb
 C:\works\NC390\Plugins\Nop.Plugin.Feed.GoogleShopping\obj\Debug\Nop.Plugin.Feed.GoogleShopping.csproj.App.config
-C:\works\NC390\Plugins\Nop.Plugin.Feed.GoogleShopping\obj\Debug\Nop.Plugin.Feed.GoogleShopping.csprojResolveAssemblyReference.cache
 C:\works\NC390\Plugins\Nop.Plugin.Feed.GoogleShopping\obj\Debug\Nop.Plugin.Feed.GoogleShopping.dll
 C:\works\NC390\Plugins\Nop.Plugin.Feed.GoogleShopping\obj\Debug\Nop.Plugin.Feed.GoogleShopping.pdb

@@ -1,0 +1,8 @@
+﻿Group: Discount
+FriendlyName: Discount Manager (Buy 1 get the 2nd x,xx% OFF)
+SystemName: FoxNetSoft.Plugin.Misc.DiscountOrder
+Version: 1.05
+SupportedVersions: 3.90
+Author: FoxNetSoft
+DisplayOrder: 1
+FileName: FoxNetSoft.Plugin.Misc.DiscountOrder.dll

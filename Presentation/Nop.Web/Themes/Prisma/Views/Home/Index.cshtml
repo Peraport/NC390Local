@@ -4,11 +4,12 @@
     //page class
     Html.AppendPageCssClassParts("html-home-page");
 }
-
-
+<div class="page home-page">
+    <div class="page-body">
 <div class="page home-page">
     <div class="page-body">
 
+<!--
 	<center>
 	<div id="ytdiv">
 <input type="button" id="ytb" value="Videoyu Gizle" onclick="hideFrame()" style="background-color: white;color: black;border: 2px solid #4CAF50;padding: 5px 3px;display: inline-block; ">
@@ -23,8 +24,10 @@ function hideFrame()
 ytdiv.style.display="none";
 pane.setAttribute("src", " ");
 }
-</script>	
-	
+</script>
+
+-->
+
         @Html.Widget("home_page_top")
         @Html.Action("TopicBlock", "Topic", new { systemName = "HomePageText" })
         @Html.Widget("home_page_before_categories")

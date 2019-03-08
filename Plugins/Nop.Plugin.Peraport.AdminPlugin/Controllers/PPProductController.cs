@@ -622,6 +622,7 @@ namespace Nop.Plugin.Peraport.AdminPlugin.Controllers
                 LEVEL3 = x.Val10,//SUBCATEGORY,SP5
                 LEVEL4 = x.Val8,//GSMBRAND,SP3
                 LEVEL5 = x.Val14//GSMMODEL,CHARCODE.NAME
+                , LEVELX = x.Val5
             }).Distinct().ToList();
 
             int l2ParentId = -1;
@@ -785,60 +786,47 @@ namespace Nop.Plugin.Peraport.AdminPlugin.Controllers
                     }
                 }
 
-                _categoryL5 = NopCategories_.Where(x => x.Name == item.LEVEL5 && x.ParentCategoryId == l5ParentId).FirstOrDefault();
-                if (_categoryL5 == null)
+                if(item.LEVELX=="EKRKOR"|| item.LEVELX == "KILIF")
                 {
-                    _categoryL5 = new Category
+                    _categoryL5 = NopCategories_.Where(x => x.Name == item.LEVEL5 && x.ParentCategoryId == l5ParentId).FirstOrDefault();
+                    if (_categoryL5 == null)
                     {
-                        Id = 0,
-                        Name = item.LEVEL5,
-                        Description = item.LEVEL5.ToLower(),
-                        ParentCategoryId = l5ParentId,
-                        Published = true,
-                        DisplayOrder = 5,
-                        PageSize = 15,
-                        CategoryTemplateId = 1,
-                        AllowCustomersToSelectPageSize = true,
-                        PageSizeOptions = "15,30,100",
-                        IncludeInTopMenu = true,
-                        CreatedOnUtc = tarih,
-                        UpdatedOnUtc = tarih
-                    };
-                    _categoryService.InsertCategory(_categoryL5);
-                    _categoryService.InsertProductCategory(new ProductCategory { CategoryId = _categoryL5.Id, ProductId = pid });
-                    _urlRecordService.SaveSlug(_categoryL5, _categoryL5.ValidateSeName(_categoryL5.GetSeName(), _categoryL5.Name, true), 0);
-
-                    s += " " + _categoryL5.Name + "Eklendi.";
-                }
-                else
-                {
-                    var cs = _categoryService.GetProductCategoriesByProductId(pid);
-                    if (cs.Where(x => x.CategoryId == _categoryL5.Id).FirstOrDefault() == null)
-                    {
+                        _categoryL5 = new Category
+                        {
+                            Id = 0,
+                            Name = item.LEVEL5,
+                            Description = item.LEVEL5.ToLower(),
+                            ParentCategoryId = l5ParentId,
+                            Published = true,
+                            DisplayOrder = 5,
+                            PageSize = 15,
+                            CategoryTemplateId = 1,
+                            AllowCustomersToSelectPageSize = true,
+                            PageSizeOptions = "15,30,100",
+                            IncludeInTopMenu = true,
+                            CreatedOnUtc = tarih,
+                            UpdatedOnUtc = tarih
+                        };
+                        _categoryService.InsertCategory(_categoryL5);
                         _categoryService.InsertProductCategory(new ProductCategory { CategoryId = _categoryL5.Id, ProductId = pid });
+                        _urlRecordService.SaveSlug(_categoryL5, _categoryL5.ValidateSeName(_categoryL5.GetSeName(), _categoryL5.Name, true), 0);
+
+                        s += " " + _categoryL5.Name + "Eklendi.";
+                    }
+                    else
+                    {
+                        var cs = _categoryService.GetProductCategoriesByProductId(pid);
+                        if (cs.Where(x => x.CategoryId == _categoryL5.Id).FirstOrDefault() == null)
+                        {
+                            _categoryService.InsertProductCategory(new ProductCategory { CategoryId = _categoryL5.Id, ProductId = pid });
+                        }
                     }
                 }
-
             }
             #endregion cat
             return s;
         }
 
-        public RESULT_S[] FazlaEslestirmeleriSil()
-        {
-            List<string> result = new List<string>();
-            NopServiceClient client = new NopServiceClient();
-            client.ClientCredentials.Windows.AllowedImpersonationLevel = System.Security.Principal.TokenImpersonationLevel.Anonymous;
-            var csErp = client.GetGeneralSettings("CS_ERP");
-
-            var NopProducts = _productService.SearchProducts();
-            var nowList = client.getMatchingList("MATCH_ID", "Product", NopProducts.Select(x => x.Id.ToString()).ToArray());
-
-            //var nowList = client.mat.getMatchingList("MATCH_ID", "Product", NopProducts.Select(x => x.Id.ToString()).ToArray());
-
-
-            return null;
-        }
         public RESULT_S[] EksikEslestirmeleriTamamla()
         {
             List<string> result = new List<string>();
@@ -888,7 +876,7 @@ namespace Nop.Plugin.Peraport.AdminPlugin.Controllers
                 + " left join[LogoDB].[dbo].[LG_517_UNITBARCODE] UB on UB.ITEMREF=I.LOGICALREF"
                 + " inner join(select distinct  P.CARDREF, P.CURRENCY , max(P.BEGDATE) maxtar, max(ENDDATE) maxend, max(P.LOGICALREF) LOGREF"
                 + " FROM[LogoDB].[dbo].[LG_517_PRCLIST] P"
-                + " where BEGDATE<=convert(date, getdate()) and P.UOMREF=23"
+                + " where BEGDATE<=convert(date, getdate()) and P.UOMREF=23 and P.PTYPE=2"
                 + " group by P.CARDREF, P.CURRENCY) a on a.LOGREF=P.LOGICALREF and a.CARDREF=P.CARDREF and a.CURRENCY=p.CURRENCY and p.BEGDATE=a.maxtar and p.ENDDATE=a.maxend"
                 + " WHERE I.ACTIVE=0 AND I.CARDTYPE = 1 and P.UOMREF=23 and UB.BARCODE is not null and (I.SPECODE4 is not null and I.SPECODE4<>'' ) and I.CYPHCODE='B2B' ORDER BY BEGDATE DESC"
                  ;
@@ -953,7 +941,7 @@ namespace Nop.Plugin.Peraport.AdminPlugin.Controllers
                         var resultCat = client.GetWSData(csErp.VALUE_STR, erpKat);
 
                         var ErpProducts = GetErpProductsFromErp();
-                        var NopProducts = _productService.SearchProducts();
+                        var NopProducts = _productService.SearchProducts(showHidden: true);
                         var NopCategories = _categoryService.GetAllCategories();
                         var NopManufactures = _manufacturerService.GetAllManufacturers();
                         rm.Add(new ResultModel { NAME = "-", NOTE = "Nop Product :" + NopProducts.Count() + " Nop Category :" + NopCategories.Count() + " Nop Üretici :" + NopManufactures.Count() });
@@ -966,7 +954,7 @@ namespace Nop.Plugin.Peraport.AdminPlugin.Controllers
                         {
                             try
                             {
-                                NopProducts = _productService.SearchProducts();
+                                NopProducts = _productService.SearchProducts(showHidden: true);//Yayında olmayan kayıtlar da gelsin
                                 NopCategories = _categoryService.GetAllCategories();
                                 NopManufactures = _manufacturerService.GetAllManufacturers();
 
@@ -997,10 +985,10 @@ namespace Nop.Plugin.Peraport.AdminPlugin.Controllers
                                         DisplayStockQuantity = true,
                                         IsFreeShipping = true,
                                         IsShipEnabled = true,
-
-                                        UserAgreementText = item.CODE
-
+                                        UserAgreementText = item.CODE,
+                                        AdminComment=item.CODE
                                     };
+
                                     _productService.InsertProduct(_Product);
                                     /*Kategori Bölümü*/
                                     //string acresult = AddCategory(item.CODE, _Product.Id, resultCat);
@@ -1091,10 +1079,10 @@ namespace Nop.Plugin.Peraport.AdminPlugin.Controllers
                         }
                         //Erp den gelen ürünler ve stokları elimizde
                         //şimdi güncel stokları nop a yazacağız
-                        var NopProducts = _productService.SearchProducts();
+                        var NopProducts = _productService.SearchProducts(showHidden: true);
                         List<Product> taskProduct = new List<Product>();
 
-                        ErpProducts = ErpProducts.Where(x => x.CODE == "RK070320001").ToList();
+                        //ErpProducts = ErpProducts.Where(x => x.CODE == "RK070320001").ToList();
 
                         rm.Add(new ResultModel { NAME = "-", NOTE = "Nop Product :" + NopProducts.Count() });
                         rm.Add(new ResultModel { NAME = "-", NOTE = "Erpden gelen Product Sayısı :" + resultQuery.Count() });
@@ -1102,23 +1090,27 @@ namespace Nop.Plugin.Peraport.AdminPlugin.Controllers
                         var nopGuncellistesi = new List<int>();
                         foreach (var item in ErpProducts)
                         {
-                            Product nopEs = NopProducts.Where(x => x.UserAgreementText == item.CODE).FirstOrDefault();
+                            var nopEs = NopProducts.Where(x => x.UserAgreementText == item.CODE).ToArray();
                             if (nopEs != null)
                             {
                                 //Stok güncellemesi yapılacak.
-                                nopEs.StockQuantity = (int)item.STOK;
-                                nopEs.Published = true;
-                                taskProduct.Add(nopEs);
-                                nopGuncellistesi.Add(nopEs.Id);
+                                foreach (var itemx in nopEs)
+                                {
+                                    itemx.StockQuantity = (int)item.STOK;
+                                    itemx.Published = true;
+                                    taskProduct.Add(itemx);
+                                    nopGuncellistesi.Add(itemx.Id);
+                                }
                             }
                         }
                         rm.Add(new ResultModel { NAME = "-", NOTE = "Stok Güncelleme Sayısı :" + taskProduct.Count() });
                         if (taskProduct.Count > 0) _productService.UpdateProducts(taskProduct);
 
-                        /*Güncellenmeyen stokları sıfırla ve yayından kaldır*/
+                        /*6 dan küçük stokları yayından kaldır*/
                         var csNop = client.GetGeneralSettings("CS_Nop");
-                        var guncellenmeyenler = NopProducts.Select(x => x.Id).Except(nopGuncellistesi).ToArray();
-                        var str = String.Join(", ", guncellenmeyenler.ToArray());
+                        //var guncellenmeyenler = NopProducts.Select(x => x.Id).Except(nopGuncellistesi).ToArray();
+                        var gg = NopProducts.Where(x => x.StockQuantity < 6).Select(x => x.Id).ToArray();
+                        var str = String.Join(", ", gg.ToArray());
                         var nopQuery = "UPDATE [NopComLocal].[dbo].[Product] SET StockQuantity=0,Published=0,LowStockActivityId=2 where Id in ("+str+");";
                         var r = client.SqlExecuteNonQuery(csNop.VALUE_STR, nopQuery);
                         /**/
@@ -1145,7 +1137,7 @@ namespace Nop.Plugin.Peraport.AdminPlugin.Controllers
                             + " left join[LogoDB].[dbo].[LG_517_CHARCODE] CC ON CA.CHARCODEREF=CC.LOGICALREF"
                             + " inner join(select distinct  P.CARDREF, P.CURRENCY , max(P.BEGDATE) maxtar,max(ENDDATE) maxend,max(P.LOGICALREF) LOGREF"
                             + " FROM[LogoDB].[dbo].[LG_517_PRCLIST] P"
-                            + " where BEGDATE<=convert(date, getdate()) and P.UOMREF=23"
+                            + " where BEGDATE<=convert(date, getdate()) and P.UOMREF=23 and P.PTYPE=2"
                             + " group by P.CARDREF, P.CURRENCY) a on a.LOGREF=P.LOGICALREF and a.CARDREF=P.CARDREF and a.CURRENCY=p.CURRENCY and p.BEGDATE=a.maxtar and p.ENDDATE=a.maxend"
                             + " WHERE I.CARDTYPE = 1 and P.UOMREF=23 ORDER BY I.CODE"
                             ;
@@ -1169,7 +1161,7 @@ namespace Nop.Plugin.Peraport.AdminPlugin.Controllers
                         }
                         //Erp den gelen ürünler ve fiyatları elimizde
                         //şimdi nop ile karşılaştırma yapıp, nop.modify < erp.modify olanları güncelleyeceğiz 
-                        var NopProducts = _productService.SearchProducts();
+                        var NopProducts = _productService.SearchProducts(showHidden: true);
                         List<Product> taskProduct = new List<Product>();
 
                         rm.Add(new ResultModel { NAME = "-", NOTE = "Nop Product :" + NopProducts.Count() });
@@ -1178,21 +1170,24 @@ namespace Nop.Plugin.Peraport.AdminPlugin.Controllers
 
                         foreach (var item in ErpProducts)
                         {
-                            Product nopEs = NopProducts.Where(x => x.UserAgreementText == item.CODE).FirstOrDefault();
+                            var nopEs = NopProducts.Where(x => x.UserAgreementText == item.CODE).ToArray();
                             if (nopEs != null)
                             {
-                                if (item.MODIFIEDDATE >= nopEs.UpdatedOnUtc)
-                                {//Fiyat güncellemesi yapılacak.
-                                    nopEs.OldPrice = 0;
-                                    nopEs.Price = item.PRICE;
-                                    taskProduct.Add(nopEs);
+                                foreach (var itemx in nopEs)
+                                {
+                                   // if (item.MODIFIEDDATE >= itemx.UpdatedOnUtc)
+                                    {//Fiyat güncellemesi yapılacak.
+                                        rm.Add(new ResultModel { NAME = item.CODE, NOTE = " Eski Fiyat : (" + itemx.Price+")    <-->  Yeni Fiyat :("+item.PRICE + ")  Ürün : " + item.CODE});
+                                        itemx.OldPrice = 0;
+                                        itemx.Price = item.PRICE;
+                                        taskProduct.Add(itemx);
+                                    }
                                 }
                             }
                         }
                         rm.Add(new ResultModel { NAME = "-", NOTE = "Fiyat Değişim Sayısı :" + taskProduct.Count() });
                         if (taskProduct.Count > 0) _productService.UpdateProducts(taskProduct);
                         rm.Add(new ResultModel { NAME = "-", NOTE = "İşlem Başarılı. Güncellenen Fiyat Sayısı :" + taskProduct.Count() });
-
                         return View("~/Plugins/Peraport.AdminPlugin/Views/PPProduct/ProductSyncPartial.cshtml", rm);
                     }
                     catch (Exception Ex)
@@ -1214,7 +1209,7 @@ namespace Nop.Plugin.Peraport.AdminPlugin.Controllers
                         ;
                         var resultQuery = client.GetWSData(csErp.VALUE_STR, sorgu);
 
-                        var NopProducts = _productService.SearchProducts();
+                        var NopProducts = _productService.SearchProducts(showHidden: true);
                         var matchList = client.getMatchingList("MATCH_ID", "Product", NopProducts.Select(x => x.Id.ToString()).ToArray());
 
                         foreach (var _product in NopProducts)
@@ -1277,7 +1272,7 @@ namespace Nop.Plugin.Peraport.AdminPlugin.Controllers
                         var ErpProducts = GetErpProductsFromErp();
 
                         //Erp den gelen ürünler elimizde
-                        var NopProducts = _productService.SearchProducts();
+                        var NopProducts = _productService.SearchProducts(showHidden: true);
                         List<Product> taskProduct = new List<Product>();
 
                         rm.Add(new ResultModel { NAME = "->", NOTE = "Nop Product :" + NopProducts.Count() });

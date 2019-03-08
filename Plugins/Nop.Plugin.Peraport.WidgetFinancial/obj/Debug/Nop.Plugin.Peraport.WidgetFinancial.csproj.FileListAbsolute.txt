@@ -72,6 +72,7 @@ C:\works\NC390\Presentation\Nop.Web\Plugins\Peraport.WidgetFinancial\Views\Pos\I
 C:\works\NC390\Presentation\Nop.Web\Plugins\Peraport.WidgetFinancial\Views\Pos\PosResult.cshtml
 C:\works\NC390\Presentation\Nop.Web\Plugins\Peraport.WidgetFinancial\Views\Pos\SuccessYKB.cshtml
 C:\works\NC390\Presentation\Nop.Web\Plugins\Peraport.WidgetFinancial\app.config
+C:\works\NC390\Presentation\Nop.Web\Plugins\Peraport.WidgetFinancial\Views\Fi\Efatura.cshtml
 C:\works\NC390\Presentation\Nop.Web\Plugins\Peraport.WidgetFinancial\Views\Fi\OrderTracking.cshtml
 C:\works\NC390\Presentation\Nop.Web\Plugins\Peraport.WidgetFinancial\Views\Fi\Infos.cshtml
 C:\works\NC390\Presentation\Nop.Web\Plugins\Peraport.WidgetFinancial\Views\Fi\Banka.cshtml

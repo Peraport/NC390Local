@@ -78,15 +78,36 @@
     <Compile Include="Models\FiModel.cs" />
     <Compile Include="Models\ShipTrackingModel.cs" />
     <Compile Include="RouteProvider.cs" />
+    <Compile Include="Service References\PronistServicex\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="WidgetFinancial.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\DataSources\Nop.Web.PronistService.ParametersInvoiceByte.datasource" />
+    <None Include="Properties\DataSources\Nop.Web.PronistService.ParametersInvoiceList.datasource" />
+    <None Include="Service References\PronistServicex\Service.wsdl" />
+    <None Include="Service References\PronistServicex\Service.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PronistServicex\Service1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PronistServicex\Service2.xsd">
+      <SubType>Designer</SubType>
     </None>
     <None Include="Views\Fi\Fail.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Views\Fi\Efatura.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Views\Fi\OrderTracking.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -166,8 +187,16 @@
     <Content Include="Content\images\isbank.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Service References\PronistServicex\Service.disco" />
+    <None Include="Service References\PronistServicex\configuration91.svcinfo" />
+    <None Include="Service References\PronistServicex\configuration.svcinfo" />
+    <None Include="Service References\PronistServicex\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="web.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <None Include="Views\IsPay\IsPayFail.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -225,6 +254,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Shared\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\PronistServicex\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

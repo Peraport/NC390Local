@@ -1,0 +1,83 @@
+﻿@model IEnumerable<Nop.Web.PronistService.ParametersInvoiceList>
+@{
+    Layout = "~/Views/Shared/_PeraLayout.cshtml";
+}
+@section left
+{
+    @Html.Action("PeraLeftMenu", "Fi")
+}
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.2.4/css/select.dataTables.min.css" />
+
+<script src="/Administration/Scripts/bootstrap/bootstrap.min.js" type="text/javascript"></script>
+<link href="/Administration/Content/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+
+
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable({
+            "language": {
+                "select": {
+                    "rows": "%d kayıt seçildi."
+                },
+                "paginate": {
+                    "next": "Sonraki",
+                    "previous": "Önceki"
+                },
+                "search": "Filtrele:",
+                "lengthMenu": "Sayfada _MENU_ kayıtlar gösteriliyor",
+                "zeroRecords": "Kayıt Yok",
+                "info": "Sayfa _PAGE_ / _PAGES_",
+                "infoEmpty": "Uygun Kayıt Yok",
+                "infoFiltered": "(_MAX_ kayıt filtrelendi.)",
+            },
+            "pageLength": 10,
+            "bSort": false
+        });
+    });
+
+</script>
+
+
+<h2>E-Fatura</h2>
+
+@if (Model == null)
+{
+    <p> @ViewBag.Err</p>
+}
+else
+{
+
+
+    <table id="example" class="display" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>Fatura Tarihi</th>
+                <th>Toplam Tutar</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.InvoiceDate.ToString("dd.MM.yyyy")</td>
+                    <td>@item.InvoiceTotal.ToString("#,##0.00")</td>
+                    <td>
+                        <a href="@Url.Action("EfaturaDetail", "Fi", new {  guid=item.InvoiceGuid} )" class="elements" target="_blank">
+                            <i class="far fa-file-pdf"></i>
+                        </a>
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+}
+
+<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/select/1.2.4/js/dataTables.select.min.js"></script>
+<script src="/Administration/Scripts/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js" type="text/javascript"></script>

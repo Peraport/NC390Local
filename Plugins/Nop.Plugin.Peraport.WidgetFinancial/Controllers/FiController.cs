@@ -2,6 +2,7 @@
 using Nop.Core;
 using Nop.Core.Domain.Orders;
 using Nop.Plugin.Peraport.WidgetFinancial.Models;
+using Nop.Plugin.Peraport.WidgetFinancial.PronistServicex;
 using Nop.Services.Authentication;
 using Nop.Services.Configuration;
 using Nop.Services.Orders;
@@ -74,7 +75,7 @@ namespace Nop.Plugin.Peraport.WidgetFinancial.Controllers
             {
                 int customerid = customer.Id;
                 /* TEST */
-                customerid = 4072;
+                //customerid = 3827;
                 /* TEST */
 
                 NopServiceClient client = new NopServiceClient();
@@ -82,8 +83,8 @@ namespace Nop.Plugin.Peraport.WidgetFinancial.Controllers
                 _fim = client.GetCustomerFinancial(customerid.ToString());
 
                 #region Sipariş Status Update
-                var orders = _orderService.SearchOrders(0, 0, customerid);
-                if (orders.Count > 0)
+                var orders = _orderService.SearchOrders(0, 0, customerid).Where(x => x.OrderStatus != OrderStatus.Complete && x.OrderStatus != OrderStatus.Cancelled).ToArray();
+                if (orders.Count() > 0)
                 {
                     var aaa = orders.Select(x => x.Id).ToArray();
                     var b = client.GetNopOrdersErpInvoiced(aaa);
@@ -91,6 +92,7 @@ namespace Nop.Plugin.Peraport.WidgetFinancial.Controllers
                     {
                         var order = _orderService.GetOrderById(item);
                         order.OrderStatus = OrderStatus.Complete;
+                        //order.OrderNotes.Add(new OrderNote { CreatedOnUtc = new DateTime(), OrderId = order.Id, Note="" });
                         _orderService.UpdateOrder(order);
                     }
                 }
@@ -98,7 +100,7 @@ namespace Nop.Plugin.Peraport.WidgetFinancial.Controllers
 
                 #region CurrentLimit Hesaplama (Compated olmayan siparişler de ekleniyor...)
 
-                orders = _orderService.SearchOrders(0, 0, customerid);
+                orders = _orderService.SearchOrders(0, 0, customerid).ToArray();
                 var orders1 = orders.Where(x => x.OrderStatus == OrderStatus.Processing).ToList();
                 decimal ordersTotal = 0;
                 if (orders1.Count > 0)
@@ -123,6 +125,8 @@ namespace Nop.Plugin.Peraport.WidgetFinancial.Controllers
         #endregion
 
         #region tanımlar
+        string Apikey = "0b32fd12-6240-4c55-bd74-0f6191f83d6f";
+        string CustomerCode = "S378500";
         private const string formSendGRPay = "<form style=\"background: #eee url('../Content/Images/background2.png') center bottom no-repeat; height: 1200px;\" " +
           " action=\"{0}\" method=\"POST\" />" +
           "<input type=\"hidden\" name=\"secure3dsecuritylevel\" value=\"CUSTOM_PAY\" />" +
@@ -420,7 +424,7 @@ namespace Nop.Plugin.Peraport.WidgetFinancial.Controllers
                 {
                     int customerid = customer.Id;
                     /* TEST */
-                    customerid = 4072;
+                    //customerid = 4072;
                     /* TEST */
 
 
@@ -468,16 +472,56 @@ namespace Nop.Plugin.Peraport.WidgetFinancial.Controllers
             int customerid = customer.Id;
 
             /* TEST */
-            customerid = 4072;
+            //customerid = 4072;
             /* TEST */
+
+
+            //DashModel model = new DashModel { NAME = _fi.NAME, LIMIT = _fi.LIMIT, BAKIYE = _fi.BAKIYE, CURRENT_LIMIT = _fi.CURRENT_LIMIT };
+            //var orders = GetOrders(customerid);
+            //if (orders != null)
+            //{
+            //    model.ALL_ORDERS_QTY = orders.Count();
+            //    model.All_ORDERS_VAL = orders.Sum(x => x.OrderTotal);
+
+            //    var orders1 = orders.Where(x => x.OrderStatusId == 10).ToList();//Bekleyen Siparişler
+            //    model.NOT_YET_ORDERS_QTY = orders1.Count();
+            //    model.NOT_YET_ORDERS_VAL = orders1.Sum(x => x.OrderTotal);
+
+            //    var orders2 = orders.Where(x => x.OrderStatusId == 20).ToList();//Yoldaki Siparişler
+            //    model.SHIPPED_ORDERS_QTY = orders2.Count();
+            //    model.SHIPPED_ORDERS_VAL = orders2.Sum(x => x.OrderTotal);
+            //}
+
+            //var documents = GetDocuments(customerid); //çağrılan :GetCustomerFinancialReport
+            //if (documents.ROWS != null)
+            //{
+            //    decimal kismiodenmis = 0;
+            //    documents = SetYaslandirma(documents, customer.Id, out kismiodenmis);//çağrılan :GetCustomerFinancialYaslandirmaEkstre
+            //    model.ALL_DOCUMENTS_QTY = documents.ROWS != null ? documents.ROWS.Count() : 0;
+            //    model.ALL_DOCUMENTS_VAL = documents.ROWS != null ? documents.ROWS.Sum(x => x.TOTALPRICE) : 0;
+
+            //    var notpaydocuments = documents.ROWS.Where(x => x.STATE == "N" || x.STATE == "D").ToList();
+            //    model.NOT_PAID_DOCUMENTS_QTY = notpaydocuments != null ? notpaydocuments.Count() : 0;
+            //    model.NOT_PAID_DOCUMENTS_VAL = notpaydocuments != null ? notpaydocuments.Sum(x => x.TOTALPRICE) - kismiodenmis : 0;
+
+            //    var delayeddocuments = documents.ROWS.Where(x => x.STATE == "D").ToList();
+            //    model.DELAYED_DOCUMENTS_QTY = delayeddocuments != null ? delayeddocuments.Count() : 0;
+            //    model.DELAYED_DOCUMENTS_VAL = delayeddocuments != null ? delayeddocuments.Sum(x => x.TOTALPRICE) - kismiodenmis : 0;
+            //}
+
+
+            NopServiceClient client = new NopServiceClient();
+            client.ClientCredentials.Windows.AllowedImpersonationLevel = System.Security.Principal.TokenImpersonationLevel.Anonymous;
+            var documents = client.GetCustomerFinancialYaslandirmaEkstre(customer.Id.ToString());
+
 
 
             DashModel model = new DashModel { NAME = _fi.NAME, LIMIT = _fi.LIMIT, BAKIYE = _fi.BAKIYE, CURRENT_LIMIT = _fi.CURRENT_LIMIT };
             var orders = GetOrders(customerid);
-            if (orders != null)
+            if (documents.ROWS != null)
             {
-                model.ALL_ORDERS_QTY = orders.Count();
-                model.All_ORDERS_VAL = orders.Sum(x => x.OrderTotal);
+                model.ALL_ORDERS_QTY = documents.ROWS.Count();
+                model.All_ORDERS_VAL = documents.ROWS.Sum(x => x.TOTALPRICE);
 
                 var orders1 = orders.Where(x => x.OrderStatusId == 10).ToList();//Bekleyen Siparişler
                 model.NOT_YET_ORDERS_QTY = orders1.Count();
@@ -488,25 +532,63 @@ namespace Nop.Plugin.Peraport.WidgetFinancial.Controllers
                 model.SHIPPED_ORDERS_VAL = orders2.Sum(x => x.OrderTotal);
             }
 
-            var documents = GetDocuments(customerid);
             if (documents.ROWS != null)
             {
                 decimal kismiodenmis = 0;
-                documents = SetYaslandirma(documents, customer.Id, out kismiodenmis);
                 model.ALL_DOCUMENTS_QTY = documents.ROWS != null ? documents.ROWS.Count() : 0;
                 model.ALL_DOCUMENTS_VAL = documents.ROWS != null ? documents.ROWS.Sum(x => x.TOTALPRICE) : 0;
 
-                var notpaydocuments = documents.ROWS.Where(x => x.STATE == "N" || x.STATE == "D").ToList();
+                var notpaydocuments = documents.ROWS.Where(x => x.TAXPRICE > 0).ToList();
                 model.NOT_PAID_DOCUMENTS_QTY = notpaydocuments != null ? notpaydocuments.Count() : 0;
                 model.NOT_PAID_DOCUMENTS_VAL = notpaydocuments != null ? notpaydocuments.Sum(x => x.TOTALPRICE) - kismiodenmis : 0;
 
-                var delayeddocuments = documents.ROWS.Where(x => x.STATE == "D").ToList();
+                var delayeddocuments = documents.ROWS.Where(x => x.STATE == "pink").ToList();
                 model.DELAYED_DOCUMENTS_QTY = delayeddocuments != null ? delayeddocuments.Count() : 0;
                 model.DELAYED_DOCUMENTS_VAL = delayeddocuments != null ? delayeddocuments.Sum(x => x.TOTALPRICE) - kismiodenmis : 0;
+
             }
 
             return PartialView("~/Plugins/Peraport.WidgetFinancial/Views/Fi/DashBoard.cshtml", model);
         }
+
+
+        [HttpGet]
+        public ActionResult Efatura()
+        {
+            try
+            {
+                var customer = _authService.GetAuthenticatedCustomer();
+                ServiceClient serviceClient = new ServiceClient();
+                var list = serviceClient.InvoiceList(Apikey, customer.Username, "");
+                return PartialView("~/Plugins/Peraport.WidgetFinancial/Views/Fi/EFatura.cshtml", list.OrderByDescending(x => x.InvoiceDate).ToArray());
+
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Err = ex.Message;
+                return PartialView("~/Plugins/Peraport.WidgetFinancial/Views/Fi/EFatura.cshtml", null);
+            }
+        }
+
+
+        [HttpGet]
+        public ActionResult EfaturaDetail(string guid)
+        {
+            try
+            {
+                ServiceClient serviceClient = new ServiceClient();
+                var feedbackData = serviceClient.InvoiceByte(Apikey, guid, "");
+                MemoryStream pdfStream = new MemoryStream();
+                pdfStream.Write(feedbackData.Data, 0, feedbackData.Data.Length);
+                pdfStream.Position = 0;
+                return new FileStreamResult(pdfStream, "application/pdf");
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
 
         public FinanceReportModel SetYaslandirma(FinanceReportModel d, long Id, out decimal kismiodenmis)
         {
@@ -521,7 +603,6 @@ namespace Nop.Plugin.Peraport.WidgetFinancial.Controllers
                 var i = b1.Where(x => x.DATE == item.DATE).FirstOrDefault();
                 if (i != null)
                 {
-                    //if (i.PRICE == 0) item.PAYMENTSTATUS = 0;
                     if (i.PRICE >= item.TOTALPRICE)
                     {//bu fatura turarından daha fazla veya eşit ödeme yapılmış.
                         i.PRICE -= item.TOTALPRICE;
@@ -529,7 +610,6 @@ namespace Nop.Plugin.Peraport.WidgetFinancial.Controllers
                     }
                     else if (i.PRICE > 0)
                     {
-                        //item.TOTALPRICE -= i.PRICE;
                         kismiodenmis += i.PRICE;
                         i.PRICE = 0;
                     }
@@ -820,7 +900,7 @@ namespace Nop.Plugin.Peraport.WidgetFinancial.Controllers
             return responseFromServer;
         }
 
-        public bool AfterKKSuccess( Order order, string Amount, string Banka, string Taksit)
+        public bool AfterKKSuccess(Order order, string Amount, string Banka, string Taksit)
         {
             try
             {
@@ -865,7 +945,7 @@ namespace Nop.Plugin.Peraport.WidgetFinancial.Controllers
             string _OrderDesc = "" + Zaman.Year + Zaman.Month + Zaman.Day + Zaman.Hour + Zaman.Minute + Zaman.Second + Zaman.Millisecond;
 
             var sa = f["Tutar"];
-            if(sa.Contains(',')&& sa.Contains('.'))
+            if (sa.Contains(',') && sa.Contains('.'))
             {
                 if (sa.IndexOf('.') > sa.IndexOf(','))
                 {
@@ -1014,7 +1094,7 @@ namespace Nop.Plugin.Peraport.WidgetFinancial.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Message = "Hata Oluştu."+ex.Message;
+                ViewBag.Message = "Hata Oluştu." + ex.Message;
             }
 
             ViewBag.Amount = sa;

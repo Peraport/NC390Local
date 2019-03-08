@@ -455,6 +455,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Service References\PronistService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Validators\Blogs\BlogPostValidator.cs" />
     <Compile Include="Validators\Boards\EditForumPostValidator.cs" />
     <Compile Include="Validators\Boards\EditForumTopicValidator.cs" />
@@ -742,6 +747,19 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <None Include="Service References\PPService\NopService1.disco" />
+    <Content Include="Service References\PronistService\Nop.Web.PronistService.ParametersInvoiceByte.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\PronistService\Nop.Web.PronistService.ParametersInvoiceList.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <None Include="Service References\PronistService\Service.disco" />
+    <None Include="Service References\PronistService\configuration91.svcinfo" />
+    <None Include="Service References\PronistService\configuration.svcinfo" />
+    <None Include="Service References\PronistService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="sld\01.jpg" />
     <Content Include="sld\02.jpg" />
     <Content Include="sld\03.jpg" />
@@ -1127,6 +1145,16 @@
     <Content Include="Views\Common\Logo.cshtml" />
     <Content Include="Views\Customer\EmailRevalidation.cshtml" />
     <Content Include="Views\Shared\_ColumnsOneLogin.cshtml" />
+    <None Include="Service References\PronistService\Service.wsdl" />
+    <None Include="Service References\PronistService\Service.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PronistService\Service1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PronistService\Service2.xsd">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Plugins\bin\" />
@@ -1330,6 +1358,7 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\PPService\" />
+    <WCFMetadataStorage Include="Service References\PronistService\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
