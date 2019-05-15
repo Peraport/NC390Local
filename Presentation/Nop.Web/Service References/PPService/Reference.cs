@@ -1716,6 +1716,83 @@ namespace Nop.Web.PPService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ProcessResult", Namespace="http://schemas.datacontract.org/2004/07/Service.Models")]
+    [System.SerializableAttribute()]
+    public partial class ProcessResult : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string CODEField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string NAMEField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private Nop.Web.PPService.Notes[] ROWSField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string CODE {
+            get {
+                return this.CODEField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.CODEField, value) != true)) {
+                    this.CODEField = value;
+                    this.RaisePropertyChanged("CODE");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string NAME {
+            get {
+                return this.NAMEField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.NAMEField, value) != true)) {
+                    this.NAMEField = value;
+                    this.RaisePropertyChanged("NAME");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public Nop.Web.PPService.Notes[] ROWS {
+            get {
+                return this.ROWSField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ROWSField, value) != true)) {
+                    this.ROWSField = value;
+                    this.RaisePropertyChanged("ROWS");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="ErpProductResult", Namespace="http://schemas.datacontract.org/2004/07/Service.Models")]
     [System.SerializableAttribute()]
     public partial class ErpProductResult : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
@@ -2456,83 +2533,6 @@ namespace Nop.Web.PPService {
                 if ((object.ReferenceEquals(this.SPECODE5Field, value) != true)) {
                     this.SPECODE5Field = value;
                     this.RaisePropertyChanged("SPECODE5");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ProcessResult", Namespace="http://schemas.datacontract.org/2004/07/Service.Models")]
-    [System.SerializableAttribute()]
-    public partial class ProcessResult : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string CODEField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string NAMEField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private Nop.Web.PPService.Notes[] ROWSField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string CODE {
-            get {
-                return this.CODEField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.CODEField, value) != true)) {
-                    this.CODEField = value;
-                    this.RaisePropertyChanged("CODE");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string NAME {
-            get {
-                return this.NAMEField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.NAMEField, value) != true)) {
-                    this.NAMEField = value;
-                    this.RaisePropertyChanged("NAME");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public Nop.Web.PPService.Notes[] ROWS {
-            get {
-                return this.ROWSField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.ROWSField, value) != true)) {
-                    this.ROWSField = value;
-                    this.RaisePropertyChanged("ROWS");
                 }
             }
         }
@@ -3450,6 +3450,12 @@ namespace Nop.Web.PPService {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/INopService/CopyNopPaymentToErp", ReplyAction="http://tempuri.org/INopService/CopyNopPaymentToErpResponse")]
         System.Threading.Tasks.Task<Nop.Web.PPService.ErpPaymentResult> CopyNopPaymentToErpAsync(Nop.Web.PPService.ErpPayment item);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/INopService/NopStockUpdate", ReplyAction="http://tempuri.org/INopService/NopStockUpdateResponse")]
+        Nop.Web.PPService.ProcessResult NopStockUpdate();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/INopService/NopStockUpdate", ReplyAction="http://tempuri.org/INopService/NopStockUpdateResponse")]
+        System.Threading.Tasks.Task<Nop.Web.PPService.ProcessResult> NopStockUpdateAsync();
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/INopService/GetProductsFromErp", ReplyAction="http://tempuri.org/INopService/GetProductsFromErpResponse")]
         Nop.Web.PPService.ErpProductResult GetProductsFromErp();
         
@@ -3662,6 +3668,14 @@ namespace Nop.Web.PPService {
         
         public System.Threading.Tasks.Task<Nop.Web.PPService.ErpPaymentResult> CopyNopPaymentToErpAsync(Nop.Web.PPService.ErpPayment item) {
             return base.Channel.CopyNopPaymentToErpAsync(item);
+        }
+        
+        public Nop.Web.PPService.ProcessResult NopStockUpdate() {
+            return base.Channel.NopStockUpdate();
+        }
+        
+        public System.Threading.Tasks.Task<Nop.Web.PPService.ProcessResult> NopStockUpdateAsync() {
+            return base.Channel.NopStockUpdateAsync();
         }
         
         public Nop.Web.PPService.ErpProductResult GetProductsFromErp() {

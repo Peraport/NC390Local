@@ -9,6 +9,5 @@ C:\works\NC390\Presentation\Nop.Web\Plugins\Peraport.WidgetPopup\Views\Pop\Confi
 C:\works\NC390\Presentation\Nop.Web\Plugins\Peraport.WidgetPopup\Views\Pop\PublicInfo.cshtml
 C:\works\NC390\Presentation\Nop.Web\Plugins\Peraport.WidgetPopup\Nop.Plugin.Peraport.WidgetPopup.dll
 C:\works\NC390\Presentation\Nop.Web\Plugins\Peraport.WidgetPopup\Nop.Plugin.Peraport.WidgetPopup.pdb
-C:\works\NC390\Plugins\Nop.Plugin.Peraport.WidgetPopup\obj\Debug\Nop.Plugin.Peraport.WidgetPopup.csprojResolveAssemblyReference.cache
 C:\works\NC390\Plugins\Nop.Plugin.Peraport.WidgetPopup\obj\Debug\Nop.Plugin.Peraport.WidgetPopup.dll
 C:\works\NC390\Plugins\Nop.Plugin.Peraport.WidgetPopup\obj\Debug\Nop.Plugin.Peraport.WidgetPopup.pdb

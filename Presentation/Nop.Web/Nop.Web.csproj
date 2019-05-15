@@ -723,30 +723,30 @@
     <Content Include="Service References\PPService\Nop.Web.PPService.CustomerAddress.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
-    <None Include="Service References\PPService\NopService1.wsdl" />
-    <None Include="Service References\PPService\NopService6.xsd">
+    <None Include="Service References\PPService\NopService.wsdl" />
+    <None Include="Service References\PPService\NopService.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\PPService\NopService61.xsd">
+    <None Include="Service References\PPService\NopService1.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\PPService\NopService62.xsd">
+    <None Include="Service References\PPService\NopService2.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\PPService\NopService63.xsd">
+    <None Include="Service References\PPService\NopService3.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\PPService\NopService64.xsd">
+    <None Include="Service References\PPService\NopService4.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\PPService\NopService65.xsd">
+    <None Include="Service References\PPService\NopService5.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\PPService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <None Include="Service References\PPService\NopService1.disco" />
+    <None Include="Service References\PPService\NopService.disco" />
     <Content Include="Service References\PronistService\Nop.Web.PronistService.ParametersInvoiceByte.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>

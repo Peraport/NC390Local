@@ -150,11 +150,13 @@ namespace Nop.Plugin.Peraport.AdminPlugin.Controllers
             List<string> results = new List<string>();
             results.Add(erp.NAME + "->");
             var ExistPictures = _pictureService.GetPicturesByProductId((int)p.Id);
-            results.Add("Kayıtlı " + ExistPictures.Count + " resim var.");
+            //results.Add("Kayıtlı " + ExistPictures.Count + " resim var.");
             string[] FileNames = Directory.GetFiles(PicsFolder).Where(x => x.Contains(erp.BARCODE)).ToArray();
-            results.Add("Klasörde " + FileNames.Length + " resim var.");
+            //results.Add("Klasörde " + FileNames.Length + " resim var.");
+            results.Add("Resim Yok");
             foreach (var item in FileNames)
             {
+                if (j > 10) break;
                 byte[] photo = GetPhoto(item);
 
                 if (photo == null) { }
@@ -171,7 +173,7 @@ namespace Nop.Plugin.Peraport.AdminPlugin.Controllers
                     }
                     if (photoExist)
                     {
-                        results.Add(" > Resim : " + item + " Zaten Var.");
+                        //results.Add(" > Resim : " + item + " Zaten Var.");
                     }
                     else
                     {
@@ -186,11 +188,11 @@ namespace Nop.Plugin.Peraport.AdminPlugin.Controllers
                                 DisplayOrder = j
                             });
                             j++;
-                            results.Add(" + Resim : " + item + " Eklendi.");
+                            results.Clear();
                         }
                         else
                         {
-                            results.Add(" - Resim : " + item + " Eklenemedi.");
+                            //results.Add(" - Resim : " + item + " Eklenemedi.");
                         }
                     }
                 }
@@ -622,7 +624,8 @@ namespace Nop.Plugin.Peraport.AdminPlugin.Controllers
                 LEVEL3 = x.Val10,//SUBCATEGORY,SP5
                 LEVEL4 = x.Val8,//GSMBRAND,SP3
                 LEVEL5 = x.Val14//GSMMODEL,CHARCODE.NAME
-                , LEVELX = x.Val5
+                ,
+                LEVELX = x.Val5
             }).Distinct().ToList();
 
             int l2ParentId = -1;
@@ -786,7 +789,7 @@ namespace Nop.Plugin.Peraport.AdminPlugin.Controllers
                     }
                 }
 
-                if(item.LEVELX=="EKRKOR"|| item.LEVELX == "KILIF")
+                if (item.LEVELX == "EKRKOR" || item.LEVELX == "KILIF")
                 {
                     _categoryL5 = NopCategories_.Where(x => x.Name == item.LEVEL5 && x.ParentCategoryId == l5ParentId).FirstOrDefault();
                     if (_categoryL5 == null)
@@ -979,14 +982,14 @@ namespace Nop.Plugin.Peraport.AdminPlugin.Controllers
                                         OrderMinimumQuantity = 1,
                                         Price = item.PRICE,
                                         ManageInventoryMethodId = 1,
-                                        MinStockQuantity=5,
+                                        MinStockQuantity = 5,
                                         LowStockActivityId = 2,
                                         DisplayStockAvailability = true,
                                         DisplayStockQuantity = true,
                                         IsFreeShipping = true,
                                         IsShipEnabled = true,
                                         UserAgreementText = item.CODE,
-                                        AdminComment=item.CODE
+                                        AdminComment = item.CODE
                                     };
 
                                     _productService.InsertProduct(_Product);
@@ -1015,8 +1018,8 @@ namespace Nop.Plugin.Peraport.AdminPlugin.Controllers
 
                                     MATCHING_S m = new MATCHING_S { TABLE_NAME = "Product", BASE_ID = item.ID, MATCH_ID = _Product.Id, BASE_STR = item.CODE };
                                     MatchList.Add(m);
-                                    rm.Add(new ResultModel { NAME ="+ " +_Product.Name, NOTE = "Ürün Eklendi. " });
-                                    if(acresult.Length>5) rm.Add(new ResultModel { NAME = "+ Kategori", NOTE = acresult });
+                                    rm.Add(new ResultModel { NAME = "+ " + _Product.Name, NOTE = "Ürün Eklendi. " });
+                                    if (acresult.Length > 5) rm.Add(new ResultModel { NAME = "+ Kategori", NOTE = acresult });
 
                                     //var picLogs = AddProductPictures(item, _Product, klasor);
                                     //rm.Add(new ResultModel { NAME = "Resim", LOGS = picLogs });
@@ -1030,7 +1033,7 @@ namespace Nop.Plugin.Peraport.AdminPlugin.Controllers
                                 }
                                 else
                                 {
-                                    rm.Add(new ResultModel { NAME = "  "+_Product.Name, NOTE = " Ürün Kayıtlı" });
+                                    rm.Add(new ResultModel { NAME = "  " + _Product.Name, NOTE = " Ürün Kayıtlı" });
                                 }
                                 new MATCHING_S { TABLE_NAME = "Product", BASE_ID = item.ID, MATCH_ID = _Product.Id, BASE_STR = "" };
                             }
@@ -1111,7 +1114,7 @@ namespace Nop.Plugin.Peraport.AdminPlugin.Controllers
                         //var guncellenmeyenler = NopProducts.Select(x => x.Id).Except(nopGuncellistesi).ToArray();
                         var gg = NopProducts.Where(x => x.StockQuantity < 6).Select(x => x.Id).ToArray();
                         var str = String.Join(", ", gg.ToArray());
-                        var nopQuery = "UPDATE [NopComLocal].[dbo].[Product] SET StockQuantity=0,Published=0,LowStockActivityId=2 where Id in ("+str+");";
+                        var nopQuery = "UPDATE [NopComLocal].[dbo].[Product] SET StockQuantity=0,Published=0,LowStockActivityId=2 where Id in (" + str + ");";
                         var r = client.SqlExecuteNonQuery(csNop.VALUE_STR, nopQuery);
                         /**/
                         rm.Add(new ResultModel { NAME = "-", NOTE = "İşlem Başarılı. Güncellenen Stok Sayısı :" + taskProduct.Count() });
@@ -1175,9 +1178,9 @@ namespace Nop.Plugin.Peraport.AdminPlugin.Controllers
                             {
                                 foreach (var itemx in nopEs)
                                 {
-                                   // if (item.MODIFIEDDATE >= itemx.UpdatedOnUtc)
+                                    // if (item.MODIFIEDDATE >= itemx.UpdatedOnUtc)
                                     {//Fiyat güncellemesi yapılacak.
-                                        rm.Add(new ResultModel { NAME = item.CODE, NOTE = " Eski Fiyat : (" + itemx.Price+")    <-->  Yeni Fiyat :("+item.PRICE + ")  Ürün : " + item.CODE});
+                                        rm.Add(new ResultModel { NAME = item.CODE, NOTE = " Eski Fiyat : (" + itemx.Price + ")    <-->  Yeni Fiyat :(" + item.PRICE + ")  Ürün : " + item.CODE });
                                         itemx.OldPrice = 0;
                                         itemx.Price = item.PRICE;
                                         taskProduct.Add(itemx);
@@ -1210,52 +1213,49 @@ namespace Nop.Plugin.Peraport.AdminPlugin.Controllers
                         var resultQuery = client.GetWSData(csErp.VALUE_STR, sorgu);
 
                         var NopProducts = _productService.SearchProducts(showHidden: true);
-                        var matchList = client.getMatchingList("MATCH_ID", "Product", NopProducts.Select(x => x.Id.ToString()).ToArray());
-
+                        int kk = 0;
                         foreach (var _product in NopProducts)
                         {
-                            var match = matchList.Where(x => x.MATCH_ID == _product.Id).LastOrDefault();
-                            if (match != null)
+                            kk++;
+                            var barcode = resultQuery.Where(x => x.Val2 == _product.AdminComment).FirstOrDefault();
+                            if (barcode.Val1 != null && barcode.Val4!=null && barcode.Val4.Length>5)
                             {
-                                var barcode = resultQuery.Where(x => x.Val1 == match.BASE_ID.ToString()).FirstOrDefault();
-                                if (barcode.Val1 != null)
+                                var erp_product = new ErpProduct
                                 {
-                                    var erp_product = new ErpProduct
+                                    ID = Convert.ToInt32(barcode.Val1),
+                                    CODE = barcode.Val2,
+                                    NAME = barcode.Val3,
+                                    BARCODE = barcode.Val4
+                                };
+                                try
+                                {
+                                    //eski resimleri sil
+                                    var p = _productService.GetProductPicturesByProductId(_product.Id);
+                                    if (p.Count == 0)
                                     {
-                                        ID = Convert.ToInt32(barcode.Val1),
-                                        CODE = barcode.Val2,
-                                        NAME = barcode.Val3,
-                                        BARCODE = barcode.Val4
-                                    };
-                                    try
-                                    {
-                                        //eski resimleri sil
-                                        var p = _productService.GetProductPicturesByProductId(_product.Id);
                                         foreach (var _p in p)
                                         {
                                             _productService.DeleteProductPicture(_p);
                                         }
                                         var picLogs = AddProductPictures(erp_product, _product, klasor);
-                                        rm.Add(new ResultModel { NAME = "OK PICS", NOTE = "AddProductPictures(" + erp_product.NAME + ")", LOGS = picLogs });
+                                        if(picLogs.Count>0)
+                                        rm.Add(new ResultModel { NAME = "!", NOTE = "AddProductPictures(" + erp_product.CODE + ")", LOGS = picLogs });
+                                        else
+                                            rm.Add(new ResultModel { NAME = "OK", NOTE = "AddProductPictures(" + erp_product.CODE + ")", LOGS = picLogs });
                                     }
-                                    catch (Exception ex)
-                                    {
-                                        rm.Add(new ResultModel { NAME = "HATA PICS", NOTE = "AddProductPictures(" + erp_product.NAME + ") Hata:" + ex.Message });
-                                    }
-
                                 }
-                                else
+                                catch (Exception ex)
                                 {
-                                    rm.Add(new ResultModel { NAME = "X PICS", NOTE = " Ürün Erp de yok :" + _product.Name });
+                                    rm.Add(new ResultModel { NAME = "HATA PICS", NOTE = "AddProductPictures(" + erp_product.CODE + ") Hata:" + ex.Message });
                                 }
 
                             }
                             else
                             {
-                                rm.Add(new ResultModel { NAME = "X PICS", NOTE = " Ürün Eşleştirmesi yok :" + _product.Name });
+                                rm.Add(new ResultModel { NAME = "X PICS", NOTE = " Ürün Erp de yok :" + _product.Name });
                             }
                         }
-                        rm.Add(new ResultModel { NAME = "PICS", NOTE = "Resim Güncelleme işlemi tamamlandı." });
+                        rm.Add(new ResultModel { NAME = "<--", NOTE = "Resim Güncelleme işlemi tamamlandı." });
 
                         return View("~/Plugins/Peraport.AdminPlugin/Views/PPProduct/ProductSyncPartial.cshtml", rm);
                     }
