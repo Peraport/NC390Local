@@ -1055,18 +1055,20 @@ namespace Nop.Plugin.Peraport.AdminPlugin.Controllers
                     }
 
                 #endregion
-                case 2://match yok. UserAgreementText
+                case 112://match yok. UserAgreementText
+                    
                     #region Stock Update
                     try
                     {
-                        string sorgu = ""
-                        + " SELECT ITEMS.LOGICALREF, ITEMS.CODE, ITEMS.NAME, STINVTOT.INVENNO AS DEPO, SUM(STINVTOT.ONHAND) AS MIKTAR"
-                        + " FROM[LogoDB].[dbo].LV_517_01_STINVTOT AS STINVTOT"
-                        + " LEFT OUTER JOIN[LogoDB].[dbo].LG_517_ITEMS AS ITEMS ON STINVTOT.STOCKREF = ITEMS.LOGICALREF"
-                        + " WHERE(ITEMS.CARDTYPE = 1) AND STINVTOT.INVENNO = -1" /* Tüm Depolar için -1 */
-                        + " GROUP BY ITEMS.LOGICALREF,ITEMS.CODE, ITEMS.NAME, STINVTOT.INVENNO, ITEMS.CARDTYPE"
-                        + " HAVING(SUM(STINVTOT.ONHAND) <> 0)"
-                        ;
+                        string sorgu = "";
+
+                        sorgu = 
+                            @"SELECT ITEMS.LOGICALREF, ITEMS.CODE, ITEMS.NAME, STINVTOT.INVENNO AS DEPO, SUM(STINVTOT.ONHAND) - SUM(STINVTOT.RESERVED) AS MIKTAR
+                    FROM[LogoDB].[dbo].LV_517_01_STINVTOT AS STINVTOT
+                    LEFT OUTER JOIN[LogoDB].[dbo].LG_517_ITEMS AS ITEMS ON STINVTOT.STOCKREF = ITEMS.LOGICALREF
+                    WHERE ITEMS.CYPHCODE = 'B2B' AND ITEMS.CARDTYPE = 1 AND STINVTOT.INVENNO = 0
+                    GROUP BY ITEMS.LOGICALREF,ITEMS.CODE, ITEMS.NAME, STINVTOT.INVENNO, ITEMS.CARDTYPE
+                    HAVING(SUM(STINVTOT.ONHAND) <> 0)";
                         var resultQuery = client.GetWSData(csErp.VALUE_STR, sorgu);
 
 
